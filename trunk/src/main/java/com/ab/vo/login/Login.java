@@ -1,0 +1,59 @@
+package com.ab.vo.login;
+
+public class Login {
+	
+	private String userName;
+	private String password;
+	private String hintQ;
+	private String hintA;
+	/**
+	 * @return the loginId
+	 */
+	public String getUserName() {
+		return userName;
+	}
+	/**
+	 * @param loginId the loginId to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	/**
+	 * @return the hintQ
+	 */
+	public String getHintQ() {
+		return hintQ;
+	}
+	/**
+	 * @param hintQ the hintQ to set
+	 */
+	public void setHintQ(String hintQ) {
+		this.hintQ = hintQ;
+	}
+	/**
+	 * @return the hintA
+	 */
+	public String getHintA() {
+		return hintA;
+	}
+	/**
+	 * @param hintA the hintA to set
+	 */
+	public void setHintA(String hintA) {
+		this.hintA = hintA;
+	}
+
+
+}
