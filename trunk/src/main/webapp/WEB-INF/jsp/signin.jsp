@@ -130,9 +130,9 @@ body {
 						<h4 class="card-title text-xs-center">Sign in</h4>
 						<form:form name="f" form:action="${context}/signin" method="post" modelAttribute="signinform">
 							<div class="form-group">
-								<form:input type="text" class="form-control" path="loginId" 
-								 placeholder="Account Id" required="true" maxlength="50"/>
-								<form:errors path="loginId" />	
+								<form:input type="text" class="form-control" path="userName" 
+								 placeholder="UserName" required="true" maxlength="50"/>
+								<form:errors path="userName" />
 							</div>
 							<div class="form-group">
 								<form:input type="password" class="form-control"

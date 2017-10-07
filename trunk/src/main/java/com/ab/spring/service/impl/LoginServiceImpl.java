@@ -37,31 +37,6 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public User signinUser(Login form) throws Exception {
 		System.out.println("In Signin User========");
-		SocialActivity socialActivity = new SocialActivity();
-		socialActivity.setSocialActivityType(SocialActivityType.PROFILE);
-		socialActivity = seqDao.saveSocialActivity(socialActivity);
-		System.out.println(socialActivity.getSocialActivityId() + " " + socialActivity.getSocialActivityType());
-		Comment comment = new Comment();
-		comment.setCommentBy(1l);
-		comment.setCommentText("Hello");
-		comment.setSocialActivityId(socialActivity.getSocialActivityId());
-		comment = seqDao.addComment(comment);
-		
-		Like like = new Like();
-		like.setLikedBy(1l);
-		like.setSocialActivityId(socialActivity.getSocialActivityId());
-		like = seqDao.addLike(like);
-		
-		CommentReply commentReply = new CommentReply();
-		commentReply.setCommentId(comment.getCommentId());
-		commentReply.setRepliedBy(2l);
-		commentReply.setReplyText("Hello 1");
-		
-		commentReply = seqDao.addCommentReply(commentReply);
-		
-		SocialActivity socialActivity1 = seqDao.getSocialActivity(socialActivity.getSocialActivityId());
-		System.out.println(socialActivity1);
-		
 		return loginDaoImpl.signinUser(form).getZ().orElse(null);
 	}
 
