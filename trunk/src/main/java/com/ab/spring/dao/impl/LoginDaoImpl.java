@@ -7,7 +7,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
+import com.ab.constant.config.ApplicationStatusConstant;
 import com.ab.datastructure.Tuple;
+import com.ab.datastructure.TwoTuple;
 import com.ab.spring.dao.CandidateDao;
 import com.ab.spring.dao.LoginDao;
 import com.ab.type.UserType;
@@ -44,14 +46,14 @@ public class LoginDaoImpl implements LoginDao{
 				user.setHintQ(rs.getString("HINT_Q"));
 				user.setHintA(rs.getString("HINT_A"));
 				user.setUserType(UserType.fromId(rs.getInt("USER_TYPE_ID")));
-				
+				user.setCandidate(Candidate.defaultCandidate());
 				if(user.getPassword().equals(login.getPassword())) {
 					if(rs.getBoolean("ENABLED")) {
 						switch (user.getUserType()) {
 						case CANDIDATE:
-							String candidateSql = "SELECT CANDIDATE_ID FROM CANDIDATE_USER_MAPPING WHERE LOGIN_ID=?";
-							Long candidateId = jdbcTemplate.query(candidateSql, new Object[]{user.getUserId()}, (ResultSetExtractor<Long>) rs1 -> rs1.getLong("CANDIDATE_ID"));
-							user.setCandidate(candidateDao.getCandidate(candidateId));
+//							String candidateSql = "SELECT CANDIDATE_ID FROM CANDIDATE_USER_MAPPING WHERE LOGIN_ID=?";
+//							Long candidateId = jdbcTemplate.query(candidateSql, new Object[]{user.getUserId()}, (ResultSetExtractor<Long>) rs1 -> rs1.getLong("CANDIDATE_ID"));
+//							user.setCandidate(candidateDao.getCandidate(candidateId));
 							break;
 						default:
 							break;
@@ -89,12 +91,12 @@ public class LoginDaoImpl implements LoginDao{
 			user.setHintQ(rs.getString("HINT_Q"));
 			user.setHintA(rs.getString("HINT_A"));
 			user.setUserType(UserType.fromId(rs.getInt("USER_TYPE_ID")));
-
+			user.setCandidate(Candidate.defaultCandidate());
 			switch (user.getUserType()) {
 			case CANDIDATE:
-				String candidateSql = "SELECT CANDIDATE_ID FROM CANDIDATE_USER_MAPPING WHERE LOGIN_ID=?";
-				Long candidateId = jdbcTemplate.query(candidateSql, new Object[]{user.getUserId()}, (ResultSetExtractor<Long>) rs1 -> rs1.getLong("CANDIDATE_ID"));
-				user.setCandidate(candidateDao.getCandidate(candidateId));
+//				String candidateSql = "SELECT CANDIDATE_ID FROM CANDIDATE_USER_MAPPING WHERE LOGIN_ID=?";
+//				Long candidateId = jdbcTemplate.query(candidateSql, new Object[]{user.getUserId()}, (ResultSetExtractor<Long>) rs1 -> rs1.getLong("CANDIDATE_ID"));
+//				user.setCandidate(candidateDao.getCandidate(candidateId));
 				break;
 			default:
 				break;
@@ -106,19 +108,19 @@ public class LoginDaoImpl implements LoginDao{
 	}
 
 	@Override
-	public User registerUser(User user) {
+	public TwoTuple<Boolean, String> registerUser(User user) {
 		String sql = "INSERT INTO USERS (USER_ID, USERNAME, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, ENABLED, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE())";
 		Long userId = sequenceDao.getNextVal("USERS_SEQ");
-		jdbcTemplate.update(sql, userId, user.getUserName(), user.getPassword(), user.getUserType().getUserTypeId(), user.getFirstName(), user.getLastName(), user.getHintQ(), user.getHintA(), user.getEmail(), user.isEnabled());
+		int count =0;
+		count = jdbcTemplate.update(sql, userId, user.getUserName(), user.getPassword(), user.getUserType().getUserTypeId(), user.getFirstName(), user.getLastName(), user.getHintQ(), user.getHintA(), user.getEmail(), user.isEnabled());
 		user.setUserId(userId);
-		if(user.getUserType() == UserType.CANDIDATE) {
-			Candidate candidate = candidateDao.saveCandidate(user.getCandidate());
-			user.setCandidate(candidate);
-			String mappingSQL = "INSERT INTO CANDIDATE_USER_MAPPING VALUES (?, ?)";
-			jdbcTemplate.update(mappingSQL, user.getUserId(), candidate.getCandidateId());
-		}
-		
-		return user;
+//		if(user.getUserType() == UserType.CANDIDATE) {
+//			Candidate candidate = candidateDao.saveCandidate(user.getCandidate());
+//			user.setCandidate(candidate);
+//			String mappingSQL = "INSERT INTO CANDIDATE_USER_MAPPING VALUES (?, ?)";
+//			jdbcTemplate.update(mappingSQL, user.getUserId(), candidate.getCandidateId());
+//		}
+		return count > 0 ? new TwoTuple<Boolean, String>(true, ApplicationStatusConstant.msg_account_created_success) :  new TwoTuple<Boolean, String>(false, ApplicationStatusConstant.msg_account_created_error);
 	}
 
 	@Override

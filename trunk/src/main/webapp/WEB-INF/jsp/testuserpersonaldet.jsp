@@ -16,25 +16,22 @@
 					<label class="col-form-label">Email</label> <label
 						class="col-form-label">${userDetailObjform.email}</label>
 				</div>
-<%-- 				<div class="col-12 col-md-6">
+				
+				<div class="col-12 col-md-6">
 					<label class="col-form-label">Gender</label> <label
-						class="col-form-label">${userDetailObjform.gender}</label>
+						class="col-form-label">${userDetailObjform.candidate.candidatePersonalDetail.gender}</label>
 				</div>
 				<div class="col-12 col-md-6">
 					<label class="col-form-label">Date of Birth</label> <label
-						class="col-form-label">${userDetailObjform.dob}</label>
+						class="col-form-label">${userDetailObjform.candidate.candidatePersonalDetail.dateOfBirth}</label>
 				</div>
 				<div class="col-12 col-md-6">
 					<label class="col-form-label">Mobile No</label> <label
-						class="col-form-label">${userDetailObjform.mobile}</label>
+						class="col-form-label"></label>
 				</div>
-			<div class="col-12 col-md-6">
-					<label class="col-form-label">Alternate Mobile No</label> <label
-						class="col-form-label">${userDetailObjform.alternatemobileno}</label>
-				</div>
-	 --%>		</div>
-<%-- 			<a href="${context}/user/per/edit/${userDetailObjform.id}"
+	 		</div>
+ 			<a href="${context}/user/per/edit/${userDetailObjform.userId}"
 							class="card-link float-right">Edit</a>
- --%>		</form:form>
+ 		</form:form>
 </div>
 </div>		

@@ -26,7 +26,7 @@ public class SpringAuthProvider{
 			if(null != name && null != password) {
 				Login form = new Login();
 				form.setUserName(name);form.setPassword(password.toString());
-				loginSerivceImpl.signinUser(form);
+				loginSerivceImpl.loginUser(form);
 			}else {
 				throw new BadCredentialsException("");
 			}

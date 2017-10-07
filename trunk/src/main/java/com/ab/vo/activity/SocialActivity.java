@@ -2,11 +2,13 @@ package com.ab.vo.activity;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 public class SocialActivity {
-	private Long socialActivityId;
+	private Long socialActivityId = -1L;
 	private SocialActivityType socialActivityType;
-	private List<Like> like;
-	private List<Comment> comment;
+	private List<Like> like = Lists.newArrayList();
+	private List<Comment> comment = Lists.newArrayList();
 	
 	public SocialActivity() {
 	}

@@ -47,7 +47,7 @@
 				</c:when>
   				<c:otherwise>
     				<a href="${context}/register" class="btn btn-outline-success mr-1"  type="submit">Register</a>
-					<a href="${context}/signin" class="btn btn-outline-success"  type="submit">Sign in</a>
+					<a href="${context}/login" class="btn btn-outline-success"  type="submit">Login</a>
   				</c:otherwise>
   			</c:choose>	
 		</form>

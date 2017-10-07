@@ -9,7 +9,7 @@ import com.ab.vo.preference.PreferenceStatusType;
 public class CandidatePersonalDetail {
 	private Long candidatePersonalDetailId;
 	private Long candidateId;
-	private PreferenceStatusType preferenceStatusType;
+	private PreferenceStatusType preferenceStatusType = PreferenceStatusType.PROTECTED;
 	private String firstName;
 	private String middleName;
 	private String lastName;

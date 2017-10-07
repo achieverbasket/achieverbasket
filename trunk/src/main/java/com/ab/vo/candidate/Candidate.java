@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.ab.type.CandidateType;
 import com.ab.vo.activity.SocialActivity;
+import com.ab.vo.activity.SocialActivityType;
 import com.ab.vo.certificate.Certificate;
 import com.ab.vo.preference.Preference;
 import com.ab.vo.preference.PreferenceStatusType;
+import com.google.common.collect.Lists;
 
 public class Candidate{
 	private Long candidateId;
@@ -80,5 +82,19 @@ public class Candidate{
 
 	public void setPreferenceStatusType(PreferenceStatusType preferenceStatusType) {
 		this.preferenceStatusType = preferenceStatusType;
+	}
+	
+	public static Candidate defaultCandidate() {
+		Candidate candidate = new Candidate();
+		candidate.setCandidateId(-1l);
+		candidate.setCandidateName("");
+		candidate.setCandidateType(CandidateType.CANDIDATE);
+		candidate.setCandidatePersonalDetail(new CandidatePersonalDetail());
+		candidate.setPreferenceStatusType(PreferenceStatusType.PUBLIC);
+		candidate.setSocialActivity(new SocialActivity(SocialActivityType.PROFILE));
+		List<Certificate> certificateList = Lists.newArrayList();
+		certificateList.add(new Certificate());
+		candidate.setCandidateCertificateList(certificateList);
+		return candidate;
 	}
 }
