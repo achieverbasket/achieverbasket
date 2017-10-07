@@ -8,7 +8,7 @@ import com.ab.vo.User;
 import com.ab.vo.login.Login;
 
 public interface LoginDao {
-	Tuple<Boolean, String, Optional<User>> signinUser(Login login);
+	Tuple<Boolean, String, Optional<User>> loginUser(Login login);
 	
 	User getUser(Long userId);
 	

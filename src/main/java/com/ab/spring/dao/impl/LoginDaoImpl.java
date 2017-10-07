@@ -30,7 +30,7 @@ public class LoginDaoImpl implements LoginDao{
 	private CandidateDao candidateDao;
 
 	@Override
-	public Tuple<Boolean, String, Optional<User>> signinUser(Login login) {
+	public Tuple<Boolean, String, Optional<User>> loginUser(Login login) {
 		String sql = "SELECT USER_ID, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, ENABLED FROM USERS WHERE USERNAME=?";
 		
 		ResultSetExtractor<Tuple<Boolean, String, Optional<User>>> rse = rs -> {

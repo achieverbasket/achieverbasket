@@ -28,7 +28,7 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public User loginUser(Login loginForm) throws Exception {
 		System.out.println("In Signin User========");
-		return loginDaoImpl.signinUser(loginForm).getZ().orElse(null);
+		return loginDaoImpl.loginUser(loginForm).getZ().orElse(null);
 	}
 
 
