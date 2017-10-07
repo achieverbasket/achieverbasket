@@ -126,7 +126,7 @@ public class LoginController {
 	public  String signinUser(Model model ,@Valid @ModelAttribute(name="signinform") Login form,BindingResult br,RedirectAttributes ra,HttpServletResponse response) {
 		boolean error = false;
 		if(null != form) {
-			System.out.println("-- form.getLoginId() --  "+ form.getUserName() + "-- form.getPassword() --  "+ form.getPassword());
+			System.out.println("-- form.getUserName() --  "+ form.getUserName() + "-- form.getPassword() --  "+ form.getPassword());
 			
 			if(null != br && br.hasErrors()) {
 				error = true;
