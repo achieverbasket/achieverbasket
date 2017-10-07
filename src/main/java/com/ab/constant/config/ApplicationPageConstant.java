@@ -10,7 +10,7 @@ public final class ApplicationPageConstant {
 	public static final String home_page = "/home";
 	public static final String register_page = "/register";
 	public static final String resetpassword_page = "/resetpassword";
-	public static final String signin_page = "/signin";
+	public static final String login_page = "/login";
 	public static final String twowayauth_page = "/twowayauth";
 	
 	public static final String userdashboard_page = "/userdashboard";

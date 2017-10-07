@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.constant.config.ApplicationStatusConstant;
+import com.ab.datastructure.TwoTuple;
 import com.ab.spring.form.UserTwoWayAuthForm;
 import com.ab.spring.service.LoginService;
 import com.ab.vo.User;
@@ -33,10 +34,87 @@ public class LoginController {
 	@Autowired
 	LoginService loginServiceImpl;
 	
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String getLoginPage(@ModelAttribute Login loginForm,Model model) {
+		model.addAttribute("loginForm", loginForm);
+		return com.ab.constant.config.ApplicationPageConstant.login_page;
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public  String loginUser(@Valid @ModelAttribute(name="loginForm") Login loginForm, BindingResult br, Model model, RedirectAttributes ra, HttpServletResponse response) {
+		boolean error = false;
+		if(null != loginForm) {
+			System.out.println("UserName: "+ loginForm.getUserName() + "Password:  "+ loginForm.getPassword());
+			
+			if(null != br && br.hasErrors()) {
+				error = true;
+				model.addAttribute(ApplicationStatusConstant.msg_error_generic, br.getFieldError());
+			}else {
+				// if no errors, get user object from db/cache, and send to user dashboard
+				// user dashboard should be customized based on user type and rolse/permission user have
+				
+				// all exceptions to be caught at controller level as much as possible
+				try {
+					User form1 = loginServiceImpl.loginUser(loginForm);
+					if(form1 == null) {
+						error = true;
+						model.addAttribute(ApplicationStatusConstant.msg_error_generic, ApplicationStatusConstant.msg_error_processing_request);
+					} else {
+					
+					//creating 1st dash board for candidate
+					//model.addAttribute("userDetailObjform", userDetailObj);
+						ra.addFlashAttribute("userDetailObjform", form1);
+					}
+				} catch (Exception e) {
+					error = true;
+					e.printStackTrace();// logger to be implemented
+					// through custom generic error message , 
+					model.addAttribute(ApplicationStatusConstant.msg_error_generic, ApplicationStatusConstant.msg_error_processing_request);
+				}
+			}
+		}
+		if(error) {
+			model.addAttribute("loginForm", loginForm);
+			return ApplicationPageConstant.login_page;
+		}else {
+			response.setHeader("auth-token", "12345");
+			return "redirect:/dashboard";
+		}
+	}
+
+	@RequestMapping(value="/register", method=RequestMethod.GET)
+	public String getRegisterUserPage(@ModelAttribute Registration registrationForm, Model model ) {
+		model.addAttribute("registerForm", registrationForm);
+		return com.ab.constant.config.ApplicationPageConstant.register_page;
+	}
+	
+	@RequestMapping(value="/register", method=RequestMethod.POST)
+	public  String registerNewUser(Model model ,@Valid @ModelAttribute(name="registerForm") Registration registrationForm, BindingResult br, RedirectAttributes ra) {
+		boolean error = false;
+		if(null != br && br.hasErrors()) {
+			error = true;
+			model.addAttribute(ApplicationStatusConstant.msg_error_generic, br.getFieldError());
+		}else {
+			 TwoTuple<Boolean, String> result = loginServiceImpl.registerNewUser(registrationForm);
+			if(result.getX()) {
+				model.addAttribute("twaform", new UserTwoWayAuthForm());
+				model.addAttribute("msg", result.getY());
+				return ApplicationPageConstant.twowayauth_page;
+			}else {
+				model.addAttribute("msg", result.getY());
+			}
+		}
+		
+		if(error) {
+			model.addAttribute("registerForm", registrationForm);
+		}
+		return ApplicationPageConstant.register_page;
+	}
+
 	
 	@RequestMapping(value="/resetpassword", method=RequestMethod.GET)
 	public String resetpasswordPage() {
-		return com.ab.constant.config.ApplicationPageConstant.resetpassword_page;
+		return ApplicationPageConstant.resetpassword_page;
 	}
 	
 	@RequestMapping(value="/resetpassword", method=RequestMethod.POST)
@@ -54,42 +132,6 @@ public class LoginController {
 		}
 		
 		return com.ab.constant.config.ApplicationPageConstant.resetpassword_page;
-	}
-	
-	@RequestMapping(value="/register", method=RequestMethod.GET)
-	public String getRegisterUserPage(@ModelAttribute Registration form,Model model ) {
-		model.addAttribute("registerform", form);
-		return com.ab.constant.config.ApplicationPageConstant.register_page;
-	}
-	
-	@RequestMapping(value="/signin", method=RequestMethod.GET)
-	public String getSignInUserPage(@ModelAttribute Login form,Model model) {
-		model.addAttribute("signinform", form);
-		return com.ab.constant.config.ApplicationPageConstant.signin_page;
-	}
-	
-	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public  String registerNewUser(Model model ,@Valid @ModelAttribute(name="registerform") Registration form,BindingResult br,RedirectAttributes ra) {
-		boolean error = false;
-		if(null != br && br.hasErrors()) {
-			error = true;
-			model.addAttribute(ApplicationStatusConstant.msg_error_generic, br.getFieldError());
-		}else {
-			Map<String,String> resultStatusMap = loginServiceImpl.registerNewUser(form);
-			String key = resultStatusMap.get(ApplicationStatusConstant.status);
-			if(null != key && key.equalsIgnoreCase(ApplicationStatusConstant.msg_success_generic)) {
-				model.addAttribute("twaform", new UserTwoWayAuthForm());
-				model.addAttribute("msg", resultStatusMap.get(ApplicationStatusConstant.msg));
-				return ApplicationPageConstant.twowayauth_page;
-			}else {
-				model.addAttribute("msg", resultStatusMap.get(ApplicationStatusConstant.msg));
-			}
-		}
-		
-		if(error) {
-			model.addAttribute("registerform", form);
-		}
-		return ApplicationPageConstant.register_page;
 	}
 	
 	@RequestMapping(value="dashboard", method=RequestMethod.GET)
@@ -121,45 +163,7 @@ public class LoginController {
 		
 			return ApplicationPageConstant.userdashboard_page;
 	}
-	
-	@RequestMapping(value="/signin", method=RequestMethod.POST)
-	public  String signinUser(Model model ,@Valid @ModelAttribute(name="signinform") Login form,BindingResult br,RedirectAttributes ra,HttpServletResponse response) {
-		boolean error = false;
-		if(null != form) {
-			System.out.println("-- form.getUserName() --  "+ form.getUserName() + "-- form.getPassword() --  "+ form.getPassword());
-			
-			if(null != br && br.hasErrors()) {
-				error = true;
-				model.addAttribute(ApplicationStatusConstant.msg_error_generic, br.getFieldError());
-			}else {
-				// if no errors, get user object from db/cache, and send to user dashboard
-				// user dashboard should be customized based on user type and rolse/permission user have
-				
-				// all exceptions to be caught at controller level as much as possible
-				try {
-					User form1 = loginServiceImpl.signinUser(form);
-					
-					//creating 1st dash board for candidate
-					//model.addAttribute("userDetailObjform", userDetailObj);
-					ra.addFlashAttribute("userDetailObjform", form1);
-				} catch (Exception e) {
-					error = true;
-					e.printStackTrace();// logger to be implemented
-					// through custom generic error message , 
-					model.addAttribute(ApplicationStatusConstant.msg_error_generic, ApplicationStatusConstant.msg_error_processing_request);
-				}
-			}
-		}
-		if(error) {
-			model.addAttribute("signinform", form);
-			return ApplicationPageConstant.signin_page;
-		}else {
-			response.setHeader("auth-token", "12345");
-			return "redirect:/dashboard";
-		}
-	}
-		
-	
+
 	@RequestMapping(value="/register/twa", method=RequestMethod.POST)
 	public  String twoWayAuthenticateUser(Model model ,@Valid @ModelAttribute(name="twaform") UserTwoWayAuthForm form,BindingResult br,RedirectAttributes ra) {
 		if(null != br && br.hasErrors()) {
@@ -169,7 +173,7 @@ public class LoginController {
 		}
 		else {
 			ra.addFlashAttribute(ApplicationStatusConstant.msg_success_generic,ApplicationStatusConstant.msg_account_verified_success);
-			return "redirect:/signin";
+			return "redirect:/login";
 		}
 	}
 }

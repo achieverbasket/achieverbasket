@@ -2,6 +2,7 @@ package com.ab.spring.service;
 
 import java.util.Map;
 
+import com.ab.datastructure.TwoTuple;
 import com.ab.vo.User;
 import com.ab.vo.login.Login;
 import com.ab.vo.login.Registration;
@@ -9,9 +10,10 @@ import com.ab.vo.login.Registration;
 
 public interface LoginService {
 	
-	public User signinUser(Login form) throws Exception;
-	public User getUserDetails(User form) throws Exception;
+	User loginUser(Login loginForm) throws Exception;
+
+	User getUserDetails(User form) throws Exception;
 	
-	public Map<String,String> registerNewUser(Registration form);
+	TwoTuple<Boolean, String> registerNewUser(Registration form);
 	
 }

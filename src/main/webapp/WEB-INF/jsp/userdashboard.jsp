@@ -31,7 +31,7 @@
 			<%@include file="leftnav.jsp" %>
 			<main class="col-12 col-md-9 col-xl-8  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
 				<h1 class="bd-title" id="content">Introduction</h1><%=response.getHeader("auth-token")%>
-					<jsp:include page="userprofile.jsp" ></jsp:include>
+					<jsp:include page="testuserprofile.jsp" ></jsp:include>
 			</main>	
 			<div id="processing-div" style="position:absolute;display: none;">Kindly wait...</div>
 		</div>

@@ -1,22 +1,13 @@
 package com.ab.spring.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ab.constant.config.ApplicationStatusConstant;
+import com.ab.datastructure.TwoTuple;
 import com.ab.spring.dao.LoginDao;
 import com.ab.spring.dao.SocialActivityDao;
-import com.ab.spring.dao.impl.SequenceDao;
 import com.ab.spring.service.LoginService;
 import com.ab.vo.User;
-import com.ab.vo.activity.Comment;
-import com.ab.vo.activity.CommentReply;
-import com.ab.vo.activity.Like;
-import com.ab.vo.activity.SocialActivity;
-import com.ab.vo.activity.SocialActivityType;
 import com.ab.vo.login.Login;
 import com.ab.vo.login.Registration;
 
@@ -35,9 +26,9 @@ public class LoginServiceImpl implements LoginService{
 	SocialActivityDao seqDao;
 	
 	@Override
-	public User signinUser(Login form) throws Exception {
+	public User loginUser(Login loginForm) throws Exception {
 		System.out.println("In Signin User========");
-		return loginDaoImpl.signinUser(form).getZ().orElse(null);
+		return loginDaoImpl.signinUser(loginForm).getZ().orElse(null);
 	}
 
 
@@ -48,26 +39,21 @@ public class LoginServiceImpl implements LoginService{
 
 
 	@Override
-	public Map<String, String> registerNewUser(Registration form){
-		Map<String, String> resultStatusMap = new HashMap<String,String>(4);
-		try { 
-			int status = 0;//TODO update correct implementation here.
-//			loginDaoImpl.registerUser(form);
-			
-			if(status > 0) {
-				resultStatusMap.put(ApplicationStatusConstant.msg, ApplicationStatusConstant.msg_account_created_success);
-				resultStatusMap.put(ApplicationStatusConstant.status, ApplicationStatusConstant.msg_success_generic);
-			}else {
-				resultStatusMap.put(ApplicationStatusConstant.msg, ApplicationStatusConstant.msg_account_created_error);
-				resultStatusMap.put(ApplicationStatusConstant.status, ApplicationStatusConstant.msg_error_generic);
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-			resultStatusMap.put(ApplicationStatusConstant.msg, ApplicationStatusConstant.msg_account_created_error);
-			resultStatusMap.put(ApplicationStatusConstant.status, ApplicationStatusConstant.msg_error_generic);
-		}
-		
-		return resultStatusMap;
+	public TwoTuple<Boolean, String> registerNewUser(Registration registrationForm){
+		User user = fromRegistration(registrationForm);
+		return loginDaoImpl.registerUser(user);
+	}
+
+
+	private User fromRegistration(Registration registration) {
+		User user = new User();
+		user.setFirstName(registration.getFirstName());
+		user.setLastName(registration.getLastName());
+		user.setEmail(registration.getEmail());
+		user.setPassword(registration.getPassword());
+		user.setUserName(registration.getFirstName()+ registration.getLastName());
+		user.setUserType(registration.getUserType());
+		return user;
 	}
 
 }

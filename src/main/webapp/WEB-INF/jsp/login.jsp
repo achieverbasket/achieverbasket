@@ -10,7 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Sign in</title>
+<title>Login</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> 
 
@@ -120,6 +120,11 @@ body {
   							${success}
 		</div></div></div>
 		</c:if>				
+		<c:if test="${not empty error}">
+		<div class="row"><div class="col-12"> <div class="alert alert-warning" role="alert">
+  							${error}
+		</div></div></div>
+		</c:if>				
 		<div class="row">
 			<div class="col-md-4">
 				<div class="card">
@@ -127,8 +132,8 @@ body {
 						
 					</div>
 					<div class="card-body">
-						<h4 class="card-title text-xs-center">Sign in</h4>
-						<form:form name="f" form:action="${context}/signin" method="post" modelAttribute="signinform">
+						<h4 class="card-title text-xs-center">Login</h4>
+						<form:form name="f" form:action="${context}/login" method="post" modelAttribute="loginForm">
 							<div class="form-group">
 								<form:input type="text" class="form-control" path="userName" 
 								 placeholder="UserName" required="true" maxlength="50"/>
@@ -145,7 +150,7 @@ body {
 																  
 								</font>	
 							</div>
-							<button type="submit" class="btn btn-primary">Sign in</button>
+							<button type="submit" class="btn btn-primary">Login</button>
 							<a href="resetpassword" class="float-right">Forgot Password</a>
 						</form:form>
 					</div>
