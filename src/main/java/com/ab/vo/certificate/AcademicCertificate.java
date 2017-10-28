@@ -1,5 +1,7 @@
 package com.ab.vo.certificate;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ab.vo.certificate.score.AcademicScore;
 import com.ab.vo.certificate.score.Score;
 import com.ab.vo.issuer.Issuer;
@@ -10,6 +12,7 @@ public class AcademicCertificate extends Certificate {
 	private static final long serialVersionUID = 4869037164698035618L;
 	private AcademicScore academicScore;
 	private AcademicInstitute academicInstitute;
+	private MultipartFile file;
 
 
 	public Score getScore() {
@@ -26,5 +29,13 @@ public class AcademicCertificate extends Certificate {
 
 	public void setIssuer(AcademicInstitute academicInstitute) {
 		this.academicInstitute = academicInstitute;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 }

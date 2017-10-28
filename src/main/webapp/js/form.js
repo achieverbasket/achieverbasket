@@ -4,6 +4,10 @@
  * 
  */
 $(document).ready(function() {
+	$.fn.datepicker.defaults.format = "dd/mm/yyyy";
+	$('.datepicker').datepicker({
+		autoclose: true,todayHighlight: true,todayBtn:'linked'
+	});
 	$("input[type=button]").click(function(e) {
 		//alert($(this).parents('form:first').offset().top + 'left' +$(this).parents('form:first').offset().left);
 		
@@ -29,7 +33,48 @@ $(document).ready(function() {
 			});
 			
 		}
-		
+		//alert($(this).attr('id'));
+		if($(this).attr('id') == 'save-acd-cert'){
+			//alert('uploading data');
+			e.preventDefault();
+			var formData = new FormData();
+		    formData.append('file', $('input[type=file]')[0].files[0]);
+		   
+		    formData.append('dataparam', JSON.stringify({
+                "certificateName": $('#certificateName').val(),
+                "issueDate": $('#issueDate').val()                    
+            }, {
+                type: "application/json"
+            }));
+		    
+		    
+		    
+			$.ajax({
+	            type: "POST",
+	            enctype: 'multipart/form-data',
+	            url: "upload",
+	            data: formData,
+	            headers : {
+	                'Content-Type' : undefined
+	            },
+	            processData: false,
+	            contentType: false,
+	            cache: false,
+	            success: function (data) {alert('success');
+	            },
+	            error: function (xhr, ajaxOptions, thrownError) {
+	                if (xhr.readyState == 0 || xhr.status == 0) {
+	                    // not really an error
+	                    return;
+	                } else {
+	                    alert("XHR Status = "+xhr.status);
+	                    alert("Thrown Error = "+thrownError);
+	                    alert("AjaxOptions = "+ajaxOptions)
+	                }
+	          }
+	        });
+			
+		}
 		
 	});
 	
