@@ -44,7 +44,7 @@ public class CertificateDaoImpl implements CertificateDao{
 		jdbcTemplate.update(sql, certificateId, 
 				certificate.getCertificateName(),
 				certificate.getCandidateId(), 
-				new Date(certificate.getIssueDate().toDate().getTime()), 
+				//new Date(certificate.getIssueDate().toDate().getTime()), 
 				new Date(certificate.getEndDate().toDate().getTime()), 
 				certificate.getCertificateTemplate().getCertificateTemplateId(),
 				certificate.getFilePath(),
@@ -61,7 +61,7 @@ public class CertificateDaoImpl implements CertificateDao{
 	public void updateCertificate(Certificate certificate) {
 		String sql = "UPDATE CERTIFICATE SET CERTIFICATE_NAME=?, ISSUE_DATE=?, END_DATE=?, FILE_PATH=?, VERIFICATION_STATUS=?, VERIFIED_BY_ID=?, VERIFIED_DATE=?, MODIFIED_BY=0, MODIFIED_TIME) WHERE CERTIFICATE_ID=?";
 		jdbcTemplate.update(sql, certificate.getCertificateName(), 
-				new Date(certificate.getIssueDate().toDate().getTime()), 
+			//	new Date(certificate.getIssueDate().toDate().getTime()), 
 				new Date(certificate.getEndDate().toDate().getTime()), 
 				certificate.getFilePath(),
 				certificate.isVerified(),
@@ -79,10 +79,10 @@ public class CertificateDaoImpl implements CertificateDao{
 				certificate.setCertificateId(certificateId);
 				certificate.setCertificateName(rs.getString("CERTIFICATE_NAME"));
 				certificate.setCandidateId(rs.getLong("CANDIDATE_ID"));
-				certificate.setIssueDate(new DateTime(rs.getDate("ISSUE_DATE")));
+				//certificate.setIssueDate(new DateTime(rs.getDate("ISSUE_DATE")));
 				certificate.setEndDate(new DateTime(rs.getDate("END_DATE")));
 				certificate.setCertificateTemplate(certificateTemplateDao.getCertificateTemplate(rs.getLong("CERTIFICATE_TEMPLATE_ID")));
-				certificate.setFilePath(rs.getString("FILE_PATH"));
+				//certificate.setFilePath(rs.getString("FILE_PATH"));
 				certificate.setVerified(rs.getBoolean("VERIFICATION_STATUS"));
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
 				certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));
@@ -100,10 +100,10 @@ public class CertificateDaoImpl implements CertificateDao{
 				certificate.setCandidateId(candidateId);
 				certificate.setCertificateName(rs.getString("CERTIFICATE_NAME"));
 				certificate.setCertificateId(rs.getLong("CERTIFICATE_ID"));
-				certificate.setIssueDate(new DateTime(rs.getDate("ISSUE_DATE")));
+				//certificate.setIssueDate(new DateTime(rs.getDate("ISSUE_DATE")));
 				certificate.setEndDate(new DateTime(rs.getDate("END_DATE")));
 				certificate.setCertificateTemplate(certificateTemplateDao.getCertificateTemplate(rs.getLong("CERTIFICATE_TEMPLATE_ID")));
-				certificate.setFilePath(rs.getString("FILE_PATH"));
+				//certificate.setFilePath(rs.getString("FILE_PATH"));
 				certificate.setVerified(rs.getBoolean("VERIFICATION_STATUS"));
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
 				certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));
@@ -121,10 +121,10 @@ public class CertificateDaoImpl implements CertificateDao{
 				certificate.setIssuerId(issuerId);
 				certificate.setCertificateName(rs.getString("CERTIFICATE_NAME"));
 				certificate.setCertificateId(rs.getLong("CERTIFICATE_ID"));
-				certificate.setIssueDate(new DateTime(rs.getDate("ISSUE_DATE")));
+				//certificate.setIssueDate(new DateTime(rs.getDate("ISSUE_DATE")));
 				certificate.setEndDate(new DateTime(rs.getDate("END_DATE")));
 				certificate.setCertificateTemplate(certificateTemplateDao.getCertificateTemplate(rs.getLong("CERTIFICATE_TEMPLATE_ID")));
-				certificate.setFilePath(rs.getString("FILE_PATH"));
+				//certificate.setFilePath(rs.getString("FILE_PATH"));
 				certificate.setVerified(rs.getBoolean("VERIFICATION_STATUS"));
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
 				certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));

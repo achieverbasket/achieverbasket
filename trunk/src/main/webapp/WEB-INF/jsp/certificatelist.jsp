@@ -43,34 +43,38 @@ margin: 0;
 				<h1 class="bd-title" id="content"></h1>
 				<div class="card mb-1 border-light">
 					<div class="card-header">
-						<h5 class="mb-0">Academic Certificate Details</h5>
+						<h5 class="mb-0">Certificate Details</h5>
 					</div>
 				</div>
 				<div class="card-deck">
-				<c:forEach items="${obj.candidateAcademicCertificateList}" var="userCertificate" varStatus="status">
+				<c:forEach items="${list}" var="obj" varStatus="status">
 					<div class="col-12 col-md-6 col-lg-4">
 					<div class="card mb-1">
 						<img class="card-img-top img-fluid" src="" alt="Card image cap">
 						<div class="card-body">
-							<h5 class="card-title">${userCertificate.certificateName}</h5>
+							<h5 class="card-title">${obj.certificateName}</h5>
 						</div>
 						<ul class="list-group list-group-flush">
-						    <li class="list-group-item">Comment: ${fn:length(userCertificate.socialActivity.comment.commentIdList)}</li>
-						    <li class="list-group-item">Like: ${fn:length(userCertificate.socialActivity.like.likeIdList)}</li>
+						    <li class="list-group-item">Issue Date: ${obj.issueDate}</li>
+						   
+						</ul>
+						<ul class="list-group list-group-flush">
+						    <li class="list-group-item">Comment: ${fn:length(obj.socialActivity.comment)}</li>
+						    <li class="list-group-item">Like: ${fn:length(obj.socialActivity.like)}</li>
 						</ul>
 						<div class="card-footer">
-					      <a class="float-right card-link" href="${context}/certificate/edit/${userCertificate.certificateId}">Manage Certificate</a>
+					      <a class="float-right card-link" href="${context}/certificate/edit/${obj.certificateId}">Manage Certificate</a>
 					    </div>
 					</div>
 					</div>
 				</c:forEach>
 				</div>
-				<div class="card mb-1 border-light">
+				<!-- <div class="card mb-1 border-light">
 					<div class="card-header">
 						<h5 class="mb-0">Professional Certificate Details</h5>
 					</div>
-				</div>
-				<div class="card-deck">
+				</div> -->
+				<%-- <div class="card-deck">
 				<c:forEach items="${obj.candidateProfessionalCertificateList}" var="userCertificate" varStatus="status">
 					<div class="col-12 col-md-6 col-lg-4">
 					<div class="card mb-1">
@@ -88,8 +92,8 @@ margin: 0;
 					</div>
 					</div>
 				</c:forEach>
-				</div>
-				<div class="card mb-1 border-light">
+				</div> --%>
+				<%-- <div class="card mb-1 border-light">
 					<div class="card-header">
 						<h5 class="mb-0">Extra Curricular Certificate Details</h5>
 					</div>
@@ -112,7 +116,7 @@ margin: 0;
 					</div>
 					</div>
 				</c:forEach>
-				</div>
+				</div> --%>
 			</main>
 		</div>
 	</div>

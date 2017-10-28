@@ -3,6 +3,7 @@ package com.ab.vo.certificate;
 import java.io.Serializable;
 
 import org.joda.time.DateTime;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ab.vo.activity.SocialActivity;
 import com.ab.vo.preference.PreferenceStatusType;
@@ -15,7 +16,7 @@ public class Certificate implements Serializable{
 	private Long candidateId;
 	private String certificateName;
 	private PreferenceStatusType preferenceStatusType;
-	private DateTime issueDate;
+	private String issueDate;
 	private DateTime endDate;
 	private CertificateTemplate certificateTemplate;
 	private String filePath;
@@ -56,11 +57,11 @@ public class Certificate implements Serializable{
 		this.certificateName = certificateName;
 	}
 
-	public DateTime getIssueDate() {
+	public String getIssueDate() {
 		return issueDate;
 	}
 
-	public void setIssueDate(DateTime issueDate) {
+	public void setIssueDate(String issueDate) {
 		this.issueDate = issueDate;
 	}
 
