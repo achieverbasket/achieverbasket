@@ -17,12 +17,15 @@
 	</form>
 	<nav class="collapse bd-links" id="bd-docs-nav">
 		<div class="bd-toc-item active">
-			<a class="bd-toc-link" href="${context}/dashboard"> Getting
-				started </a>
+			<%-- <a class="bd-toc-link" href="${context}/dashboard"> Getting
+				started </a> --%>
 			<ul class="nav bd-sidenav">
 				<li class="active bd-sidenav-active"><a href="${context}/dashboard"> DashBoard </a></li>
 				<li class=""><a href="${context}/certificates/1">My Certificates</a></li>
-				<li class=""><a href="${context}/certificate/new">Create Certificate</a></li>
+				<%-- <li class=""><a href="${context}/certificate/new">Create Certificate</a></li> --%>
+				<li class=""><a href="${context}/certificate/academic">Academic Certificate</a></li>
+				<li class=""><a href="${context}/certificate/professional">Professional Certificate</a></li>
+				<li class=""><a href="${context}/certificate/extracurriculam">Extra Curriculam Certificate</a></li>
 				<li class=""><a href="${context}/blog">Write Blog</a></li>
 			</ul>
 		</div>

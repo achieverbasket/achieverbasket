@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> 
 <link rel="stylesheet" href="${context}/css/main.css">
 <link rel="stylesheet" href="${context}/css/custom.css">
+<link href="${context}/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
 <style type="text/css">
 
 </style>
@@ -51,11 +52,13 @@
 					src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 				<script
 					src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+				<script type="text/javascript" src="${context}/js/bootstrap-datepicker.min.js">
+		</script>
 				<script
 					src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/0.11.1/typeahead.bundle.min.js"
 					type="text/javascript"></script>
 				<script
-					src="../js/form.js"
+					src="${context}/js/form.js"
 					type="text/javascript"></script>	
 				<script type="text/javascript">
 

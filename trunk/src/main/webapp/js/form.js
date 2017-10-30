@@ -34,18 +34,49 @@ $(document).ready(function() {
 			
 		}
 		//alert($(this).attr('id'));
-		if($(this).attr('id') == 'save-acd-cert'){
+		if($(this).attr('id') == 'save-acd-cert' || $(this).attr('id') == 'save-prf-cert' || $(this).attr('id') == 'save-extra-cert'){
 			//alert('uploading data');
 			e.preventDefault();
 			var formData = new FormData();
-		    formData.append('file', $('input[type=file]')[0].files[0]);
+		    
+		    formData.append('type', $(this).attr('id'));
+		    if($(this).attr('id') == 'save-acd-cert'){
+		    	formData.append('file', $('#user-academic-det input[type=file]')[0].files[0]);
+		    	formData.append('dataparam', JSON.stringify({
+		    		 	"certificateName": $('#user-academic-det #certificateName').val(),
+		                "issueDate": $('#user-academic-det #issueDate').val() ,
+		                "endDate": $('#user-academic-det #endDate').val(),
+		                "preferenceStatusType": $('#user-academic-det #preferenceStatusType').val()
+		            }, {
+		                type: "application/json"
+		            }));
+		    }else if($(this).attr('id') == 'save-prf-cert'){
+		    	formData.append('file', $('#user-pro-det input[type=file]')[0].files[0]);
+		    	alert('organization value --'+$(document.getElementById('organization.organizationName')).val());
+		    	formData.append('dataparam', JSON.stringify({
+		    		 	"certificateName": $('#user-pro-det #certificateName').val(),
+		                "issueDate": $('#user-pro-det #issueDate').val() ,
+		                "salary": $('#user-pro-det #salary').val(),
+		                "endDate": $('#user-pro-det #endDate').val(),
+		                "preferenceStatusType": $('#user-pro-det #preferenceStatusType').val(),
+		                "organization":{
+		                	"organizationName": $(document.getElementById('organization.organizationName')).val()
+		                }
+		            }, {
+		                type: "application/json"
+		            }));
+		    }else if($(this).attr('id') == 'save-extra-cert'){
+		    	formData.append('file', $('#user-extra-det input[type=file]')[0].files[0]); 
+		    	formData.append('dataparam', JSON.stringify({
+		    		 	"certificateName": $('#user-extra-det #certificateName').val(),
+		                "issueDate": $('#user-extra-det #issueDate').val() ,
+		                "endDate": $('#user-extra-det #endDate').val(),
+		                "preferenceStatusType": $('#user-extra-det #preferenceStatusType').val()                   
+		            }, {
+		                type: "application/json"
+		            }));
+		    }
 		   
-		    formData.append('dataparam', JSON.stringify({
-                "certificateName": $('#certificateName').val(),
-                "issueDate": $('#issueDate').val()                    
-            }, {
-                type: "application/json"
-            }));
 		    
 		    
 		    

@@ -17,7 +17,7 @@ public class Certificate implements Serializable{
 	private String certificateName;
 	private PreferenceStatusType preferenceStatusType;
 	private String issueDate;
-	private DateTime endDate;
+	private String endDate;
 	private CertificateTemplate certificateTemplate;
 	private String filePath;
 	private boolean verified;
@@ -65,11 +65,11 @@ public class Certificate implements Serializable{
 		this.issueDate = issueDate;
 	}
 
-	public DateTime getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(DateTime endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

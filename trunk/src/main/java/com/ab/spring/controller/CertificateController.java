@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -144,6 +145,56 @@ public class CertificateController {
 		return ApplicationPageConstant.certificatelist_page;
 	}
 	
+	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.GET)
+	public String academicCertificate(Model model) {
+		AcademicCertificate a = new AcademicCertificate();
+		model.addAttribute("form", a);
+		return ApplicationPageConstant.academiccertificate_page;
+	}
+	
+	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.POST)
+	public String createAcademicCertificate(@ModelAttribute AcademicCertificate form,  Model model) {
+		
+		// 
+		System.out.println("posting academic form"+form.getCertificateName()+form.getFile().getOriginalFilename());
+		AcademicCertificate a = new AcademicCertificate();
+		model.addAttribute("form", a);
+		return ApplicationPageConstant.academiccertificate_page;
+	}
+	
+	@RequestMapping(path="/certificate/professional" ,method=RequestMethod.GET)
+	public String ProfessionalCertificate(Model model) {
+		ProfessionalCertificate a = new ProfessionalCertificate();
+		model.addAttribute("form", a);
+		return ApplicationPageConstant.professionalcertificate_page;
+	}
+	
+	@RequestMapping(path="/certificate/professional" ,method=RequestMethod.POST)
+	public String createProfessionalCertificate(@ModelAttribute ProfessionalCertificate form,  Model model) {
+		
+		// 
+		System.out.println("posting professional form"+form.getCertificateName()+form.getFile().getOriginalFilename()+form.getOrganization().getOrganizationName());
+		ProfessionalCertificate a = new ProfessionalCertificate();
+		model.addAttribute("form", a);
+		return ApplicationPageConstant.professionalcertificate_page;
+	}
+	@RequestMapping(path="/certificate/extracurriculam" ,method=RequestMethod.GET)
+	public String ExtraCurriculamCertificate(Model model) {
+		ExtraCurriculamCertificate a = new ExtraCurriculamCertificate();
+		model.addAttribute("form", a);
+		return ApplicationPageConstant.extracurriculamcertificate_page;
+	}
+	
+	@RequestMapping(path="/certificate/extracurriculam" ,method=RequestMethod.POST)
+	public String createExtraCurriculamCertificate(@ModelAttribute ExtraCurriculamCertificate form,  Model model) {
+		
+		// 
+		System.out.println("posting extracurriculam form"+form.getCertificateName()+form.getFile().getOriginalFilename()+form.getPreferenceStatusType());
+		ExtraCurriculamCertificate a = new ExtraCurriculamCertificate();
+		model.addAttribute("form", a);
+		return ApplicationPageConstant.extracurriculamcertificate_page;
+	}
+	
 	@RequestMapping(path="/certificate/new" ,method=RequestMethod.GET)
 	public String createNewCertificate(Model model) {
 		
@@ -159,16 +210,41 @@ public class CertificateController {
 	@ResponseBody
 	@RequestMapping(path="/certificate/upload" ,method=RequestMethod.POST,consumes = {"multipart/form-data"})
 	public String uploadertificate(@RequestPart(value = "file", required = false) MultipartFile file,
-		@RequestParam(value="dataparam") String aform) {
+		@RequestParam(value="dataparam") String aform , @RequestParam(value="type") String type) {
 		System.out.println(file.getOriginalFilename());
-		AcademicCertificate map;
-		try {
-			map = new ObjectMapper().readValue(aform, AcademicCertificate.class);
-			System.out.println(map.getCertificateName()+map.getIssueDate());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		// based on type do the conversion
+		
+		if(null != type && type.equalsIgnoreCase("save-acd-cert")){
+			AcademicCertificate map;
+			try {
+				map = new ObjectMapper().readValue(aform,     AcademicCertificate.class);
+				System.out.println("academic certifiacate "+map.getCertificateName()+map.getIssueDate()+map.getEndDate()+map.getPreferenceStatusType());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(null != type && type.equalsIgnoreCase("save-prf-cert")){
+			ProfessionalCertificate map;
+			try {
+				map = new ObjectMapper().readValue(aform,     ProfessionalCertificate.class);
+				System.out.println("professional certifiacate "+map.getCertificateName()+map.getIssueDate()+map.getEndDate()+map.getPreferenceStatusType()+map.getSalary()+map.getOrganization().getOrganizationName());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(null != type && type.equalsIgnoreCase("save-extra-cert")){
+			ExtraCurriculamCertificate map;
+			try {
+				map = new ObjectMapper().readValue(aform,     ExtraCurriculamCertificate.class);
+				System.out.println("extra certifiacate "+map.getCertificateName()+map.getIssueDate()+map.getEndDate()+map.getPreferenceStatusType());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
+		
 		
 		return "true";
 		
@@ -177,13 +253,14 @@ public class CertificateController {
 	@RequestMapping(path="/certificate/edit/{id}" ,method=RequestMethod.GET)
 	public String editCertificate(@PathVariable Integer id,Model model) {
 		
-		
+		// based on the type of certificate, go to the client page
+		//hardcoding now for prefessional page
 		ProfessionalCertificate p = new ProfessionalCertificate();
-		//p.setCertificateId(1);p.setCertificateName("MSCI JAVA 1.9");//p.setStartDate("20/03/1988");p.setEndDate("20/03/1988");
+		p.setCertificateId(1L);   p.setCertificateName("MSCI JAVA 1.9");p.setIssueDate("28/10/2017");p.setEndDate("28/10/2017");
 		 Organization o = new Organization();o.setOrganizationName("Bhopal");o.setOrganizationId(1);
 		 o.setImagePath("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Sun_poster.svg/500px-Sun_poster.svg.png");
 		 p.setOrganization(o);p.setSalary(10000d);
-		 
+
 		 SocialActivity s = new SocialActivity();
 		 Comment c = new Comment();//c.setCommentIdList(new ArrayList<>(25));
 	//	 s.setComment(c);
