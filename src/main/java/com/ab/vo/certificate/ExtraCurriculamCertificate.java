@@ -17,9 +17,9 @@ public class ExtraCurriculamCertificate extends Certificate {
 		return extraCurricularScore;
 	}
 
-	public Issuer getIssuer() {
+	/*public Issuer getIssuer() {
 		return extraCurriculamInstitute;
-	}
+	}*/
 
 	public MultipartFile getFile() {
 		return file;

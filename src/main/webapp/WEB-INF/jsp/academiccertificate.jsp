@@ -49,6 +49,11 @@
 										<form:errors path="certificateName" />
 									</div>
 									<div class="col-12 col-md-6">
+										<label class="col-form-label">Issuer</label>
+										<form:input path="issuer.issuerName" class="form-control"></form:input>
+										<form:errors path="issuer.issuerName" />
+									</div>
+									<div class="col-12 col-md-6">
 										<label class="col-form-label">Start Date</label>
 										<form:input path="issueDate" class="form-control datepicker"></form:input>
 										<form:errors path="issueDate" />
