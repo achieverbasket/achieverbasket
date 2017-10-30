@@ -6,6 +6,7 @@ import org.joda.time.DateTime;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ab.vo.activity.SocialActivity;
+import com.ab.vo.issuer.Issuer;
 import com.ab.vo.preference.PreferenceStatusType;
 
 public class Certificate implements Serializable{
@@ -24,6 +25,7 @@ public class Certificate implements Serializable{
 	private Long verifiedBy;
 	private DateTime verificationDate;
 	private SocialActivity socialActivity;
+	private Issuer issuer;
 
 	public Long getCertificateId() {
 		return certificateId;
@@ -132,4 +134,14 @@ public class Certificate implements Serializable{
 	public void setPreferenceStatusType(PreferenceStatusType preferenceStatusType) {
 		this.preferenceStatusType = preferenceStatusType;
 	}
+
+	public Issuer getIssuer() {
+		return issuer;
+	}
+
+	public void setIssuer(Issuer issuer) {
+		this.issuer = issuer;
+	}
+
+	
 }

@@ -146,8 +146,8 @@ public class CertificateController {
 	}
 	
 	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.GET)
-	public String academicCertificate(Model model) {
-		AcademicCertificate a = new AcademicCertificate();
+	public String academicCertificate(@ModelAttribute AcademicCertificate a,Model model) {
+		
 		model.addAttribute("form", a);
 		return ApplicationPageConstant.academiccertificate_page;
 	}
@@ -156,15 +156,15 @@ public class CertificateController {
 	public String createAcademicCertificate(@ModelAttribute AcademicCertificate form,  Model model) {
 		
 		// 
-		System.out.println("posting academic form"+form.getCertificateName()+form.getFile().getOriginalFilename());
+		System.out.println("posting academic form"+form.getCertificateName()+form.getFile().getOriginalFilename()
+				+form.getIssuer().getIssuerName());
 		AcademicCertificate a = new AcademicCertificate();
 		model.addAttribute("form", a);
 		return ApplicationPageConstant.academiccertificate_page;
 	}
 	
 	@RequestMapping(path="/certificate/professional" ,method=RequestMethod.GET)
-	public String ProfessionalCertificate(Model model) {
-		ProfessionalCertificate a = new ProfessionalCertificate();
+	public String ProfessionalCertificate(@ModelAttribute ProfessionalCertificate a,Model model) {
 		model.addAttribute("form", a);
 		return ApplicationPageConstant.professionalcertificate_page;
 	}
@@ -173,14 +173,14 @@ public class CertificateController {
 	public String createProfessionalCertificate(@ModelAttribute ProfessionalCertificate form,  Model model) {
 		
 		// 
-		System.out.println("posting professional form"+form.getCertificateName()+form.getFile().getOriginalFilename()+form.getOrganization().getOrganizationName());
+		System.out.println("posting professional form"+form.getCertificateName()+form.getFile().getOriginalFilename()
+				+form.getIssuer().getIssuerName()+form.getOrganization().getOrganizationName());
 		ProfessionalCertificate a = new ProfessionalCertificate();
 		model.addAttribute("form", a);
 		return ApplicationPageConstant.professionalcertificate_page;
 	}
 	@RequestMapping(path="/certificate/extracurriculam" ,method=RequestMethod.GET)
-	public String ExtraCurriculamCertificate(Model model) {
-		ExtraCurriculamCertificate a = new ExtraCurriculamCertificate();
+	public String ExtraCurriculamCertificate(@ModelAttribute ExtraCurriculamCertificate a,Model model) {
 		model.addAttribute("form", a);
 		return ApplicationPageConstant.extracurriculamcertificate_page;
 	}
@@ -189,7 +189,8 @@ public class CertificateController {
 	public String createExtraCurriculamCertificate(@ModelAttribute ExtraCurriculamCertificate form,  Model model) {
 		
 		// 
-		System.out.println("posting extracurriculam form"+form.getCertificateName()+form.getFile().getOriginalFilename()+form.getPreferenceStatusType());
+		System.out.println("posting extracurriculam form"+form.getIssuer().getIssuerName()
+				+form.getCertificateName()+form.getFile().getOriginalFilename()+form.getPreferenceStatusType());
 		ExtraCurriculamCertificate a = new ExtraCurriculamCertificate();
 		model.addAttribute("form", a);
 		return ApplicationPageConstant.extracurriculamcertificate_page;

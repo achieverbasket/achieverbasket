@@ -19,9 +19,9 @@ public class ProfessionalCertificate extends Certificate {
 		throw new UnsupportedOperationException("Scoring is not supported for Professional Certificates.");
 	}
 
-	public Issuer getIssuer() {
+	/*public Issuer getIssuer() {
 		return organization;
-	}
+	}*/
 	
 	
 	
