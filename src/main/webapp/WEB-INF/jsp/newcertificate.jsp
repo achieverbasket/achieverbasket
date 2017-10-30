@@ -39,7 +39,7 @@
 					<h5 class="mb-0">Academic Certificate Details</h5>
 				</div>
 				<div class="card-body">
-					<form:form id="user-certificate-det" modelAttribute="aform" action="upload" enctype="multipart/form-data">
+					<form:form id="user-academic-det" modelAttribute="aform" action="upload" enctype="multipart/form-data">
 						<div class="card mb-1">
 							<div class="card-body">
 								<div class="row">
@@ -85,7 +85,7 @@
 					<h5 class="mb-0">Professional Certificate Details</h5>
 				</div>
 				<div class="card-body">
-					<form:form id="user-certificate-det" modelAttribute="pform">
+					<form:form id="user-pro-det" modelAttribute="pform">
 						<div class="card mb-1">
 							<div class="card-body">
 								<div class="row">
@@ -128,7 +128,7 @@
 							<div class="card-body">
 								<input type="button" class="btn btn-sm btn-secondary"
 									onclick="javascript:history.go(-1)" value="Cancel"
-									name="Cancel"> <input type="submit"
+									name="Cancel"> <input type="button" id="save-prf-cert"
 									class="btn btn-sm btn-primary float-right" value="Save"
 									name="Save">
 							</div>
@@ -141,7 +141,7 @@
 					<h5 class="mb-0">Extra Curricular Certificate Details</h5>
 				</div>
 				<div class="card-body">
-					<form:form id="user-certificate-det" modelAttribute="eform">
+					<form:form id="user-extra-det" modelAttribute="eform">
 						<div class="card mb-1">
 							<div class="card-body">
 								<div class="row">
@@ -175,7 +175,7 @@
 							<div class="card-body">
 								<input type="button" class="btn btn-sm btn-secondary"
 									onclick="javascript:history.go(-1)" value="Cancel"
-									name="Cancel"> <input type="submit"
+									name="Cancel"> <input type="button" id="save-extra-cert"
 									class="btn btn-sm btn-primary float-right" value="Save"
 									name="Save">
 							</div>
@@ -212,5 +212,4 @@
 	</script>
 </body>
 </html>
-
 

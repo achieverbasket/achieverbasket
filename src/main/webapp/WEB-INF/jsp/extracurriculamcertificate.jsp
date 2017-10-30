@@ -17,9 +17,10 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <link rel="stylesheet" href="${context}/css/main.css">
-<link rel="stylesheet" href="${context}/css/custom.css"><link href="${context}/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="${context}/css/custom.css">
 <style type="text/css">
 </style>
+<link href="${context}/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
 
 </head>
 <body class="bd-home">
@@ -35,13 +36,14 @@
 			<h1 class="bd-title" id="content"></h1>
 			<div class="card mb-1 border-light">
 				<div class="card-header">
-					<h5 class="mb-0">Professional Certificate Details</h5>
+					<h5 class="mb-0">Extra Curricular Certificate Details</h5>
 				</div>
 				<div class="card-body">
-					<form:form id="user-certificate-det" modelAttribute="form" action="professional" method="POST" enctype="multipart/form-data" >
+					<form:form id="user-extra-det" modelAttribute="form" action="extracurriculam" method="POST" enctype="multipart/form-data">
 						<div class="card mb-1">
 							<div class="card-body">
 								<div class="row">
+									<div class="row">
 									<div class="col-12 col-md-6">
 										<label class="col-form-label">Certificate Name</label>
 										<form:input path="certificateName" class="form-control"></form:input>
@@ -58,25 +60,20 @@
 										<form:errors path="endDate" />
 									</div>
 									<div class="col-12 col-md-6">
-										<label class="col-form-label">Salary</label>
-										<form:input path="salary" class="form-control"></form:input>
-										<form:errors path="salary" />
-									</div>
-									<div class="col-12 col-md-6">
-										<label class="col-form-label">Organization Name</label>
-										<form:input path="organization.organizationName" class="form-control"></form:input>
-										<form:errors path="organization.organizationName" />
+										<label class="col-form-label">Privacy</label>
+										<form:input path="preferenceStatusType" class="form-control"></form:input>
+										<form:errors path="preferenceStatusType" />
 									</div>
 									<div class="col-12 col-md-6">
 										<label class="col-form-label">Upload</label>
-										<form:input type="file" path="file"></form:input><br/>
+										<form:input type="file" path="file" /><br/>
 									</div>
 								</div>
 							</div>
 							<div class="card-body">
 								<input type="button" class="btn btn-sm btn-secondary"
 									onclick="javascript:history.go(-1)" value="Cancel"
-									name="Cancel"> <input type="submit"
+									name="Cancel"> <input type="submit" id="save-extra-cert"
 									class="btn btn-sm btn-primary float-right" value="Save"
 									name="Save">
 							</div>
@@ -90,7 +87,9 @@
 
 
 	<%@include file="footer.jsp"%>
-
+	
+	
+	
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script
@@ -99,10 +98,16 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="${context}/js/bootstrap-datepicker.min.js">
+		</script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/0.11.1/typeahead.bundle.min.js"
-		type="text/javascript"></script><script type="text/javascript" src="${context}/js/bootstrap-datepicker.min.js">
-		</script>
+		type="text/javascript"></script>
 	<script src="${context}/js/form.js" type="text/javascript"></script>
+	
+	<script>
+	
+	</script>
 </body>
 </html>
+
