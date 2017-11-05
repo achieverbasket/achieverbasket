@@ -13,7 +13,8 @@ public final class ApplicationPageConstant {
 	public static final String login_page = "/login";
 	public static final String twowayauth_page = "/twowayauth";
 	
-	public static final String userdashboard_page = "/userdashboard";
+	public static final String candidate_dashboard_page = "/candidatedashboard";
+	public static final String issuer_dashboard_page = "/issuerdashboard";
 	
 	public static final String newusereducationdet_page = "/newusereducationdet";
 	public static final String newuserprofessiondet_page = "/newuserprofessiondet";
