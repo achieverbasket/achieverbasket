@@ -26,6 +26,7 @@ public class Certificate implements Serializable{
 	private DateTime verificationDate;
 	private SocialActivity socialActivity;
 	private Issuer issuer;
+	private MultipartFile certificateFile;
 
 	public Long getCertificateId() {
 		return certificateId;
@@ -141,6 +142,14 @@ public class Certificate implements Serializable{
 
 	public void setIssuer(Issuer issuer) {
 		this.issuer = issuer;
+	}
+
+	public MultipartFile getCertificateFile() {
+		return certificateFile;
+	}
+
+	public void setCertificateFile(MultipartFile certificateFile) {
+		this.certificateFile = certificateFile;
 	}
 
 	
