@@ -1,8 +1,6 @@
 package com.ab.type;
 
 public enum CandidateType {
-	
-
 	CANDIDATE(1),
 	OTHER(2);
 	

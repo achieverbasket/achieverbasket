@@ -8,6 +8,8 @@ import com.ab.spring.dao.LoginDao;
 import com.ab.spring.dao.SocialActivityDao;
 import com.ab.spring.service.LoginService;
 import com.ab.vo.User;
+import com.ab.vo.candidate.Candidate;
+import com.ab.vo.issuer.Issuer;
 import com.ab.vo.login.Login;
 import com.ab.vo.login.Registration;
 
@@ -33,10 +35,16 @@ public class LoginServiceImpl implements LoginService{
 
 
 	@Override
-	public User getUserDetails(User form) throws Exception {
-		return loginDaoImpl.getUser(form.getUserId());
+	public Candidate getCandidateDetail(User form) throws Exception {
+		return loginDaoImpl.getCandidate(form.getUserId());
 	}
 
+
+	@Override
+	public Issuer getIssuerDetail(User form) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public TwoTuple<Boolean, String> registerNewUser(Registration registrationForm){
@@ -55,5 +63,4 @@ public class LoginServiceImpl implements LoginService{
 		user.setUserType(registration.getUserType());
 		return user;
 	}
-
 }

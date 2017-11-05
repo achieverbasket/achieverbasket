@@ -11,7 +11,7 @@
 	<div class="card-body">
 		<form:form id="user-profession-det" modelAttribute="userDetailObjform">
 
-			<c:forEach items="${userDetailObjform.candidate.candidateCertificateList}"
+			<c:forEach items="${candidateObjform.candidateCertificateList}"
 				var="userProfessionForm" varStatus="status">
 				<div class="card mb-1">
 					<div class="card-body">

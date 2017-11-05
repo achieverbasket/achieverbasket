@@ -19,11 +19,11 @@
 				
 				<div class="col-12 col-md-6">
 					<label class="col-form-label">Gender</label> <label
-						class="col-form-label">${userDetailObjform.candidate.candidatePersonalDetail.gender}</label>
+						class="col-form-label">${candidateObjform.candidatePersonalDetail.gender}</label>
 				</div>
 				<div class="col-12 col-md-6">
 					<label class="col-form-label">Date of Birth</label> <label
-						class="col-form-label">${userDetailObjform.candidate.candidatePersonalDetail.dateOfBirth}</label>
+						class="col-form-label">${candidateObjform.candidatePersonalDetail.dateOfBirth}</label>
 				</div>
 				<div class="col-12 col-md-6">
 					<label class="col-form-label">Mobile No</label> <label
