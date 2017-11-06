@@ -1,14 +1,18 @@
 package com.ab.spring.dao.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ab.spring.dao.CertificateDao;
 import com.ab.spring.dao.CertificateTemplateDao;
@@ -32,6 +36,8 @@ public class CertificateDaoImpl implements CertificateDao{
 	@Autowired 
 	private SocialActivityDao socialActivityDao;
 	
+	private String certifcateLocation ="C:/Users/Sara/Google Drive/DigitalResume/certificates/candidates";
+	
 	@Override
 	public Certificate saveCertificate(Certificate certificate) {
 		String sql = "INSERT INTO CERTIFICATE (CERTIFICATE_ID, CERTIFICATE_NAME, CANDIDATE_ID, ISSUE_DATE, END_DATE, CERTIFICATE_TEMPLATE_ID, FILE_PATH, VERIFICATION_STATUS, "
@@ -54,8 +60,34 @@ public class CertificateDaoImpl implements CertificateDao{
 				socialActivity.getSocialActivityId());
 		certificate.setCertificateId(certificateId);
 		certificate.setSocialActivity(socialActivity);
+		
+		saveCertificateInFile(certificate.getCandidateId(), certificate.getCertificateId(), certificate.getCertificateFile());
+		
 		return certificate;
 	}
+	
+	private String saveCertificateInFile(Long candidateId, Long certificateId, MultipartFile certificateFile)
+	{
+		String filePath = certifcateLocation+"/"+candidateId+"/"+certificateId;
+		File certificateFilePath = new File(filePath);
+		try
+		{
+			if(!certificateFilePath.exists())
+			{
+				certificateFilePath.mkdirs();
+			}
+			
+			System.out.println("filePath: "+filePath);
+			certificateFile.transferTo(certificateFilePath);
+			//FileUtils.copyFileToDirectory(certificateFile, certificateFilePath);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return filePath;
+	}
+	
 
 	@Override
 	public void updateCertificate(Certificate certificate) {
