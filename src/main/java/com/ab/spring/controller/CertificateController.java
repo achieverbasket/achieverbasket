@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.spring.form.UserCertificate;
+import com.ab.spring.service.CertificateService;
+import com.ab.spring.service.LoginService;
 import com.ab.type.ProfileType;
 import com.ab.type.StatusType;
 import com.ab.type.UserType;
@@ -48,6 +51,9 @@ import com.sendgrid.Personalization;
 // 
 @Controller
 public class CertificateController {
+	
+	@Autowired
+	CertificateService certificateServiceImpl;
 	
 	@ResponseBody
 	@RequestMapping(path="/certificates/user/{id}" ,method=RequestMethod.GET)
@@ -193,6 +199,7 @@ public class CertificateController {
 				+form.getCertificateName()+form.getFile().getOriginalFilename()+form.getPreferenceStatusType());
 		ExtraCurriculamCertificate a = new ExtraCurriculamCertificate();
 		model.addAttribute("form", a);
+		
 		return ApplicationPageConstant.extracurriculamcertificate_page;
 	}
 	
@@ -208,44 +215,42 @@ public class CertificateController {
 		model.addAttribute("eform", e);
 		return ApplicationPageConstant.newcertificate_page;
 	}
+	
 	@ResponseBody
 	@RequestMapping(path="/certificate/upload" ,method=RequestMethod.POST,consumes = {"multipart/form-data"})
 	public String uploadertificate(@RequestPart(value = "file", required = false) MultipartFile file,
 		@RequestParam(value="dataparam") String aform , @RequestParam(value="type") String type) {
-		System.out.println(file.getOriginalFilename());
-		
+		System.out.println("file path: "+file.getOriginalFilename());
+		Certificate certificate=null;
 		// based on type do the conversion
 		
 		if(null != type && type.equalsIgnoreCase("save-acd-cert")){
-			AcademicCertificate map;
 			try {
-				map = new ObjectMapper().readValue(aform,     AcademicCertificate.class);
-				System.out.println("academic certifiacate "+map.getCertificateName()+map.getIssueDate()+map.getEndDate()+map.getPreferenceStatusType());
+				certificate = new ObjectMapper().readValue(aform,     AcademicCertificate.class);
+				System.out.println("academic certifiacate "+certificate.getCertificateName()+certificate.getIssueDate()+certificate.getEndDate()+certificate.getPreferenceStatusType());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else if(null != type && type.equalsIgnoreCase("save-prf-cert")){
-			ProfessionalCertificate map;
 			try {
-				map = new ObjectMapper().readValue(aform,     ProfessionalCertificate.class);
-				System.out.println("professional certifiacate "+map.getCertificateName()+map.getIssueDate()+map.getEndDate()+map.getPreferenceStatusType()+map.getSalary()+map.getOrganization().getOrganizationName());
+				certificate = new ObjectMapper().readValue(aform,     ProfessionalCertificate.class);
+				System.out.println("ProfessionalCertificate "+certificate.getCertificateName()+certificate.getIssueDate()+certificate.getEndDate()+certificate.getPreferenceStatusType());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else if(null != type && type.equalsIgnoreCase("save-extra-cert")){
-			ExtraCurriculamCertificate map;
 			try {
-				map = new ObjectMapper().readValue(aform,     ExtraCurriculamCertificate.class);
-				System.out.println("extra certifiacate "+map.getCertificateName()+map.getIssueDate()+map.getEndDate()+map.getPreferenceStatusType());
+				certificate = new ObjectMapper().readValue(aform,     ExtraCurriculamCertificate.class);
+				System.out.println("ExtraCurriculam certifiacate "+certificate.getCertificateName()+certificate.getIssueDate()+certificate.getEndDate()+certificate.getPreferenceStatusType());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
-		
+	   certificateServiceImpl.saveCertificate(certificate);
 		
 		return "true";
 		
