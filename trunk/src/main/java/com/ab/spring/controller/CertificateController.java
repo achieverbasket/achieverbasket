@@ -161,11 +161,16 @@ public class CertificateController {
 	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.POST)
 	public String createAcademicCertificate(@ModelAttribute AcademicCertificate form,  Model model) {
 		
-		// 
-		System.out.println("posting academic form"+form.getCertificateName()+form.getFile().getOriginalFilename()
-				+form.getIssuer().getIssuerName());
+		//
+		System.out.println("posting academic form"+" file: "+form.getCertificateFile().getOriginalFilename());
+		System.out.println("posting academic form"+" filename: "+form.getCertificateFile().getOriginalFilename());
+		System.out.println("posting academic form"+" filesize: "+form.getCertificateFile().getSize());
+
+//		System.out.println("posting academic form"+form.getCertificateName()+" filename: "+form.getFile().getOriginalFilename()
+//				+form.getIssuer().getIssuerName()+"file size:"+form.getCertificateFile().getSize());
 		AcademicCertificate a = new AcademicCertificate();
 		model.addAttribute("form", a);
+		certificateServiceImpl.saveCertificate(form);
 		return ApplicationPageConstant.academiccertificate_page;
 	}
 	
