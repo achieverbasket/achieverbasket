@@ -70,7 +70,7 @@
 									</div>
 									<div class="col-12 col-md-6">
 										<label class="col-form-label">Upload</label>
-										<form:input type="file" path="file"></form:input><br/>
+										<form:input type="file" path="certificateFile"></form:input><br/>
 									</div>
 								</div>
 							</div>

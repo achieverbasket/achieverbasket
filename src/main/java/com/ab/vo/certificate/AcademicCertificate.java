@@ -12,7 +12,7 @@ public class AcademicCertificate extends Certificate {
 	private static final long serialVersionUID = 4869037164698035618L;
 	private AcademicScore academicScore;
 	private AcademicInstitute academicInstitute;
-	private MultipartFile file;
+//	private MultipartFile file;
 
 
 	public Score getScore() {
@@ -31,11 +31,11 @@ public class AcademicCertificate extends Certificate {
 		this.academicInstitute = academicInstitute;
 	}
 
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}
+//	public MultipartFile getFile() {
+//		return file;
+//	}
+//
+//	public void setFile(MultipartFile file) {
+//		this.file = file;
+//	}
 }
