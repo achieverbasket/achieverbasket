@@ -71,15 +71,15 @@ public class LoginDaoImpl implements LoginDao{
 
 	@Override
 	public Candidate getCandidate(Long userId) {
-		String candidateSql = "SELECT CANDIDATE_ID FROM CANDIDATE_USER_MAPPING WHERE LOGIN_ID=?";
-		Long candidateId = jdbcTemplate.query(candidateSql, new Object[]{userId}, (ResultSetExtractor<Long>) rs1 -> rs1.getLong("CANDIDATE_ID"));
+		String candidateSql = "SELECT CANDIDATE_ID FROM CANDIDATE_USER_MAPPING WHERE USER_ID=?";
+		Long candidateId = jdbcTemplate.query(candidateSql, new Object[]{userId}, (ResultSetExtractor<Long>) rs1 -> { rs1.next(); return rs1.getLong("CANDIDATE_ID");});
 		return candidateDao.getCandidate(candidateId);
 	}
 
 	@Override
 	public Issuer getIssuer(Long userId) {
-		String issuerSql = "SELECT ISSUER_ID FROM ISSUER_USER_MAPPING WHERE LOGIN_ID=?";
-		Long issuerId = jdbcTemplate.query(issuerSql, new Object[]{userId}, (ResultSetExtractor<Long>) rs1 -> rs1.getLong("ISSUER_ID"));
+		String issuerSql = "SELECT ISSUER_ID FROM ISSUER_USER_MAPPING WHERE USER_ID=?";
+		Long issuerId = jdbcTemplate.query(issuerSql, new Object[]{userId}, (ResultSetExtractor<Long>) rs1 -> {rs1.next(); return rs1.getLong("ISSUER_ID");});
 		return issuerDao.getIssuer(issuerId);
 	}
 
