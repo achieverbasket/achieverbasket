@@ -62,4 +62,28 @@ public class LocationDaoImpl implements LocationDao {
 														return new City(rs.getLong("ID"), rs.getString("NAME"), getStateBy(rs.getLong("STATE_ID")));
 														}));
 	}
+
+	@Override
+	public List<Country> countryAutoComplete(String data) {
+		String sql = "SELECT ID, COUNTRY_CODE, NAME, PHONE_CODE FROM COUNTRIES where lower(name) like lower(?) ";
+		return jdbcTemplate.query
+				(sql,new Object[] { data+"%" }, (ResultSet rs, int arg1) -> new Country(rs.getLong("ID"), rs.getString("NAME"), rs.getString("COUNTRY_CODE"), rs.getInt("PHONE_CODE")));
+	
+	}
+	
+	@Override
+	public List<State> stateAutoComplete(String data) {
+		String sql = "SELECT ID, NAME  FROM STATES where lower(name) like lower(?) ";
+		return jdbcTemplate.query
+				(sql,new Object[] { data+"%" }, (ResultSet rs, int arg1) -> new State(rs.getLong("ID"), rs.getString("NAME")));
+	
+	}
+	
+	@Override
+	public List<City> cityAutoComplete(String data) {
+		String sql = "SELECT ID, NAME FROM CITIES where lower(name) like lower(?) ";
+		return jdbcTemplate.query
+				(sql,new Object[] { data+"%" }, (ResultSet rs, int arg1) -> new City(rs.getLong("ID"), rs.getString("NAME")));
+	
+	}
 }

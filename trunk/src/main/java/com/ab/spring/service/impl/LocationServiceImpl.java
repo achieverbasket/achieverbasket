@@ -47,4 +47,19 @@ public class LocationServiceImpl implements LocationService {
 		return locationDao.getCityBy(city_id);
 	}
 
+	@Override
+	public List<Country> countryAutoComplete(String data) {
+		return locationDao.countryAutoComplete(data);
+	}
+	
+	@Override
+	public List<State> stateAutoComplete(String data) {
+		return locationDao.stateAutoComplete(data);
+	}
+	
+	@Override
+	public List<City> cityAutoComplete(String data) {
+		return locationDao.cityAutoComplete(data);
+	}
+
 }

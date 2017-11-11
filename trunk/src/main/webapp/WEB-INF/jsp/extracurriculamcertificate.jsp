@@ -29,10 +29,10 @@
 
 	<!-- left panel -->
 
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row flex-xl-nowrap">
-			<%@include file="leftnav.jsp"%>
-			<main class="col-12 col-md-9 col-xl-8  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
+			
+			<main class="col-12 col-md-10  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
 			<h1 class="bd-title" id="content"></h1>
 			<div class="card mb-1 border-light">
 				<div class="card-header">
@@ -71,7 +71,7 @@
 									</div>
 									<div class="col-12 col-md-6">
 										<label class="col-form-label">Upload</label>
-										<form:input type="file" path="file" /><br/>
+										<form:input type="file" path="certificateFile" /><br/>
 									</div>
 								</div>
 							</div>

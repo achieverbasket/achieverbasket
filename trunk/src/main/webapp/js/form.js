@@ -9,12 +9,8 @@ $(document).ready(function() {
 		autoclose: true,todayHighlight: true,todayBtn:'linked'
 	});
 	$("input[type=button]").click(function(e) {
-		//alert($(this).parents('form:first').offset().top + 'left' +$(this).parents('form:first').offset().left);
-		
-		// get the form height and width and mark that with processing image
 		if($(this).parents('form:first').attr('id') == 'user-personal-det'){
 			
-			//overlay image
 			displayOverlay('#processing-div',$(this).parents('form:first'),'show');
 			
 			$.ajax({
@@ -22,20 +18,16 @@ $(document).ready(function() {
 			    data:$(this).parents('form:first').serialize(),
 			    url:"save/personaldet",
 			    success: function(e){
-			       // overlay image
 			    	displayOverlay('#processing-div',$(this).parents('form:first'),'hide');
 			    	alert("success"+e);
 			    },failure: function(e){
-			    	// overlay image
 			    	displayOverlay('#processing-div',$(this).parents('form:first'),'hide');
 			    	alert("error"+e);
 			    }
 			});
 			
 		}
-		//alert($(this).attr('id'));
 		if($(this).attr('id') == 'save-acd-cert' || $(this).attr('id') == 'save-prf-cert' || $(this).attr('id') == 'save-extra-cert'){
-			//alert('uploading data');
 			e.preventDefault();
 			var formData = new FormData();
 		    
@@ -52,7 +44,6 @@ $(document).ready(function() {
 		            }));
 		    }else if($(this).attr('id') == 'save-prf-cert'){
 		    	formData.append('file', $('#user-pro-det input[type=file]')[0].files[0]);
-		    	alert('organization value --'+$(document.getElementById('organization.organizationName')).val());
 		    	formData.append('dataparam', JSON.stringify({
 		    		 	"certificateName": $('#user-pro-det #certificateName').val(),
 		                "issueDate": $('#user-pro-det #issueDate').val() ,
@@ -77,9 +68,6 @@ $(document).ready(function() {
 		            }));
 		    }
 		   
-		    
-		    
-		    
 			$.ajax({
 	            type: "POST",
 	            enctype: 'multipart/form-data',
@@ -95,7 +83,6 @@ $(document).ready(function() {
 	            },
 	            error: function (xhr, ajaxOptions, thrownError) {
 	                if (xhr.readyState == 0 || xhr.status == 0) {
-	                    // not really an error
 	                    return;
 	                } else {
 	                    alert("XHR Status = "+xhr.status);
@@ -104,9 +91,7 @@ $(document).ready(function() {
 	                }
 	          }
 	        });
-			
 		}
-		
 	});
 	
 	function displayOverlay(div,form,action){
@@ -145,28 +130,128 @@ $(document).ready(function() {
     });
     
     $('.card a[data-toggle="collapse"]').on('show.bs.collapse',function (e) {
-    	//alert('set accordian' + $(e).attr('aria-labelledby')+'----------'+$(e.target).attr('href'));
-    	//alert(JSON.stringify($(e)));
     	localStorage.setItem('activeAccord',$(e.target).attr('href'));
     	})
     
     var activeTab = localStorage.getItem('activeTab');
     var activeAccord = localStorage.getItem('activeAccord');
 
-
     if(activeTab){
         $('.card-header-tabs a[href="' + activeTab + '"]').tab('show');
     }
     if(activeAccord){
-    	//alert('activeAccord....'+activeAccord);
     	$('.collapse a[href="' + activeAccord + '"]').collapse('show');
     }
 	
+    var searchCLucene = new Bloodhound({
+	    datumTokenizer: function (datum) {
+	        return Bloodhound.tokenizers.whitespace(datum.value);
+	    },
+	    queryTokenizer: Bloodhound.tokenizers.whitespace,
+	    remote: {
+	    	wildcard: '%QUERY',
+	        url: '../country?query=%QUERY',
+	        replace: function(url, uriEncodedQuery) {
+	            val = $('#selectdd option:selected').val();
+	            return url.replace("%QUERY",uriEncodedQuery)
+	          },
+	        cache: false,
+	        filter: function (obj) {
+	        	return $.each( obj, function( key, value ) {
+	        		return {
+	                    value: value.name
+	                };
+	        	});
+	        }
+	    },
+	    limit:100
+	});
+    
+    var searchCityLucene = new Bloodhound({
+	    datumTokenizer: function (datum) {
+	        return Bloodhound.tokenizers.whitespace(datum.value);
+	    },
+	    queryTokenizer: Bloodhound.tokenizers.whitespace,
+	    remote: {
+	    	wildcard: '%QUERY',
+	        url: '../city?query=%QUERY',
+	        replace: function(url, uriEncodedQuery) {
+	            val = $('#selectdd option:selected').val();
+	            return url.replace("%QUERY",uriEncodedQuery)
+	          },
+	        cache: false,
+	        filter: function (obj) {
+	        	return $.each( obj, function( key, value ) {
+	        		return {
+	                    value: value.name
+	                };
+	        	});
+	        }
+	    },
+	    limit:100
+	});
+    var searchSLucene = new Bloodhound({
+	    datumTokenizer: function (datum) {
+	        return Bloodhound.tokenizers.whitespace(datum.value);
+	    },
+	    queryTokenizer: Bloodhound.tokenizers.whitespace,
+	    remote: {
+	    	wildcard: '%QUERY',
+	        url: '../state?query=%QUERY',
+	        replace: function(url, uriEncodedQuery) {
+	            val = $('#selectdd option:selected').val();
+	            return url.replace("%QUERY",uriEncodedQuery)
+	          },
+	        cache: false,
+	        filter: function (obj) {
+	        	return $.each( obj, function( key, value ) {
+	        		return {
+	                    value: value.name
+	                };
+	        	});
+	        }
+	    },
+	    limit:100
+	});
+    
+	searchCLucene.initialize();searchSLucene.initialize();searchCityLucene.initialize();
 	
-
-
-
-
+		$('#'+$.escapeSelector('country.name')).typeahead({hint: true,
+			  highlight: true,
+			  minLength: 3}, {
+			display : function(item){ return item.name},
+			source : searchCLucene.ttAdapter(),
+			templates: {
+		        empty: [
+		            '<div class="empty-message"> Cannot find.</div>'
+		        ]   
+		    }
+		});
+		$('#'+$.escapeSelector('state.name')).typeahead({hint: true,
+			  highlight: true,
+			  minLength: 3}, {
+			display : function(item){ return item.name},
+			source : searchSLucene.ttAdapter(),
+			templates: {
+		        empty: [
+		            '<div class="empty-message"> Cannot find.</div>'
+		        ]   
+		    }
+		});
+		$('#'+$.escapeSelector('city.name')).typeahead({hint: true,
+			  highlight: true,
+			  minLength: 3}, {
+			display : function(item){ return item.name},
+			source : searchCityLucene.ttAdapter(),
+			templates: {
+		        empty: [
+		            '<div class="empty-message"> Cannot find.</div>'
+		        ]   
+		    }
+		});
+		$('#'+$.escapeSelector('city.name')).on('typeahead:selected', function (e, datum) {
+			$('#'+$.escapeSelector('city.name')).val(datum.name);
+		});	
 
 
 

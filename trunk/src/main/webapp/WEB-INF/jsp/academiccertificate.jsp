@@ -29,59 +29,80 @@
 
 	<!-- left panel -->
 
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row flex-xl-nowrap">
-			<%@include file="leftnav.jsp"%>
-			<main class="col-12 col-md-9 col-xl-8  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
+			
+			<main class="col-12 col-md-10  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
 			<h1 class="bd-title" id="content"></h1>
 			<div class="card mb-1 border-light">
 				<div class="card-header">
 					<h5 class="mb-0">Academic Certificate Details</h5>
 				</div>
 				<div class="card-body">
-					<form:form id="user-academic-det" modelAttribute="form" action="academic" enctype="multipart/form-data">
+					<form:form id="user-academic-det" modelAttribute="form" action="academic" method="POST" enctype="multipart/form-data"  >
+					
 						<div class="card mb-1">
 							<div class="card-body">
 								<div class="row">
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-5">
 										<label class="col-form-label">Certificate Name</label>
 										<form:input path="certificateName" class="form-control"></form:input>
 										<form:errors path="certificateName" />
 									</div>
-									<div class="col-12 col-md-6">
-										<label class="col-form-label">Issuer</label>
-										<form:input path="issuer.issuerName" class="form-control"></form:input>
-										<form:errors path="issuer.issuerName" />
-									</div>
-									<div class="col-12 col-md-6">
+									
+									<div class="col-12 col-md-3">
 										<label class="col-form-label">Start Date</label>
 										<form:input path="issueDate" class="form-control datepicker"></form:input>
 										<form:errors path="issueDate" />
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-3">
 										<label class="col-form-label">End Date</label>
 										<form:input path="endDate" class="form-control datepicker"></form:input>
 										<form:errors path="endDate" />
 									</div>
-									<div class="col-12 col-md-6">
-										<label class="col-form-label">Privacy</label>
-										<form:input path="preferenceStatusType" class="form-control"></form:input>
-										<form:errors path="preferenceStatusType" />
+									
+									<div class="col-12 col-md-5">
+										<label class="col-form-label">Certificate Issuer</label>
+										<form:input path="issuer.issuerName" class="form-control"></form:input>
+										<form:errors path="issuer.issuerName" />
 									</div>
-									<div class="col-12 col-md-6">
+									 <div class="col-12 col-md-2">
+										<label class="col-form-label">Issuer Country</label>
+										<form:input path="country.name" class="typeahead form-control"></form:input>
+										<form:errors path="country.name" />
+									</div>
+									 <div class="col-12 col-md-2">
+										<label class="col-form-label">Issuer State</label>
+										<form:input path="state.name" class="typeahead form-control"></form:input>
+										<form:errors path="state.name" />
+									</div>
+									<div class="col-12 col-md-2">
+										<label class="col-form-label">Issuer City</label>
+										<form:input path="city.name" class="typeahead form-control"></form:input>
+										<form:errors path="city.name" />
+									</div> 
+									<div class="col-12 col-md-5">
 										<label class="col-form-label">Upload</label>
-										<form:input type="file" path="certificateFile"></form:input><br/>
+										<form:input class="form-control" type="file" path="certificateFile"></form:input><br/>
+									</div>
+									<div class="col-12 col-md-3">
+										<label class="col-form-label">Privacy Mode</label>
+										<form:select path="preferenceStatusType" class="form-control">
+											<form:options items="${preftype}"  />
+										</form:select>
+										<form:errors path="preferenceStatusType" />
 									</div>
 								</div>
 							</div>
 							<div class="card-body">
-								<input type="button" class="btn btn-sm btn-secondary" onclick="javascript:history.go(-1)" value="Cancel" name="Cancel"> <input type="submit"
-									class="btn btn-sm btn-primary float-right" value="Save" id="save-acd-cert" name="Save">
+								 <input type="submit" class="btn btn-sm btn-primary float-right ml-1" value="Save" id="save-acd-cert" name="Save">
+								 <input type="button" class="btn btn-sm btn-secondary float-right" onclick="javascript:history.go(-1)" value="Cancel" name="Cancel">
 							</div>
 						</div>
 					</form:form>
 				</div>
 			</div>
+			<%@ include file="certificateworkflow.jsp" %>
 			</main>
 		</div>
 	</div>

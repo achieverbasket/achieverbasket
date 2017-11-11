@@ -2,19 +2,16 @@ package com.ab.spring.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,25 +20,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ab.constant.config.ApplicationPageConstant;
-import com.ab.spring.form.UserCertificate;
 import com.ab.spring.service.CertificateService;
-import com.ab.spring.service.LoginService;
-import com.ab.type.ProfileType;
-import com.ab.type.StatusType;
-import com.ab.type.UserType;
 import com.ab.vo.activity.Comment;
 import com.ab.vo.activity.Like;
 import com.ab.vo.activity.SocialActivity;
 import com.ab.vo.candidate.Candidate;
 import com.ab.vo.certificate.AcademicCertificate;
 import com.ab.vo.certificate.Certificate;
+import com.ab.vo.certificate.CertificateType;
 import com.ab.vo.certificate.ExtraCurriculamCertificate;
 import com.ab.vo.certificate.ProfessionalCertificate;
-import com.ab.vo.issuer.institute.AcademicInstitute;
 import com.ab.vo.issuer.organization.Organization;
-import com.ab.vo.preference.CertificatePreference;
+import com.ab.vo.preference.PreferenceStatusType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sendgrid.Personalization;
 
 //
 ///**
@@ -153,21 +144,19 @@ public class CertificateController {
 	
 	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.GET)
 	public String academicCertificate(@ModelAttribute AcademicCertificate a,Model model) {
-		
+		a.setPreferenceStatusType(PreferenceStatusType.PUBLIC);
 		model.addAttribute("form", a);
+		model.addAttribute("preftype", PreferenceStatusType.values());
 		return ApplicationPageConstant.academiccertificate_page;
 	}
 	
 	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.POST)
 	public String createAcademicCertificate(@ModelAttribute AcademicCertificate form,  Model model) {
 		
-		//
 		System.out.println("posting academic form"+" file: "+form.getCertificateFile().getOriginalFilename());
 		System.out.println("posting academic form"+" filename: "+form.getCertificateFile().getOriginalFilename());
 		System.out.println("posting academic form"+" filesize: "+form.getCertificateFile().getSize());
 
-//		System.out.println("posting academic form"+form.getCertificateName()+" filename: "+form.getFile().getOriginalFilename()
-//				+form.getIssuer().getIssuerName()+"file size:"+form.getCertificateFile().getSize());
 		AcademicCertificate a = new AcademicCertificate();
 		model.addAttribute("form", a);
 		certificateServiceImpl.saveCertificate(form);
@@ -184,7 +173,7 @@ public class CertificateController {
 	public String createProfessionalCertificate(@ModelAttribute ProfessionalCertificate form,  Model model) {
 		
 		// 
-		System.out.println("posting professional form"+form.getCertificateName()+form.getFile().getOriginalFilename()
+		System.out.println("posting professional form"+form.getCertificateName()+form.getCertificateFile().getOriginalFilename()
 				+form.getIssuer().getIssuerName()+form.getOrganization().getOrganizationName());
 		ProfessionalCertificate a = new ProfessionalCertificate();
 		model.addAttribute("form", a);
@@ -201,12 +190,24 @@ public class CertificateController {
 		
 		// 
 		System.out.println("posting extracurriculam form"+form.getIssuer().getIssuerName()
-				+form.getCertificateName()+form.getFile().getOriginalFilename()+form.getPreferenceStatusType());
+				+form.getCertificateName()+form.getCertificateFile().getOriginalFilename()+form.getPreferenceStatusType());
 		ExtraCurriculamCertificate a = new ExtraCurriculamCertificate();
 		model.addAttribute("form", a);
 		
 		return ApplicationPageConstant.extracurriculamcertificate_page;
 	}
+	
+	
+	@RequestMapping(path="/certificate" ,method=RequestMethod.GET)
+	public String getCertificatePage(Model model) {
+		Certificate obj = new Certificate(); 
+		
+		model.addAttribute("form", obj);
+		model.addAttribute("type", CertificateType.values());
+		return ApplicationPageConstant.certificate_page;
+	}
+	
+	
 	
 	@RequestMapping(path="/certificate/new" ,method=RequestMethod.GET)
 	public String createNewCertificate(Model model) {

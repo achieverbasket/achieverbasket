@@ -1,10 +1,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <c:set var="context" value="<%=request.getContextPath()%>" />
 <div class="row">
 	<div class="col-12 col-md-4 col-xl-3">
 			<div class="card text-center bg-success" >
-				<img class="rounded-circle mx-auto d-block mt-1" width="100" height="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Sun_poster.svg/500px-Sun_poster.svg.png" alt="Card image cap">
+				<img class="rounded-circle mx-auto d-block mt-1" width="100" height="100" id="image" style="max-width: 100%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Sun_poster.svg/500px-Sun_poster.svg.png" alt="Card image cap">
 				<div class="card-body">
 					<h5 class="card-title text-white">Swapnil Singhai</h5>
 				</div>
@@ -14,8 +15,11 @@
 					<li class="list-group-item">Mumbai, India</li>
 				</ul>
 			</div>
-		</div>
+	</div>
 	<div class="col-12 col-md-8 col-xl-9 mt-1 mt-md-0">
+		<jsp:include page="activities.jsp"></jsp:include>
+	</div>	
+	<<%-- div class="col-12 col-md-8 col-xl-9 mt-1 mt-md-0">
 		<div class="card">
 			<div class="card-header text-center" style="background-color: #fff">
 				<ul class="nav nav-tabs card-header-tabs">
@@ -57,12 +61,11 @@
 						  <div class="tab-pane fade" id="link" role="tabpanel" aria-labelledby="dropdown1-tab">
 								<%@ include file="testuserpersonaldet.jsp" %>
 								<%@ include file="testcertificatelist.jsp" %>
-								<!-- second  -->
-<%-- 								<%@ include file="usereducationdet.jsp"%>
-								<%@ include file="userprofessiondet.jsp"%>\
- --%>					</div>
+					</div>
 					</div>
 			</div>
 		</div>
-	</div>
+	</div> --%>
 </div>	
+<script>
+</script>
