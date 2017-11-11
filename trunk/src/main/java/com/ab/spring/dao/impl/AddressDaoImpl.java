@@ -34,6 +34,9 @@ public class AddressDaoImpl implements AddressDao {
 
 	@Override
 	public Address getAddress(Long addressId) {
+		System.out.println("addressId: " +  addressId);
+		if(addressId == 0 )
+			return null;
 		String sql = "SELECT ADDRESS_ID, ADDRESS_LINE_1, ADDRESS_LINE_2, LANDMARK, CITY, STATE, COUNTRY, ZIPCODE, PHONE, SECONDARY_PHONE, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ADDRESS WHERE ADDRESS_ID=?";
 		return jdbcTemplate.query(sql, new Object[] {addressId}, (ResultSetExtractor<Address>) rs -> {
 				rs.next();

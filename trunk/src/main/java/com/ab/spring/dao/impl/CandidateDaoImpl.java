@@ -38,11 +38,13 @@ public class CandidateDaoImpl implements CandidateDao {
 		Long candidateId = sequenceDao.getNextVal("CANDIDATE_SEQ");
 		
 		SocialActivity socialActivity = socialActivityDao.saveSocialActivity(new SocialActivity(SocialActivityType.PROFILE));
-
 		jdbcTemplate.update(sql, candidateId, candidate.getCandidateName(), candidate.getCandidateType().getCandidateTypeId(), socialActivity.getSocialActivityId());
 		
 		candidate.setCandidateId(candidateId);
 		candidate.setSocialActivity(socialActivity);
+		candidate.getCandidatePersonalDetail().setCandidateId(candidateId);
+		
+		candidatePersonalDetailDao.saveCandidatePersonalDetail(candidate.getCandidatePersonalDetail());
 		return candidate;
 	}
 

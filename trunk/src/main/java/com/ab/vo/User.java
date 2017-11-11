@@ -1,8 +1,6 @@
 package com.ab.vo;
 
 import com.ab.type.UserType;
-import com.ab.vo.candidate.Candidate;
-import com.ab.vo.issuer.Issuer;
 
 public class User{
 	private Long userId;
@@ -16,8 +14,6 @@ public class User{
 	private String hintA;
 	private boolean enabled=false;
 	private UserType userType;
-//	private Candidate candidate; //optional.. If UserType = UserType.CANDIDATE, this will be populated.
-//	private Issuer issuer; //optional.. If UserType = UserType.ISSUER, this will be populated.
 
 	public Long getUserId() {
 		return userId;
@@ -106,20 +102,4 @@ public class User{
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
-
-//	public Candidate getCandidate() {
-//		return candidate;
-//	}
-//
-//	public void setCandidate(Candidate candidate) {
-//		this.candidate = candidate;
-//	}
-//
-//	public Issuer getIssuer() {
-//		return issuer;
-//	}
-//
-//	public void setIssuer(Issuer issuer) {
-//		this.issuer = issuer;
-//	}
 }
