@@ -1,10 +1,17 @@
 package com.ab.vo;
 
 public class Country {
-	private final long id;
-	private final String name;
-	private final String countryCode;
-	private final int phoneCode;
+	
+	
+	public Country() {
+		super();
+	}
+
+	private  long id;
+	private  String name;
+	private  String countryCode;
+	private  int phoneCode;
+	
 	
 	public Country(long id, String name, String countryCode, int phoneCode) {
 		this.id = id;
@@ -33,6 +40,10 @@ public class Country {
 	public String toString() {
 		return "Country [id=" + id + ", name=" + name + ", countryCode=" + countryCode
 				+ ", phoneCode=" + phoneCode + "]";
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

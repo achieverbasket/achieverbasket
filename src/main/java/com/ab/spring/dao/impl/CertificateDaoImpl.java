@@ -41,42 +41,34 @@ public class CertificateDaoImpl implements CertificateDao{
 	@Override
 	public Certificate saveCertificate(Certificate certificate) {
 		String sql = "INSERT INTO CERTIFICATE (CERTIFICATE_ID, CERTIFICATE_NAME, CANDIDATE_ID, ISSUE_DATE, END_DATE, CERTIFICATE_TEMPLATE_ID, FILE_PATH, VERIFICATION_STATUS, "
-				+ "VERIFIED_BY_ID, VERIFIED_DATE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, SYSDATE(), ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE())";
+				+ "VERIFIED_BY_ID, VERIFIED_DATE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE())";
 
 		Long certificateId = sequenceDao.getNextVal("CERTIFICATE_SEQ");
 		
 		SocialActivity socialActivity = socialActivityDao.saveSocialActivity(new SocialActivity(SocialActivityType.CERTIFICATE));
-
-		String filePath = saveCertificateInFile(certificate.getCandidateId(), certificateId, certificate.getCertificateFile());
-
-		System.out.println("certificateId: "+certificateId+" filePath: "+filePath+" socialActivityid: "+socialActivity.getSocialActivityId());
 		
 		jdbcTemplate.update(sql, certificateId, 
 				certificate.getCertificateName(),
-				100,//certificate.getCandidateId(), 
-				//null,
-				null,
-				//new DateTime(certificate.getIssueDate()).toDate().getTime(), 
-				//new DateTime(certificate.getEndDate()).toDate().getTime(), 
-				100,
-				filePath,
+				certificate.getCandidateId(), 
+				//new Date(certificate.getIssueDate().toDate().getTime()), 
+				//new Date(certificate.getEndDate().toDate().getTime()), 
+				certificate.getCertificateTemplate().getCertificateTemplateId(),
+				certificate.getFilePath(),
 				certificate.isVerified(),
 				certificate.getVerifiedBy(),
-				//new Date(certificate.getVerificationDate().toDate().getTime()),
-				null,
-				socialActivity.getSocialActivityId(),
-				101);
+				//new Date(certificate.getVerificationDate().toDate().getTime()), 
+				socialActivity.getSocialActivityId());
 		certificate.setCertificateId(certificateId);
 		certificate.setSocialActivity(socialActivity);
 		
+		saveCertificateInFile(certificate.getCandidateId(), certificate.getCertificateId(), certificate.getCertificateFile());
 		
 		return certificate;
 	}
 	
 	private String saveCertificateInFile(Long candidateId, Long certificateId, MultipartFile certificateFile)
 	{
-		String filePath = certifcateLocation+"/"+candidateId+"/"+certificateId+".pdf";
-		//String filePath = certifcateLocation+"/test/test";
+		String filePath = certifcateLocation+"/"+candidateId+"/"+certificateId;
 		File certificateFilePath = new File(filePath);
 		try
 		{
@@ -86,8 +78,8 @@ public class CertificateDaoImpl implements CertificateDao{
 			}
 			
 			System.out.println("filePath: "+filePath);
-			System.out.println("file: "+certificateFile);
 			certificateFile.transferTo(certificateFilePath);
+			//FileUtils.copyFileToDirectory(certificateFile, certificateFilePath);
 		}
 		catch(Exception e)
 		{
@@ -106,7 +98,7 @@ public class CertificateDaoImpl implements CertificateDao{
 				certificate.getFilePath(),
 				certificate.isVerified(),
 				certificate.getVerifiedBy(),
-				new Date(certificate.getVerificationDate().toDate().getTime()),
+				//new Date(certificate.getVerificationDate().toDate().getTime()),
 				certificate.getCertificateId());
 	}
 
@@ -121,11 +113,11 @@ public class CertificateDaoImpl implements CertificateDao{
 				certificate.setCandidateId(rs.getLong("CANDIDATE_ID"));
 				//certificate.setIssueDate(new DateTime(rs.getDate("ISSUE_DATE")));
 				//certificate.setEndDate(new DateTime(rs.getDate("END_DATE")));
-				//certificate.setCertificateTemplate(certificateTemplateDao.getCertificateTemplate(rs.getLong("CERTIFICATE_TEMPLATE_ID")));
-				certificate.setFilePath(rs.getString("FILE_PATH"));
+				certificate.setCertificateTemplate(certificateTemplateDao.getCertificateTemplate(rs.getLong("CERTIFICATE_TEMPLATE_ID")));
+				//certificate.setFilePath(rs.getString("FILE_PATH"));
 				certificate.setVerified(rs.getBoolean("VERIFICATION_STATUS"));
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
-				certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));
+				//certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));
 				certificate.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
 				return certificate;
 			});
@@ -146,7 +138,7 @@ public class CertificateDaoImpl implements CertificateDao{
 				//certificate.setFilePath(rs.getString("FILE_PATH"));
 				certificate.setVerified(rs.getBoolean("VERIFICATION_STATUS"));
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
-				certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));
+				//certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));
 				certificate.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
 				return certificate;
 			});
@@ -167,7 +159,7 @@ public class CertificateDaoImpl implements CertificateDao{
 				//certificate.setFilePath(rs.getString("FILE_PATH"));
 				certificate.setVerified(rs.getBoolean("VERIFICATION_STATUS"));
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
-				certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));
+				//certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));
 				certificate.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
 				return certificate;
 			});

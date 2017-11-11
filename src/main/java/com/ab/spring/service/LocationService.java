@@ -18,4 +18,8 @@ public interface LocationService {
 	List<City> getAllCitiesByState(State state);
 	
 	City getCityBy(long city_id);
+	
+	List<Country> countryAutoComplete(String data);
+	List<State> stateAutoComplete(String data);
+	List<City> cityAutoComplete(String data);
 }

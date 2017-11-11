@@ -1,14 +1,20 @@
 package com.ab.vo;
 
 public class City {
-	private final long id;
-	private final String name;
-	private final State state;
-	
+	private  long id;
+	private  String name;
+	private  State state;
+	public City(){
+		
+	}
 	public City(long id, String name, State state) {
 		this.id = id;
 		this.name = name;
 		this.state = state;
+	}
+	public City(long id, String name) {
+		this.id = id;
+		this.name = name;
 	}
 
 	public long getId() {
@@ -26,5 +32,8 @@ public class City {
 	@Override
 	public String toString() {
 		return "City [id=" + id + ", name=" + name + ", state=" + state + "]";
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -44,7 +44,7 @@
 												<form:errors path="firstName" />	
 											</div>
 											<div class="col-12 col-md-6">
-												<label class="col-form-label">Last City</label>
+												<label class="col-form-label">Last Name</label>
 												<form:input path="lastName" class="form-control"></form:input>
 												<form:errors path="lastName" />
 											</div>
@@ -53,18 +53,18 @@
 												<form:input path="email" class="form-control"></form:input>
 												<form:errors path="email" /> 
 											</div>
-											<div class="col-12 col-md-6">
+											<%-- <div class="col-12 col-md-6">
 												<label class="col-form-label">Gender</label>
 												
 												<div class="form-check-inline form-control">
 													<label class="form-check-label"><form:radiobutton class="form-check-input"  path="gender" value="M" /> Male</label>
 													<label class="form-check-label"><form:radiobutton class="form-check-input" path="gender" value="F" /> Female</label>
 												</div>	
-												<%-- <form:radiobutton  path="gender" value="M" class="form-control"/>male
-												<form:radiobutton  path="gender" value="F" class="form-control" />female --%>
+												<form:radiobutton  path="gender" value="M" class="form-control"/>male
+												<form:radiobutton  path="gender" value="F" class="form-control" />female
 												<form:errors path="gender" />
-											</div>
-											<div class="col-12 col-md-6">
+											</div> --%>
+											<%-- <div class="col-12 col-md-6">
 												<label class="col-form-label">Date of Birth</label>
 												<form:input path="dob" class="form-control"></form:input>
 												<form:errors path="dob" />
@@ -78,7 +78,7 @@
 												<label class="col-form-label">Alternate Mobile No</label>
 												<form:input path="alternatemobileno" class="form-control"></form:input>
 												<form:errors path="alternatemobileno" />
-											</div>
+											</div> --%>
 										</div>
 									</div>
 									<div class="card-body">

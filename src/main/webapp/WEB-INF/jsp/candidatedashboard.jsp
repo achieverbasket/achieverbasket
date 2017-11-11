@@ -24,25 +24,17 @@
 <body class="bd-home">
 	
 <%@include file="header.jsp" %>
-	
-		<!-- left panel -->
-
 	<div class="container-fluid">
 		<div class="row flex-xl-nowrap">
-			<%@include file="leftnav.jsp" %>
+			<%-- <%@include file="leftnav.jsp" %> --%>
 			<main class="col-12 col-md-9 col-xl-8  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
-				<h1 class="bd-title" id="content">Introduction</h1><%=response.getHeader("auth-token")%>
+				<h1 class="bd-title" id="content"></h1>
 					<jsp:include page="testuserprofile.jsp" ></jsp:include>
 			</main>	
 			<div id="processing-div" style="position:absolute;display: none;">Kindly wait...</div>
 		</div>
 	</div>		
-
-				<%-- <center></center> --%>
-				<div></div>
-
-
-				<%@include file="footer.jsp"%>
+	<%@include file="footer.jsp"%>
 
 
 				<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -75,7 +67,6 @@ $.ajax({
 	    	alert("error"+e);
 	    }
 	});
-
 });
 </script>	
 </body>

@@ -5,6 +5,9 @@ import java.io.Serializable;
 import org.joda.time.DateTime;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ab.vo.City;
+import com.ab.vo.Country;
+import com.ab.vo.State;
 import com.ab.vo.activity.SocialActivity;
 import com.ab.vo.issuer.Issuer;
 import com.ab.vo.preference.PreferenceStatusType;
@@ -23,10 +26,14 @@ public class Certificate implements Serializable{
 	private String filePath;
 	private boolean verified;
 	private Long verifiedBy;
-	private DateTime verificationDate;
+	private String verificationDate;
 	private SocialActivity socialActivity;
 	private Issuer issuer;
 	private MultipartFile certificateFile;
+	
+	private State state;
+	private Country country;
+	private City city;
 
 	public Long getCertificateId() {
 		return certificateId;
@@ -108,11 +115,11 @@ public class Certificate implements Serializable{
 		this.verifiedBy = verifiedBy;
 	}
 
-	public DateTime getVerificationDate() {
+	public String getVerificationDate() {
 		return verificationDate;
 	}
 
-	public void setVerificationDate(DateTime verificationDate) {
+	public void setVerificationDate(String verificationDate) {
 		this.verificationDate = verificationDate;
 	}
 
@@ -150,6 +157,30 @@ public class Certificate implements Serializable{
 
 	public void setCertificateFile(MultipartFile certificateFile) {
 		this.certificateFile = certificateFile;
+	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public Country getCountry() {
+		return country;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 	
