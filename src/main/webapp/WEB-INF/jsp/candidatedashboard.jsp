@@ -16,10 +16,6 @@
 <link rel="stylesheet" href="${context}/css/main.css">
 <link rel="stylesheet" href="${context}/css/custom.css">
 <link href="${context}/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
-<style type="text/css">
-
-</style>
-
 </head>
 <body class="bd-home">
 	
@@ -27,32 +23,22 @@
 	<div class="container-fluid">
 		<div class="row flex-xl-nowrap">
 			<%-- <%@include file="leftnav.jsp" %> --%>
-			<main class="col-12 col-md-9 col-xl-8  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
+			<main class="col-12 col-md-9 bd-content" role="main"><!-- py-md-3 pl-md-5 -->
 				<h1 class="bd-title" id="content"></h1>
-					<jsp:include page="testuserprofile.jsp" ></jsp:include>
+					<jsp:include page="candidateuserprofile.jsp" ></jsp:include>
 			</main>	
-			<div id="processing-div" style="position:absolute;display: none;">Kindly wait...</div>
+			<main>
+				<div id="processing-div" style="position:absolute;display: none;">Kindly wait...</div>
+			</main>
+			
 		</div>
 	</div>		
 	<%@include file="footer.jsp"%>
+	<%@include file="scripts.jsp"%>
 
 
-				<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-				<script
-					src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-				<script
-					src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-				<script
-					src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-				<script type="text/javascript" src="${context}/js/bootstrap-datepicker.min.js">
-		</script>
-				<script
-					src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/0.11.1/typeahead.bundle.min.js"
-					type="text/javascript"></script>
-				<script
-					src="${context}/js/form.js"
-					type="text/javascript"></script>	
-				<script type="text/javascript">
+					
+<script type="text/javascript">
 
 
 $(document).ready(function(){
