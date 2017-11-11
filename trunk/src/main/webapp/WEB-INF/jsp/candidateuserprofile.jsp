@@ -16,10 +16,10 @@
 				</ul>
 			</div>
 	</div>
-	<div class="col-12 col-md-8 col-xl-9 mt-1 mt-md-0">
+	<div class="col-12 col-md-6 col-xl-7 mt-1 mt-md-0">
 		<jsp:include page="activities.jsp"></jsp:include>
 	</div>	
-	<<%-- div class="col-12 col-md-8 col-xl-9 mt-1 mt-md-0">
+	<%-- div class="col-12 col-md-8 col-xl-9 mt-1 mt-md-0">
 		<div class="card">
 			<div class="card-header text-center" style="background-color: #fff">
 				<ul class="nav nav-tabs card-header-tabs">
@@ -67,5 +67,3 @@
 		</div>
 	</div> --%>
 </div>	
-<script>
-</script>
