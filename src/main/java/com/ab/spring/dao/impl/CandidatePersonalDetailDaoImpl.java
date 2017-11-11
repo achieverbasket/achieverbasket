@@ -31,21 +31,21 @@ public class CandidatePersonalDetailDaoImpl implements CandidatePersonalDetailDa
 	public CandidatePersonalDetail saveCandidatePersonalDetail(CandidatePersonalDetail personalDetail) {
 		String sql = "INSERT INTO CANDIDATE_PERSONAL_DETAIL (PERSONAL_DETAIL_ID, CANDIDATE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, DOB, EMAIL, GENDER, MARITAL_STATUS, ADDRESS_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE())";
 		Long personalDetailId = sequenceDao.getNextVal("CANDIDATE_PERSONAL_DETAIL_SEQ");
-		Address address = addressDao.saveAddress(personalDetail.getAddress());
+		Address address = personalDetail.getAddress();
+		addressDao.saveAddress(address);
 		jdbcTemplate.update(sql, personalDetailId, 
 				personalDetail.getCandidateId(), 
 				personalDetail.getFirstName(), 
 				personalDetail.getMiddleName(), 
 				personalDetail.getLastName(), 
-				new Date(personalDetail.getDateOfBirth().toDate().getTime()),
+				personalDetail.getDateOfBirth() == null ? null :new Date(personalDetail.getDateOfBirth().toDate().getTime()),
 				personalDetail.getEmail(),
-				personalDetail.getGender().getGenderId(),
-				personalDetail.getMaritalStatus().getMaritalStatusId(),
+				personalDetail.getGender() == null ? null :personalDetail.getGender().getGenderId(),
+				personalDetail.getMaritalStatus() == null ? null :personalDetail.getMaritalStatus().getMaritalStatusId(),
 				address.getAddressId()
 				);
 		
 		personalDetail.setCandidatePersonalDetailId(personalDetailId);
-		personalDetail.setAddress(address);
 		return personalDetail;
 	}
 

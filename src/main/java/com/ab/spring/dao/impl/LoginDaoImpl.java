@@ -90,12 +90,11 @@ public class LoginDaoImpl implements LoginDao{
 		int count =0;
 		count = jdbcTemplate.update(sql, userId, user.getUserName(), user.getPassword(), user.getUserType().getUserTypeId(), user.getFirstName(), user.getLastName(), user.getHintQ(), user.getHintA(), user.getEmail(), user.isEnabled());
 		user.setUserId(userId);
-//		if(user.getUserType() == UserType.CANDIDATE) {
-//			Candidate candidate = candidateDao.saveCandidate(user.getCandidate());
-//			user.setCandidate(candidate);
-//			String mappingSQL = "INSERT INTO CANDIDATE_USER_MAPPING VALUES (?, ?)";
-//			jdbcTemplate.update(mappingSQL, user.getUserId(), candidate.getCandidateId());
-//		}
+		if(user.getUserType() == UserType.CANDIDATE) {
+			Candidate candidate = candidateDao.saveCandidate(Candidate.from(user));
+			String mappingSQL = "INSERT INTO CANDIDATE_USER_MAPPING VALUES (?, ?, 0, SYSDATE())";
+			jdbcTemplate.update(mappingSQL, user.getUserId(), candidate.getCandidateId());
+		}
 		return count > 0 ? new TwoTuple<Boolean, String>(true, ApplicationStatusConstant.msg_account_created_success) :  new TwoTuple<Boolean, String>(false, ApplicationStatusConstant.msg_account_created_error);
 	}
 

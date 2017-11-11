@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 
 import com.ab.vo.Address;
 import com.ab.vo.Gender;
+import com.ab.vo.User;
 import com.ab.vo.preference.PreferenceStatusType;
 
 public class CandidatePersonalDetail {
@@ -108,4 +109,13 @@ public class CandidatePersonalDetail {
 		this.preferenceStatusType = preferenceStatusType;
 	}
 
+	public static CandidatePersonalDetail from(User user) {
+		CandidatePersonalDetail candidatePersonalDetail = new CandidatePersonalDetail();
+		candidatePersonalDetail.setFirstName(user.getFirstName());
+		candidatePersonalDetail.setLastName(user.getLastName());
+		candidatePersonalDetail.setEmail(user.getEmail());
+		candidatePersonalDetail.setPreferenceStatusType(PreferenceStatusType.PUBLIC);
+		candidatePersonalDetail.setAddress(new Address());
+		return candidatePersonalDetail;
+	}
 }
