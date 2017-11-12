@@ -10,8 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.ab.spring.application.config.SpringApp;
-import com.ab.spring.service.LocationService;
+import com.ab.application.config.SpringApp;
+import com.ab.service.LocationService;
 import com.ab.vo.City;
 import com.ab.vo.Country;
 import com.ab.vo.State;
