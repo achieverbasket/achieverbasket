@@ -252,10 +252,27 @@ $(document).ready(function() {
 		$('#'+$.escapeSelector('city.name')).on('typeahead:selected', function (e, datum) {
 			$('#'+$.escapeSelector('city.name')).val(datum.name);
 		});	
-
-
-
-
+		
+		var comment_div = '<div id="commentbox" class="input-group input-group-sm"><input type="text" class="form-control">';
+		comment_div = comment_div+'<span class="input-group-btn"><button class="btn btn-primary" type="button">Reply</button></span></div>';
+		
+		$('.1_reply_btn').click(function(){
+			var btn = $(this);if(btn.next('div').attr('id') == 'commentbox'){return false;};
+			$(comment_div).insertAfter($(this));
+		    return false;
+		});    
+		$('.comment-btn').click(function(){
+			var btn = $(this);
+			var div = btn.parent().next('div');
+			if(div.attr('class') == 'card-body'){
+				$(div).show();
+				return false;
+			};
+		});
+		
+		
+		
+		
 
 
 
