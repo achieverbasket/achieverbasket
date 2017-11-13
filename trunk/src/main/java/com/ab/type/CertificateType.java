@@ -1,4 +1,4 @@
-package com.ab.vo.certificate;
+package com.ab.type;
 
 public enum CertificateType {
 	ACADEMIC(1),
