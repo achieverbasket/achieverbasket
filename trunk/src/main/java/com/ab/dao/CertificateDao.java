@@ -15,5 +15,10 @@ public interface CertificateDao {
 	
 	List<Certificate> getIssuerCertificates(Long issuerId);
 	
-	void removeCertificate(Long certificateId);
+	boolean deleteCertificate(Long certificateId);
+	
+	public boolean deleteCertificatesForCandidate(long candidateId);
+	
+	public boolean deleteCertificatesForIssuer(long issuerId);
+
 }

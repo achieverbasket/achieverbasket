@@ -168,8 +168,28 @@ public class CertificateDaoImpl implements CertificateDao{
 	
 
 	@Override
-	public void removeCertificate(Long certificateId) {
+	public boolean deleteCertificate(Long certificateId) {
 		String sql = "DELETE FROM CERTIFICATE WHERE CERTIFICATE_ID=?";
 		jdbcTemplate.update(sql, certificateId);
+		return true;
 	}
+	
+	
+	@Override
+	public boolean deleteCertificatesForCandidate(long candidateId)
+	{
+		String sql = "DELETE FROM CERTIFICATE WHERE CANDIDATE_ID=?";
+		jdbcTemplate.update(sql, candidateId);
+		return true;
+	}
+	
+	@Override
+	public boolean deleteCertificatesForIssuer(long issuerId)
+	{
+		String sql = "DELETE FROM CERTIFICATE WHERE ISSUER_ID=?";
+		jdbcTemplate.update(sql, issuerId);
+		return true;
+		
+	}
+
 }
