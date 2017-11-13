@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ab.dao.CertificateDao;
 import com.ab.dao.CertificateTemplateDao;
 import com.ab.dao.SocialActivityDao;
+import com.ab.type.CertificateType;
 import com.ab.vo.activity.SocialActivity;
 import com.ab.vo.activity.SocialActivityType;
 import com.ab.vo.certificate.Certificate;
@@ -40,8 +41,8 @@ public class CertificateDaoImpl implements CertificateDao{
 	
 	@Override
 	public Certificate saveCertificate(Certificate certificate) {
-		String sql = "INSERT INTO CERTIFICATE (CERTIFICATE_ID, CERTIFICATE_NAME, CANDIDATE_ID, ISSUE_DATE, END_DATE, CERTIFICATE_TEMPLATE_ID, FILE_PATH, VERIFICATION_STATUS, "
-				+ "VERIFIED_BY_ID, VERIFIED_DATE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE())";
+		String sql = "INSERT INTO CERTIFICATE (CERTIFICATE_ID, CERTIFICATE_NAME, CANDIDATE_ID, CERTIFICATE_TYPE_ID, ISSUE_DATE, END_DATE, CERTIFICATE_TEMPLATE_ID, FILE_PATH, VERIFICATION_STATUS, "
+				+ "VERIFIED_BY_ID, VERIFIED_DATE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE())";
 
 		Long certificateId = sequenceDao.getNextVal("CERTIFICATE_SEQ");
 		
@@ -50,6 +51,7 @@ public class CertificateDaoImpl implements CertificateDao{
 		jdbcTemplate.update(sql, certificateId, 
 				certificate.getCertificateName(),
 				certificate.getCandidateId(), 
+				certificate.getCertificateType().getCertificateTypeId(),
 				//new Date(certificate.getIssueDate().toDate().getTime()), 
 				//new Date(certificate.getEndDate().toDate().getTime()), 
 				certificate.getCertificateTemplate().getCertificateTemplateId(),
@@ -118,6 +120,7 @@ public class CertificateDaoImpl implements CertificateDao{
 				certificate.setVerified(rs.getBoolean("VERIFICATION_STATUS"));
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
 				//certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));
+				certificate.setCertificateType(CertificateType.fromId(rs.getInt("CERTIFICATE_TYPE")));
 				certificate.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
 				return certificate;
 			});
@@ -140,6 +143,7 @@ public class CertificateDaoImpl implements CertificateDao{
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
 				//certificate.setVerificationDate(new DateTime(rs.getDate("VERIFIED_DATE")));
 				certificate.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
+				certificate.setCertificateType(CertificateType.fromId(rs.getInt("CERTIFICATE_TYPE")));
 				return certificate;
 			});
 	}

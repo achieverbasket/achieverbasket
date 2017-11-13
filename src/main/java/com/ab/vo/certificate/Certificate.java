@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.joda.time.DateTime;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ab.type.CertificateType;
 import com.ab.vo.City;
 import com.ab.vo.Country;
 import com.ab.vo.State;
@@ -19,6 +20,7 @@ public class Certificate implements Serializable{
 	private Long issuerId;
 	private Long candidateId;
 	private String certificateName;
+	private CertificateType certificateType;
 	private PreferenceStatusType preferenceStatusType;
 	private String issueDate;
 	private String endDate;
@@ -181,6 +183,14 @@ public class Certificate implements Serializable{
 
 	public void setCity(City city) {
 		this.city = city;
+	}
+
+	public CertificateType getCertificateType() {
+		return certificateType;
+	}
+
+	public void setCertificateType(CertificateType certificateType) {
+		this.certificateType = certificateType;
 	}
 
 	
