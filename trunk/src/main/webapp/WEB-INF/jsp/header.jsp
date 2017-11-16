@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
 	<a class="navbar-brand" href="#">Achiever Basket</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -24,11 +25,7 @@
 					aria-expanded="false">Certificate</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown01">
 					<a class="dropdown-item" href="${context}/certificates/1">My Certificates</a>
-					<div class="dropdown-divider"></div>
-					  <h6 class="dropdown-header">Create New Certificate</h6>
-					<a class="dropdown-item" href="${context}/certificate/academic">Academic</a>
-					<a class="dropdown-item" href="${context}/certificate/professional">Professional</a>
-					<a class="dropdown-item" href="${context}/certificate/extracurriculam">Extra Curriculam</a>
+					<a class="dropdown-item" href="${context}/certificate">Create Certificate</a>
 					</div></li>
 		</ul>		
 		<form class="form-inline">

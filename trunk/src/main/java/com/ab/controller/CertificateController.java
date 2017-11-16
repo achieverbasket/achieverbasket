@@ -1,11 +1,6 @@
 package com.ab.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,25 +9,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.service.CertificateService;
-import com.ab.type.CertificateType;
-import com.ab.vo.activity.Comment;
-import com.ab.vo.activity.Like;
-import com.ab.vo.activity.SocialActivity;
 import com.ab.vo.candidate.Candidate;
-import com.ab.vo.certificate.AcademicCertificate;
 import com.ab.vo.certificate.Certificate;
-import com.ab.vo.certificate.ExtraCurriculamCertificate;
-import com.ab.vo.certificate.ProfessionalCertificate;
-import com.ab.vo.issuer.organization.Organization;
-import com.ab.vo.preference.PreferenceStatusType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 //
 ///**
@@ -57,8 +39,13 @@ public class CertificateController {
 		 return candidate;
 	}
 	
+	@RequestMapping(path="/certificate" ,method=RequestMethod.GET)
+	public String getCertificate(@ModelAttribute Certificate certificate,Model model){
+		model.addAttribute("form", certificate);
+		return ApplicationPageConstant.newcertificate_page;
+	}
 	
-	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.POST)
+	@RequestMapping(path="/certificate" ,method=RequestMethod.POST)
 	public String createCertificate(@ModelAttribute Certificate certificate,  Model model) {
 		
 		System.out.println("Certificate: "+certificate+" id: "+certificate.getCertificateId());
@@ -70,6 +57,20 @@ public class CertificateController {
 		certificateServiceImpl.saveCertificate(certificate);
 		return certificate.getCertificateType().getWebPageLink();
 	}
+/*	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.POST)
+	public String createCertificate(@ModelAttribute Certificate certificate,  Model model) {
+		
+		System.out.println("Certificate: "+certificate+" id: "+certificate.getCertificateId());
+		System.out.println("posting certificate file: "+certificate.getCertificateFile().getOriginalFilename());
+		System.out.println("posting certificate filename: "+certificate.getCertificateFile().getOriginalFilename());
+		System.out.println("posting certificate filesize: "+certificate.getCertificateFile().getSize());
+
+		model.addAttribute("certificate", certificate);
+		certificateServiceImpl.saveCertificate(certificate);
+		return certificate.getCertificateType().getWebPageLink();
+	}*/
+	
+	
 	
 	
 //	@ResponseBody
