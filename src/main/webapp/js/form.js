@@ -150,7 +150,7 @@ $(document).ready(function() {
 	    queryTokenizer: Bloodhound.tokenizers.whitespace,
 	    remote: {
 	    	wildcard: '%QUERY',
-	        url: '../country?query=%QUERY',
+	        url: 'country?query=%QUERY',
 	        replace: function(url, uriEncodedQuery) {
 	            val = $('#selectdd option:selected').val();
 	            return url.replace("%QUERY",uriEncodedQuery)
@@ -174,7 +174,7 @@ $(document).ready(function() {
 	    queryTokenizer: Bloodhound.tokenizers.whitespace,
 	    remote: {
 	    	wildcard: '%QUERY',
-	        url: '../city?query=%QUERY',
+	        url: 'city?query=%QUERY',
 	        replace: function(url, uriEncodedQuery) {
 	            val = $('#selectdd option:selected').val();
 	            return url.replace("%QUERY",uriEncodedQuery)
@@ -197,7 +197,7 @@ $(document).ready(function() {
 	    queryTokenizer: Bloodhound.tokenizers.whitespace,
 	    remote: {
 	    	wildcard: '%QUERY',
-	        url: '../state?query=%QUERY',
+	        url: 'state?query=%QUERY',
 	        replace: function(url, uriEncodedQuery) {
 	            val = $('#selectdd option:selected').val();
 	            return url.replace("%QUERY",uriEncodedQuery)

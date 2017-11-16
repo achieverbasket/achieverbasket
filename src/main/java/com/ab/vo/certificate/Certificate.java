@@ -2,7 +2,6 @@ package com.ab.vo.certificate;
 
 import java.io.Serializable;
 
-import org.joda.time.DateTime;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ab.type.CertificateType;
