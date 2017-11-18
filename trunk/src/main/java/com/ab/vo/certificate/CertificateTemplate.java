@@ -58,4 +58,12 @@ public class CertificateTemplate {
 	public void setCertificateTemplateXml(String certificateTemplateXml) {
 		this.certificateTemplateXml = certificateTemplateXml;
 	}
+	
+	@Override
+	public String toString()
+	{
+		
+		return "certificateTemplateId: "+certificateTemplateId+" templateName: "+templateName+" certificateDesc: "+certificateDesc+" issuerId: "+issuerId+
+				" scannedCopy: "+scannedCopy+" certificateTemplateXml:"+certificateTemplateXml;
+	}
 }

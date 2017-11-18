@@ -48,14 +48,15 @@ public class CertificateController {
 	@RequestMapping(path="/certificate" ,method=RequestMethod.POST)
 	public String createCertificate(@ModelAttribute Certificate certificate,  Model model) {
 		
-		System.out.println("Certificate: "+certificate+" id: "+certificate.getCertificateId());
+		System.out.println("Certificate: "+certificate);
 		System.out.println("posting certificate file: "+certificate.getCertificateFile().getOriginalFilename());
 		System.out.println("posting certificate filename: "+certificate.getCertificateFile().getOriginalFilename());
 		System.out.println("posting certificate filesize: "+certificate.getCertificateFile().getSize());
 
 		model.addAttribute("certificate", certificate);
 		certificateServiceImpl.saveCertificate(certificate);
-		return certificate.getCertificateType().getWebPageLink();
+		return ApplicationPageConstant.certificate_page;
+		//return certificate.getCertificateType().getWebPageLink();
 	}
 /*	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.POST)
 	public String createCertificate(@ModelAttribute Certificate certificate,  Model model) {
