@@ -191,6 +191,15 @@ public class Certificate implements Serializable{
 	public void setCertificateType(CertificateType certificateType) {
 		this.certificateType = certificateType;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "certificateId: "+certificateId+" issuerId"+issuerId+" candidateId: "+candidateId+" certificateName: "+certificateName+" certificateType:"
+				+certificateType+ " preferenceStatusType: "+preferenceStatusType+" issueDate:"+issueDate+" endDate:"+ endDate+"	certificateTemplate: "+certificateTemplate+
+				" filePath: "+filePath +" verified: "+verified+" verifiedBy: "+verifiedBy+	" verificationDate: "+verificationDate+" socialActivity: "+socialActivity+" issuer:"+issuer+" certificateFile"+certificateFile;
+		
+	}
 
 	
 }

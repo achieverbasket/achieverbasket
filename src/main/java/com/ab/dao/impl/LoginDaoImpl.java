@@ -37,7 +37,7 @@ public class LoginDaoImpl implements LoginDao{
 	@Override
 	public Tuple<Boolean, String, Optional<User>> loginUser(Login login) {
 		String sql = "SELECT USER_ID, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, ENABLED FROM USERS WHERE USERNAME=?";
-		
+		System.out.println("in login"+login);
 		ResultSetExtractor<Tuple<Boolean, String, Optional<User>>> rse = rs -> {
 			if(rs.next()) {
 				User user = new User();
@@ -51,6 +51,7 @@ public class LoginDaoImpl implements LoginDao{
 				user.setHintQ(rs.getString("HINT_Q"));
 				user.setHintA(rs.getString("HINT_A"));
 				user.setUserType(UserType.fromId(rs.getInt("USER_TYPE_ID")));
+//				return new Tuple<Boolean, String, Optional<User>>(true, "Success.", Optional.of(user));
 				if(user.getPassword().equals(login.getPassword())) {
 					if(rs.getBoolean("ENABLED")) {
 						return new Tuple<Boolean, String, Optional<User>>(true, "Success.", Optional.of(user));
