@@ -43,7 +43,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String loginUser(@Valid @ModelAttribute(name = "loginForm") Login loginForm, BindingResult br, Model model,
-			RedirectAttributes ra, HttpServletResponse response) {
+			RedirectAttributes ra, HttpServletResponse response, HttpServletRequest request) {
 		boolean error = false;
 		UserType userType = UserType.CANDIDATE;
 		if (null != loginForm) {
@@ -72,6 +72,7 @@ public class LoginController {
 						// model.addAttribute("userDetailObjform",
 						// userDetailObj);
 						ra.addFlashAttribute("userDetailObjform", form1);
+						request.getSession().setAttribute("user", form1);
 						userType = form1.getUserType();
 					}
 				} catch (Exception e) {
@@ -153,7 +154,7 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "candidateDashboard", method = RequestMethod.GET)
-	public String dashboard(Model model, @ModelAttribute("userDetailObjform") User form, HttpServletResponse response) {
+	public String dashboard(Model model, @ModelAttribute("userDetailObjform") User form, HttpServletResponse response, HttpServletRequest request) {
 
 		// check if user is logged in
 		// if no errors, get user object from db/cache, and send to user

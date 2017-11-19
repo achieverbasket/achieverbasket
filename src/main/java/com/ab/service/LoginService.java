@@ -16,6 +16,8 @@ public interface LoginService {
 
 	Issuer getIssuerDetail(User form) throws Exception;
 
+	Candidate getCandidate(long userId) throws Exception;
+
 	TwoTuple<Boolean, String> registerNewUser(Registration form);
 	
 }

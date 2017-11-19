@@ -67,7 +67,7 @@ public class CandidateDaoImpl implements CandidateDao {
 				return candidate;
 			});
 		
-		cand.setCandidateCertificateList(certificateDao.getCandidateCertificates(candidateId));
+//		cand.setCandidateCertificateList(certificateDao.getCandidateCertificates(candidateId));
 		cand.setCandidatePersonalDetail(candidatePersonalDetailDao.getPersonalDetailByCandidateId(candidateId));
 		return cand;
 	}

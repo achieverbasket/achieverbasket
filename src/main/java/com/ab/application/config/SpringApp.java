@@ -22,7 +22,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @ComponentScan(basePackages="com.ab*")
 @ImportResource(value="/WEB-INF/spring/spring-app.xml")
-//@Import(value=SpringSecurityConfig.class)
+@Import(value=SpringSecurityConfig.class)
 public class SpringApp extends WebMvcConfigurerAdapter{
 	
 	

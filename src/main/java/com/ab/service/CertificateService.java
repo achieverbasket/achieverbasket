@@ -11,7 +11,7 @@ public interface CertificateService {
 	public List<Certificate> getCertificatesForCandidate(long candidateId);
 	public List<Certificate> getCertificatesForIssuer(long issuerId);
 	public boolean saveCertificate(Certificate certificate);
-	public boolean uploadCertificate(Certificate certificate);
+	public boolean updateCertificate(Certificate certificate);
 	public boolean deleteCertificate(long certificateId);
 	public boolean deleteCertificatesForCandidate(long candidateId);
 	public boolean deleteCertificatesForIssuer(long issuerId);

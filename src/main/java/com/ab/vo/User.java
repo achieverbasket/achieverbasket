@@ -1,5 +1,7 @@
 package com.ab.vo;
 
+import java.util.Arrays;
+
 import com.ab.type.UserType;
 
 public class User{
@@ -101,5 +103,12 @@ public class User{
 
 	public void setUserType(UserType userType) {
 		this.userType = userType;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", image=" + Arrays.toString(image) + ", email=" + email
+				+ ", hintQ=" + hintQ + ", hintA=" + hintA + ", enabled=" + enabled + ", userType=" + userType + "]";
 	}
 }

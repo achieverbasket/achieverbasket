@@ -68,6 +68,11 @@
 										<form:errors path="preferenceStatusType" />
 									</div>
 									<div class="col-12 col-md-6">
+										<label class="col-form-label">CertificateType</label>
+										<form:input path="certificateType" class="form-control"></form:input>
+										<form:errors path="certificateType" />
+									</div>
+									<div class="col-12 col-md-6">
 										<label class="col-form-label">Upload</label>
 										<form:input type="file" path="certificateFile"></form:input><br/>
 									</div>
