@@ -58,6 +58,14 @@ public class CertificateTemplate {
 	public void setCertificateTemplateXml(String certificateTemplateXml) {
 		this.certificateTemplateXml = certificateTemplateXml;
 	}
+
+	public static CertificateTemplate defaultTemplate() {
+		CertificateTemplate template = new CertificateTemplate();
+		template.setCertificateTemplateId(1l);
+		template.setIssuerId(1l);
+		template.setTemplateName("Default Template");
+		return template;
+	}
 	
 	@Override
 	public String toString()

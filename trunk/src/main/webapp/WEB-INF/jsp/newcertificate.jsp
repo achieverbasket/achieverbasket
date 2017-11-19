@@ -39,7 +39,7 @@
 					<h5 class="mb-0">Academic Certificate Details</h5>
 				</div>
 				<div class="card-body">
-					<form:form id="user-academic-det" modelAttribute="form" action="certificate" method="POST" enctype="multipart/form-data"  >
+					<form:form id="user-academic-det" modelAttribute="form" action="${context}/certificate" method="POST" enctype="multipart/form-data"  >
 					
 						<div class="card mb-1">
 							<div class="card-body">
@@ -92,10 +92,27 @@
 										</form:select>
 										<form:errors path="preferenceStatusType" />
 									</div>
+									<div class="col-12 col-md-3">
+										<label class="col-form-label">Certificate Type</label>
+										<form:select path="certificateType" class="form-control">
+											<form:options items="${certType}"  />
+										</form:select>
+										<form:errors path="preferenceStatusType" />
+									</div>
+									<form:input type="hidden" path="certificateId"></form:input>
 								</div>
 							</div>
 							<div class="card-body">
-								 <input type="submit" class="btn btn-sm btn-primary float-right ml-1" value="Save" id="save-acd-cert" name="Save">
+								<c:if test="${null!=form.certificateId}">
+									<input type="submit"
+										class="btn btn-sm btn-primary float-right ml-1" value="Update"
+										id="save-acd-cert" name="Update">
+								</c:if>
+								<c:if test="${null==form.certificateId}">
+									<input type="submit"
+										class="btn btn-sm btn-primary float-right ml-1" value="Save"
+										id="save-acd-cert" name="Save">
+								</c:if>
 								 <input type="button" class="btn btn-sm btn-secondary float-right" onclick="javascript:history.go(-1)" value="Cancel" name="Cancel">
 							</div>
 						</div>

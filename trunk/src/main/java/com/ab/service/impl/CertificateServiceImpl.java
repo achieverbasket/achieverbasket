@@ -42,9 +42,9 @@ public class CertificateServiceImpl implements CertificateService{
 	}
 	
 	@Override
-	public boolean uploadCertificate(Certificate certificate)
+	public boolean updateCertificate(Certificate certificate)
 	{
-		saveCertificate(certificate);
+		certificateDaoImpl.updateCertificate(certificate);
 		return true;
 	}
 	

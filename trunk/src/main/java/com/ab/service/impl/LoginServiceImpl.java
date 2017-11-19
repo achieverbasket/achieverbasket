@@ -63,4 +63,10 @@ public class LoginServiceImpl implements LoginService{
 		user.setUserType(registration.getUserType());
 		return user;
 	}
+
+
+	@Override
+	public Candidate getCandidate(long userId) throws Exception {
+		return loginDaoImpl.getCandidate(userId);
+	}
 }

@@ -43,7 +43,7 @@
 
 $(document).ready(function(){
 
-$.ajax({
+/* $.ajax({
 		type:"get",
 	    url:"${context}/certificates/user/1",
 	    success: function(e){
@@ -53,7 +53,8 @@ $.ajax({
 	    	alert("error"+e);
 	    }
 	});
+	 */
 });
-</script>	
+ </script>	
 </body>
 </html>
