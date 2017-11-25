@@ -21,6 +21,7 @@ public final class ApplicationPageConstant {
 	public static final String newuserpersonaldet_page = "/newuserpersonaldet";
 	public static final String certificatelist_page = "/certificatelist";
 	public static final String newcertificate_page = "/newcertificate";
+	public static final String certificate_det_page = "/certificatedetail";
 	public static final String certificate_page = "/certificate";
 	public static final String academiccertificate_page = "/academiccertificate";
 	public static final String extracurriculamcertificate_page = "/extracurriculamcertificate";

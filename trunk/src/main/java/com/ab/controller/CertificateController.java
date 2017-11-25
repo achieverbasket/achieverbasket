@@ -166,7 +166,21 @@ public class CertificateController {
 	//		 
 	//		return obj;
 	//	}
-
+	
+	@RequestMapping(path="/certificate/{id}" ,method=RequestMethod.GET)
+	public String getCertificatDetailId(@PathVariable Integer id,@RequestParam(required=false) String fdate,@RequestParam(required=false) String tdate,
+			@RequestParam(required=false) Integer pageno,Model model,@ModelAttribute Candidate obj ,HttpServletResponse response,HttpServletRequest request) throws Exception {
+		
+		User user = (User) request.getSession().getAttribute("user");
+		System.out.println("Session User :" + user);
+		Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
+		System.out.println("getting Certificate data for candidateId:" + candidateId);
+		Certificate certificate = certificateServiceImpl.getCertificate(id);
+		model.addAttribute("form", certificate);
+		return ApplicationPageConstant.certificate_det_page;
+		
+	}
+	
 		@RequestMapping(path="/certificates/{id}" ,method=RequestMethod.GET)
 		public String getCertificatListByUserId(@PathVariable String id,@RequestParam(required=false) String fdate,@RequestParam(required=false) String tdate,
 				@RequestParam(required=false) Integer pageno,Model model,@ModelAttribute Candidate obj ,HttpServletResponse response,HttpServletRequest request) throws Exception {
