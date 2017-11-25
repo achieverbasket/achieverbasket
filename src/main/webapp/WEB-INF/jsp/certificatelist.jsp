@@ -53,6 +53,7 @@ margin: 0;
 						<img class="card-img-top img-fluid" src="" alt="Card image cap">
 						<div class="card-body">
 							<h5 class="card-title">${obj.certificateName}</h5>
+							<a href="${context}/certificate/${obj.certificateId}">${obj.certificateName}</a>
 						</div>
 						<ul class="list-group list-group-flush">
 						    <li class="list-group-item">Issue Date: ${obj.issueDate}</li>
