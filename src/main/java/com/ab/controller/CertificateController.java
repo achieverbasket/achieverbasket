@@ -1,6 +1,5 @@
 package com.ab.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.service.CertificateService;
 import com.ab.service.LoginService;
+import com.ab.type.UserType;
 import com.ab.vo.User;
-import com.ab.vo.activity.SocialActivity;
 import com.ab.vo.candidate.Candidate;
 import com.ab.vo.certificate.Certificate;
 import com.ab.vo.certificate.CertificateTemplate;
+import com.google.common.collect.Lists;
 
 //
 ///**
@@ -81,6 +81,66 @@ public class CertificateController {
 		return ApplicationPageConstant.newcertificate_page;
 		//return certificate.getCertificateType().getWebPageLink();
 	}
+	
+	@RequestMapping(path="/certificates/{id}" ,method=RequestMethod.GET)
+	public String getCertificatListByUserId(@PathVariable String id,@RequestParam(required=false) String fdate,@RequestParam(required=false) String tdate,
+			@RequestParam(required=false) Integer pageno,Model model,@ModelAttribute Candidate obj ,HttpServletResponse response,HttpServletRequest request) throws Exception {
+		User user = (User) request.getSession().getAttribute("user");
+		List<Certificate> certificateList = Lists.newArrayList();
+		System.out.println("Session User :" + user);
+		if(user.getUserType().equals(UserType.CANDIDATE))
+		{
+			Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
+			System.out.println("getting Certificate data for candidateId:" + candidateId);
+			certificateList = certificateServiceImpl.getCertificatesForCandidate(candidateId);
+		}
+		else if(user.getUserType().equals(UserType.ISSUER))
+		{
+			Long issuerId = loginService.getIssuer(user.getUserId()).getIssuerId();
+			System.out.println("getting Certificate data for issuer Id:" + issuerId);
+			certificateList = certificateServiceImpl.getCertificatesForIssuer(issuerId);
+		}
+		model.addAttribute("list", certificateList);
+		return ApplicationPageConstant.certificatelist_page;
+	}
+	
+	@RequestMapping(path="/certificate/{id}" ,method=RequestMethod.GET)
+	public String getCertificatDetailId(@PathVariable Integer id,@RequestParam(required=false) String fdate,@RequestParam(required=false) String tdate,
+			@RequestParam(required=false) Integer pageno,Model model,@ModelAttribute Candidate obj ,HttpServletResponse response,HttpServletRequest request) throws Exception {
+		
+		User user = (User) request.getSession().getAttribute("user");
+		System.out.println("Session User :" + user);
+		Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
+		System.out.println("getting Certificate data for candidateId:" + candidateId);
+		Certificate certificate = certificateServiceImpl.getCertificate(id);
+		model.addAttribute("form", certificate);
+		return ApplicationPageConstant.certificate_det_page;
+		
+	}
+	
+	@RequestMapping(path="/certificate/edit/{id}" ,method=RequestMethod.GET)
+	public String editCertificate(@PathVariable Integer id,Model model, HttpServletRequest request) throws Exception {
+		User user = (User) request.getSession().getAttribute("user");
+
+		Certificate certificate = null;
+		System.out.println("Session User :" + user);
+		if(user.getUserType().equals(UserType.CANDIDATE))
+		{
+			Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
+			System.out.println("getting Certificate data for candidateId:" + candidateId);
+			certificate = certificateServiceImpl.getCertificate(id);
+		}
+		else if(user.getUserType().equals(UserType.ISSUER))
+		{
+			Long issuerId = loginService.getIssuer(user.getUserId()).getIssuerId();
+			System.out.println("getting Certificate data for issuer Id:" + issuerId);
+			certificate = certificateServiceImpl.getCertificate(id);
+		}
+		
+		model.addAttribute("form", certificate);
+		return ApplicationPageConstant.newcertificate_page;
+	}
+	
 	/*	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.POST)
 	public String createCertificate(@ModelAttribute Certificate certificate,  Model model) {
 
@@ -167,31 +227,6 @@ public class CertificateController {
 	//		return obj;
 	//	}
 	
-	@RequestMapping(path="/certificate/{id}" ,method=RequestMethod.GET)
-	public String getCertificatDetailId(@PathVariable Integer id,@RequestParam(required=false) String fdate,@RequestParam(required=false) String tdate,
-			@RequestParam(required=false) Integer pageno,Model model,@ModelAttribute Candidate obj ,HttpServletResponse response,HttpServletRequest request) throws Exception {
-		
-		User user = (User) request.getSession().getAttribute("user");
-		System.out.println("Session User :" + user);
-		Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
-		System.out.println("getting Certificate data for candidateId:" + candidateId);
-		Certificate certificate = certificateServiceImpl.getCertificate(id);
-		model.addAttribute("form", certificate);
-		return ApplicationPageConstant.certificate_det_page;
-		
-	}
-	
-		@RequestMapping(path="/certificates/{id}" ,method=RequestMethod.GET)
-		public String getCertificatListByUserId(@PathVariable String id,@RequestParam(required=false) String fdate,@RequestParam(required=false) String tdate,
-				@RequestParam(required=false) Integer pageno,Model model,@ModelAttribute Candidate obj ,HttpServletResponse response,HttpServletRequest request) throws Exception {
-			User user = (User) request.getSession().getAttribute("user");
-			System.out.println("Session User :" + user);
-			Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
-			System.out.println("getting Certificate data for candidateId:" + candidateId);
-			List<Certificate> certificateList = certificateServiceImpl.getCertificatesForCandidate(candidateId);
-			 model.addAttribute("list", certificateList);
-			return ApplicationPageConstant.certificatelist_page;
-		}
 	//	
 	//	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.GET)
 	//	public String academicCertificate(@ModelAttribute AcademicCertificate a,Model model) {
@@ -313,15 +348,6 @@ public class CertificateController {
 	//		
 	//	}
 	//	
-		@RequestMapping(path="/certificate/edit/{id}" ,method=RequestMethod.GET)
-		public String editCertificate(@PathVariable Integer id,Model model, HttpServletRequest request) throws Exception {
-			User user = (User) request.getSession().getAttribute("user");
-			System.out.println("Session User :" + user);
-			Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
-			System.out.println("getting Certificate data for candidateId:" + candidateId);
-			Certificate certificate = certificateServiceImpl.getCertificate(id);
-			model.addAttribute("form", certificate);
-			return ApplicationPageConstant.newcertificate_page;
-		}
+
 
 }
