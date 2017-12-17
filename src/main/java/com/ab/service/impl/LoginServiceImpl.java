@@ -69,4 +69,9 @@ public class LoginServiceImpl implements LoginService{
 	public Candidate getCandidate(long userId) throws Exception {
 		return loginDaoImpl.getCandidate(userId);
 	}
+	
+	@Override
+	public Issuer getIssuer(long userId) throws Exception {
+		return loginDaoImpl.getIssuer(userId);
+	}
 }
