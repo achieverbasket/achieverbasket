@@ -44,7 +44,7 @@ public class CertificateDaoImpl implements CertificateDao{
 	@Autowired 
 	private SocialActivityDao socialActivityDao;
 	
-	private String certifcateLocation ="c:/Users/jainv_000/DigitalResume/certificates/candidates";
+	private String certifcateLocation ="C:/Users/Sara/Google Drive/DigitalResume/certificates/candidates";
 	
 	@Override
 	public Certificate saveCertificate(Certificate certificate) {
@@ -85,25 +85,7 @@ public class CertificateDaoImpl implements CertificateDao{
 					certificate.getVerificationDate() == null ? null : new Date(format.parse(certificate.getVerificationDate()).getTime()), 
 					socialActivity.getSocialActivityId(),
 					1);
-			
-			//		jdbcTemplate.update(sql, certificateId, 
-	//				certificate.getCertificateName(),
-	//				1,
-	//				//certificate.getCandidateId(),
-	//				1,
-	//				certificate.getCertificateType().getCertificateTypeId(),
-	//				new Date(format.parse(certificate.getIssueDate()).getTime()), 
-	//				new Date(format.parse(certificate.getEndDate()).getTime()),
-	//				1,
-	//				//certificate.getCertificateTemplate().getCertificateTemplateId(),
-	//				certificate.getFilePath(),
-	//				certificate.isVerified(),
-	//				certificate.getVerifiedBy(),
-	//				null,
-	//				//new Date(format.parse(certificate.getVerificationDate()).getTime()), 
-	//				socialActivity.getSocialActivityId(),
-	//				1);
-							
+						
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,7 +103,7 @@ public class CertificateDaoImpl implements CertificateDao{
 		try
 		{
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-	
+			System.out.println("in updateCertificate");
 			System.out.println("date original: "+(certificate.getIssueDate()));
 			System.out.println("issue date formated: "+new Date(format.parse(certificate.getIssueDate()).getTime()));
 			System.out.println("end date formated: "+new Date(format.parse(certificate.getEndDate()).getTime()));
@@ -148,6 +130,7 @@ public class CertificateDaoImpl implements CertificateDao{
 	public Certificate getCertificate(Long certificateId) {
 		String sql = "SELECT CERTIFICATE_NAME, CANDIDATE_ID, ISSUE_DATE, END_DATE, CERTIFICATE_TEMPLATE_ID, FILE_PATH, VERIFICATION_STATUS, VERIFIED_BY_ID, VERIFIED_DATE, CERTIFICATE_TYPE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CERTIFICATE WHERE CERTIFICATE_ID=?";
 		
+		System.out.println("in get certificate for certificateId: "+certificateId);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		
 		return jdbcTemplate.query(sql, new Object[] {certificateId}, (ResultSetExtractor<Certificate>) rs -> {
@@ -179,9 +162,9 @@ public class CertificateDaoImpl implements CertificateDao{
 		String sql = "SELECT CERTIFICATE_NAME, CERTIFICATE_ID, ISSUE_DATE, END_DATE, CERTIFICATE_TEMPLATE_ID, FILE_PATH, VERIFICATION_STATUS, VERIFIED_BY_ID, VERIFIED_DATE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME, CERTIFICATE_TYPE FROM CERTIFICATE WHERE CANDIDATE_ID=?";
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		
-		System.out.println("getting candidate certificate list for candidate id: "+candidateId);
+		System.out.println("getting certificate list for candidate id: "+candidateId);
 		return jdbcTemplate.query(sql, new Object[] {candidateId}, (RowMapper<Certificate>) (rs, arg) -> {
+
 				Certificate certificate = new Certificate();
 				certificate.setCandidateId(candidateId);
 				certificate.setCertificateName(rs.getString("CERTIFICATE_NAME"));
@@ -231,8 +214,6 @@ public class CertificateDaoImpl implements CertificateDao{
 				return certificate;
 			});
 	}
-	
-	
 
 	@Override
 	public boolean deleteCertificate(Long certificateId) {
@@ -240,7 +221,6 @@ public class CertificateDaoImpl implements CertificateDao{
 		jdbcTemplate.update(sql, certificateId);
 		return true;
 	}
-	
 	
 	@Override
 	public boolean deleteCertificatesForCandidate(long candidateId)
@@ -256,7 +236,6 @@ public class CertificateDaoImpl implements CertificateDao{
 		String sql = "DELETE FROM CERTIFICATE WHERE ISSUER_ID=?";
 		jdbcTemplate.update(sql, issuerId);
 		return true;
-		
 	}
 	
 	private String saveCertificateInFile(Long candidateId, Long certificateId, MultipartFile certificateFile)
@@ -290,11 +269,18 @@ public class CertificateDaoImpl implements CertificateDao{
 //		    multipartResolver.setMaxUploadSize(20971520);   // 20MB
 //		    multipartResolver.setMaxInMemorySize(1048576);  // 1MB
 
-		    
-			File file = new File(filePath);
-		    FileInputStream input = new FileInputStream(file);
-		    multipartFile = new MockMultipartFile("file",
-		            file.getName(), "text/plain", IOUtils.toByteArray(input));
+		    System.out.println("filepath: "+filePath);
+		    if(null!=filePath)
+		    {
+				File file = new File(filePath);
+			    FileInputStream input = new FileInputStream(file);
+			    multipartFile = new MockMultipartFile("file",
+			            file.getName(), "text/plain", IOUtils.toByteArray(input));
+		    }
+		    else
+		    {
+		    	System.out.println("file hard copy location is null");
+		    }
 		}
 		catch(Exception e)
 		{
@@ -302,5 +288,4 @@ public class CertificateDaoImpl implements CertificateDao{
 		}
 		return multipartFile;
 	}
-
 }
