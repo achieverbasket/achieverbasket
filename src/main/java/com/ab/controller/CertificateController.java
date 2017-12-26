@@ -39,30 +39,20 @@ public class CertificateController {
 	@Autowired
 	LoginService loginService;
 
-//	@ResponseBody
-//	@RequestMapping(path="/certificates/user/{id}" ,method=RequestMethod.GET)
-//	public Candidate getCertificatDetailsForCandidate(@PathVariable String id,@ModelAttribute Candidate candidate, HttpServletRequest request) throws Exception {
-//		System.out.println("getting Certificate data for id:"+id+" candidate: "+candidate);
-//		User user = (User) request.getSession().getAttribute("user");
-//		System.out.println("Session User :" + user);
-//		Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
-//		List<Certificate> certificateList = certificateServiceImpl.getCertificatesForCandidate(candidateId);
-//		candidate.setCandidateCertificateList(certificateList);
-//		return candidate;
-//	}
 
 	@RequestMapping(path="/certificate" ,method=RequestMethod.GET)
 	public String getCertificate(@ModelAttribute Certificate certificate,Model model, HttpServletRequest request){
 		model.addAttribute("form", certificate);
 		User user = (User) request.getSession().getAttribute("user");
-		System.out.println("Session User :" + user);
+		System.out.println("*** in getCertificate for Session User :" + user);
 		return ApplicationPageConstant.newcertificate_page;
 	}
 
 	@RequestMapping(path="/certificate" ,method=RequestMethod.POST)
 	public String createCertificate(@ModelAttribute Certificate certificate,  Model model, HttpServletRequest request) throws Exception {
 
-		System.out.println("Certificate: "+certificate);
+		System.out.println("*** in create Certificate " + certificate);
+
 		System.out.println("posting certificate file: "+certificate.getCertificateFile().getOriginalFilename());
 		System.out.println("posting certificate filename: "+certificate.getCertificateFile().getOriginalFilename());
 		System.out.println("posting certificate filesize: "+certificate.getCertificateFile().getSize());
@@ -87,7 +77,7 @@ public class CertificateController {
 			@RequestParam(required=false) Integer pageno,Model model,@ModelAttribute Candidate obj ,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		User user = (User) request.getSession().getAttribute("user");
 		List<Certificate> certificateList = Lists.newArrayList();
-		System.out.println("Session User :" + user);
+		System.out.println("***** in getCertificatListByUserId for Session User :" + user);
 		if(user.getUserType().equals(UserType.CANDIDATE))
 		{
 			Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
@@ -109,7 +99,7 @@ public class CertificateController {
 			@RequestParam(required=false) Integer pageno,Model model,@ModelAttribute Candidate obj ,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		
 		User user = (User) request.getSession().getAttribute("user");
-		System.out.println("Session User :" + user);
+		System.out.println("**** in getCertificatDetailId for Session User :" + user);
 		Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
 		System.out.println("getting Certificate data for candidateId:" + candidateId);
 		Certificate certificate = certificateServiceImpl.getCertificate(id);
@@ -123,7 +113,7 @@ public class CertificateController {
 		User user = (User) request.getSession().getAttribute("user");
 
 		Certificate certificate = null;
-		System.out.println("Session User :" + user);
+		System.out.println("**** in editCertificate for Session User :" + user);
 		if(user.getUserType().equals(UserType.CANDIDATE))
 		{
 			Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
@@ -141,213 +131,5 @@ public class CertificateController {
 		return ApplicationPageConstant.newcertificate_page;
 	}
 	
-	/*	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.POST)
-	public String createCertificate(@ModelAttribute Certificate certificate,  Model model) {
-
-		System.out.println("Certificate: "+certificate+" id: "+certificate.getCertificateId());
-		System.out.println("posting certificate file: "+certificate.getCertificateFile().getOriginalFilename());
-		System.out.println("posting certificate filename: "+certificate.getCertificateFile().getOriginalFilename());
-		System.out.println("posting certificate filesize: "+certificate.getCertificateFile().getSize());
-
-		model.addAttribute("certificate", certificate);
-		certificateServiceImpl.saveCertificate(certificate);
-		return certificate.getCertificateType().getWebPageLink();
-	}*/
-
-
-
-
-	//	@ResponseBody
-	//	@RequestMapping(path="/certificates/user/{id}" ,method=RequestMethod.GET)
-	//	public Candidate getCertificatDetailsForUser(@PathVariable String id,@ModelAttribute Candidate obj) {
-	//		
-	//		 System.out.println("getting Certificate data for id:"+id+" candidate: "+obj);
-	//		 List<ProfessionalCertificate> professionalCertificateList = new ArrayList<>();
-	//		 List<AcademicCertificate> academicCertificateList = new ArrayList<>();
-	//		 List<ExtraCurriculamCertificate> extraCurricularCertificateList = new ArrayList<>();
-	//		 
-	//
-	//		 /*start*/
-	//		 ProfessionalCertificate p = new ProfessionalCertificate();//p.setCertificateId(1);p.setCertificateName("MSCI JAVA 1.9");
-	//		 Organization o = new Organization();o.setOrganizationName("Bhopal");o.setOrganizationId(1);
-	//		 p.setOrganization(o);
-	//		 
-	//		 SocialActivity s = new SocialActivity();
-	//		 Comment c = new Comment();
-	////		 c.setCommentIdList(new ArrayList<>(25));
-	//	//	 s.setComment(c);
-	//		 
-	//		 Like l = new Like();
-	//		// l.setLikeIdList(new ArrayList<>(30));
-	//		 //s.setLike(l);
-	//		 
-	//		 p.setSocialActivity(s);
-	//		 
-	//		 professionalCertificateList.add(p);
-	//		 /*end*/
-	//		 
-	//		 /*start*/
-	//		 AcademicCertificate a1 = new AcademicCertificate();//a1.setCertificateId(1);a1.setCertificateName("HSC Examination");
-	//		 Organization o1 = new Organization();o1.setOrganizationName("MSCI");o1.setOrganizationId(1);
-	//		 p.setOrganization(o1);
-	//		 
-	//		 SocialActivity s1 = new SocialActivity();
-	//		 Comment c1 = new Comment();//c1.setCommentIdList(new ArrayList<>(58));
-	//		// s.setComment(c1);
-	//		 
-	//		 Like l1 = new Like();//l1.setLikeIdList(new ArrayList<>(30));
-	//		// s.setLike(l1);
-	//		 
-	//		 p.setSocialActivity(s1);
-	//		 
-	//		 academicCertificateList.add(a1);
-	//		 /*end*/
-	//		 
-	//		 /*start*/
-	//		 ExtraCurriculamCertificate e1 = new ExtraCurriculamCertificate();//e1.setCertificateId(1);e1.setCertificateName("Top Coder Ranking 50000");
-	//		 Organization o2 = new Organization();o2.setOrganizationName("TopCoder");o2.setOrganizationId(1);
-	//		 p.setOrganization(o1);
-	//		 
-	//		 SocialActivity s2 = new SocialActivity();
-	//		 Comment c2 = new Comment();//c2.setCommentIdList(new ArrayList<>(580));
-	//		// s.setComment(c2);
-	//		 
-	//		 Like l2 = new Like();//l2.setLikeIdList(new ArrayList<>(30));
-	//		// s.setLike(l2);
-	//		 
-	//		 p.setSocialActivity(s2);
-	//		 
-	////		 extraCurricularCertificateList.add(e1);
-	//		 /*end*/
-	//		 
-	////		 obj.setCandidateCertificateList(academicCertificateList);
-	////		 obj.setCandidateExtraCurricularCertificateList(extraCurricularCertificateList);
-	////		 obj.setCandidateProfessionalCertificateList(professionalCertificateList);
-	//		 
-	//		return obj;
-	//	}
-	
-	//	
-	//	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.GET)
-	//	public String academicCertificate(@ModelAttribute AcademicCertificate a,Model model) {
-	//		a.setPreferenceStatusType(PreferenceStatusType.PUBLIC);
-	//		model.addAttribute("form", a);
-	//		model.addAttribute("preftype", PreferenceStatusType.values());
-	//		return ApplicationPageConstant.academiccertificate_page;
-	//	}
-	//	
-	//	@RequestMapping(path="/certificate/academic" ,method=RequestMethod.POST)
-	//	public String createAcademicCertificate(@ModelAttribute AcademicCertificate form,  Model model) {
-	//		
-	//		System.out.println("posting academic form"+" file: "+form.getCertificateFile().getOriginalFilename());
-	//		System.out.println("posting academic form"+" filename: "+form.getCertificateFile().getOriginalFilename());
-	//		System.out.println("posting academic form"+" filesize: "+form.getCertificateFile().getSize());
-	//
-	//		AcademicCertificate a = new AcademicCertificate();
-	//		model.addAttribute("form", a);
-	//		certificateServiceImpl.saveCertificate(form);
-	//		return ApplicationPageConstant.academiccertificate_page;
-	//	}
-	//	
-	//	@RequestMapping(path="/certificate/professional" ,method=RequestMethod.GET)
-	//	public String ProfessionalCertificate(@ModelAttribute ProfessionalCertificate a,Model model) {
-	//		model.addAttribute("form", a);
-	//		return ApplicationPageConstant.professionalcertificate_page;
-	//	}
-	//	
-	//	@RequestMapping(path="/certificate/professional" ,method=RequestMethod.POST)
-	//	public String createProfessionalCertificate(@ModelAttribute ProfessionalCertificate form,  Model model) {
-	//		
-	//		// 
-	//		System.out.println("posting professional form"+form.getCertificateName()+form.getCertificateFile().getOriginalFilename()
-	//				+form.getIssuer().getIssuerName()+form.getOrganization().getOrganizationName());
-	//		ProfessionalCertificate a = new ProfessionalCertificate();
-	//		model.addAttribute("form", a);
-	//		return ApplicationPageConstant.professionalcertificate_page;
-	//	}
-	//	@RequestMapping(path="/certificate/extracurriculam" ,method=RequestMethod.GET)
-	//	public String ExtraCurriculamCertificate(@ModelAttribute ExtraCurriculamCertificate a,Model model) {
-	//		model.addAttribute("form", a);
-	//		return ApplicationPageConstant.extracurriculamcertificate_page;
-	//	}
-	//	
-	//	@RequestMapping(path="/certificate/extracurriculam" ,method=RequestMethod.POST)
-	//	public String createExtraCurriculamCertificate(@ModelAttribute ExtraCurriculamCertificate form,  Model model) {
-	//		
-	//		// 
-	//		System.out.println("posting extracurriculam form"+form.getIssuer().getIssuerName()
-	//				+form.getCertificateName()+form.getCertificateFile().getOriginalFilename()+form.getPreferenceStatusType());
-	//		ExtraCurriculamCertificate a = new ExtraCurriculamCertificate();
-	//		model.addAttribute("form", a);
-	//		
-	//		return ApplicationPageConstant.extracurriculamcertificate_page;
-	//	}
-	//	
-	//	
-	//	@RequestMapping(path="/certificate" ,method=RequestMethod.GET)
-	//	public String getCertificatePage(Model model) {
-	//		Certificate obj = new Certificate(); 
-	//		
-	//		model.addAttribute("form", obj);
-	//		model.addAttribute("type", CertificateType.values());
-	//		return ApplicationPageConstant.certificate_page;
-	//	}
-	//	
-	//	
-	//	
-	//	@RequestMapping(path="/certificate/new" ,method=RequestMethod.GET)
-	//	public String createNewCertificate(Model model) {
-	//		
-	//		ProfessionalCertificate p = new ProfessionalCertificate();
-	//		AcademicCertificate a = new AcademicCertificate();
-	//		ExtraCurriculamCertificate e = new ExtraCurriculamCertificate();
-	//		
-	//		model.addAttribute("pform", p);
-	//		model.addAttribute("aform", a);
-	//		model.addAttribute("eform", e);
-	//		return ApplicationPageConstant.newcertificate_page;
-	//	}
-	//	
-	//	@ResponseBody
-	//	@RequestMapping(path="/certificate/upload" ,method=RequestMethod.POST,consumes = {"multipart/form-data"})
-	//	public String uploadertificate(@RequestPart(value = "file", required = false) MultipartFile file,
-	//		@RequestParam(value="dataparam") String aform , @RequestParam(value="type") String type) {
-	//		System.out.println("file path: "+file.getOriginalFilename());
-	//		Certificate certificate=null;
-	//		// based on type do the conversion
-	//		
-	//		if(null != type && type.equalsIgnoreCase("save-acd-cert")){
-	//			try {
-	//				certificate = new ObjectMapper().readValue(aform,     AcademicCertificate.class);
-	//				System.out.println("academic certifiacate "+certificate.getCertificateName()+certificate.getIssueDate()+certificate.getEndDate()+certificate.getPreferenceStatusType());
-	//			} catch (IOException e) {
-	//				// TODO Auto-generated catch block
-	//				e.printStackTrace();
-	//			}
-	//		}else if(null != type && type.equalsIgnoreCase("save-prf-cert")){
-	//			try {
-	//				certificate = new ObjectMapper().readValue(aform,     ProfessionalCertificate.class);
-	//				System.out.println("ProfessionalCertificate "+certificate.getCertificateName()+certificate.getIssueDate()+certificate.getEndDate()+certificate.getPreferenceStatusType());
-	//			} catch (IOException e) {
-	//				// TODO Auto-generated catch block
-	//				e.printStackTrace();
-	//			}
-	//		}else if(null != type && type.equalsIgnoreCase("save-extra-cert")){
-	//			try {
-	//				certificate = new ObjectMapper().readValue(aform,     ExtraCurriculamCertificate.class);
-	//				System.out.println("ExtraCurriculam certifiacate "+certificate.getCertificateName()+certificate.getIssueDate()+certificate.getEndDate()+certificate.getPreferenceStatusType());
-	//			} catch (IOException e) {
-	//				// TODO Auto-generated catch block
-	//				e.printStackTrace();
-	//			}
-	//		}
-	//		
-	//	   certificateServiceImpl.saveCertificate(certificate);
-	//		
-	//		return "true";
-	//		
-	//	}
-	//	
-
 
 }
