@@ -1,5 +1,5 @@
 <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
-	<form class="bd-search d-flex align-items-center">
+<!-- 	<form class="bd-search d-flex align-items-center">
 		<input type="search" class="form-control" id="search-input"
 			placeholder="Search..." aria-label="Search for..." autocomplete="off">
 		<button class="btn-link bd-search-docs-toggle d-md-none p-0 ml-3"
@@ -14,30 +14,33 @@
 					d="M4 7h22M4 15h22M4 23h22" /></svg>
 
 		</button>
-	</form>
+	</form> -->
 	<nav class="collapse bd-links" id="bd-docs-nav">
 		<div class="bd-toc-item active">
 			<%-- <a class="bd-toc-link" href="${context}/dashboard"> Getting
 				started </a> --%>
 			<ul class="nav bd-sidenav">
-				<li class="active bd-sidenav-active"><a href="${context}/dashboard"> DashBoard </a></li>
-				<li class=""><a href="${context}/certificates/1">My Certificates</a></li>
-				<%-- <li class=""><a href="${context}/certificate/new">Create Certificate</a></li> --%>
-				<li class=""><a href="${context}/certificate/academic">Academic Certificate</a></li>
-				<li class=""><a href="${context}/certificate/professional">Professional Certificate</a></li>
-				<li class=""><a href="${context}/certificate/extracurriculam">Extra Curriculam Certificate</a></li>
+				<li class="active bd-sidenav-active"><a href="${context}/issuerDashboard"> DashBoard </a></li>
+				<li class=""><a href="${context}/issuer/certificate/create">Create Certificate</a></li>
+				<li class=""><a href="${context}/issuer/certificate/issue">Issue Certificate</a></li>
+				<li class=""><a href="${context}/issuer/certificate/templates">Certificate Templates</a></li>
+				<li class=""><a href="${context}/issuer/certificate/loadimage">Load Certificate Image</a></li>
+				<li class=""><a href="${context}/issuer/certificate/bulkload">Bulk Certificate Load</a></li>
+				<%-- <li class=""><a href="${context}/issuer/certificate/inqueue">Certificates in Queue</a></li> --%>
+				<li class=""><a href="${context}/issuer/certificate/search">Search Certificate</a></li>
+				
 				<li class=""><a href="${context}/blog">Write Blog</a></li>
 			</ul>
 		</div>
 
-		<div class="bd-toc-item ">
+<!-- 		<div class="bd-toc-item ">
 			<a class="bd-toc-link" href="/docs/4.0/layout/overview/"> Layout
 			</a>
 			<ul class="nav bd-sidenav">
 				<li class=""><a href="/docs/4.0/layout/overview/"> Overview
 				</a></li>
 			</ul>
-		</div>
+		</div> -->
 	</nav>
 
 </div>

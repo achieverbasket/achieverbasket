@@ -21,8 +21,10 @@ import com.ab.service.LoginService;
 import com.ab.type.UserType;
 import com.ab.vo.User;
 import com.ab.vo.candidate.Candidate;
+import com.ab.vo.issuer.Issuer;
+import com.ab.vo.login.IssuerRegistration;
 import com.ab.vo.login.Login;
-import com.ab.vo.login.Registration;
+import com.ab.vo.login.UserRegistration;
 
 /**
  * @author Swapnil Singhai
@@ -46,6 +48,7 @@ public class LoginController {
 			RedirectAttributes ra, HttpServletResponse response, HttpServletRequest request) {
 		boolean error = false;
 		UserType userType = UserType.CANDIDATE;
+		
 		if (null != loginForm) {
 			System.out.println("UserName: " + loginForm.getUserName() + "Password:  " + loginForm.getPassword());
 
@@ -88,6 +91,7 @@ public class LoginController {
 			model.addAttribute("loginForm", loginForm);
 			return ApplicationPageConstant.login_page;
 		} else {
+			userType = UserType.ISSUER;// making type issuer , should come from user object after dev by team
 			response.setHeader("auth-token", "12345");
 			if(UserType.CANDIDATE == userType) {
 				return "redirect:/candidateDashboard";
@@ -100,21 +104,44 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String getRegisterUserPage(@ModelAttribute Registration registrationForm, Model model) {
-		model.addAttribute("registerForm", registrationForm);
+	public String getRegisterUserPage(@ModelAttribute UserRegistration userRegisterForm,
+			@ModelAttribute IssuerRegistration issuerRegisterForm,Model model) {
+		model.addAttribute("userRegisterForm", userRegisterForm);
+		model.addAttribute("issuerRegisterForm", issuerRegisterForm);
 		return com.ab.constant.config.ApplicationPageConstant.register_page;
 	}
-
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registerNewUser(Model model,
-			@Valid @ModelAttribute(name = "registerForm") Registration registrationForm, BindingResult br,
+	
+	// issuer registration
+	@RequestMapping(value = "/register/issuer", method = RequestMethod.POST)
+	public String registerNewIssuer(Model model,
+			@Valid @ModelAttribute(name = "issuerRegisterForm") IssuerRegistration issuerRegisterForm, BindingResult br,
 			RedirectAttributes ra) {
 		boolean error = false;
 		if (null != br && br.hasErrors()) {
 			error = true;
 			model.addAttribute(ApplicationStatusConstant.msg_error_generic, br.getFieldError());
 		} else {
-			TwoTuple<Boolean, String> result = loginServiceImpl.registerNewUser(registrationForm);
+			// issuer 
+			System.out.println("issuer registration");
+		}
+		
+		model.addAttribute("userRegisterForm", new UserRegistration());
+		model.addAttribute("issuerRegisterForm", issuerRegisterForm);
+	
+		return ApplicationPageConstant.register_page;
+	}
+
+	
+	@RequestMapping(value = "/register/user", method = RequestMethod.POST)
+	public String registerNewUser(Model model,
+			@Valid @ModelAttribute(name = "userRegisterForm") UserRegistration userRegisterForm, BindingResult br,
+			RedirectAttributes ra) {
+		boolean error = false;
+		if (null != br && br.hasErrors()) {
+			error = true;
+			model.addAttribute(ApplicationStatusConstant.msg_error_generic, br.getFieldError());
+		} else {
+			TwoTuple<Boolean, String> result = loginServiceImpl.registerNewUser(userRegisterForm);
 			if (result.getX()) {
 				model.addAttribute("twaform", new UserTwoWayAuthForm());
 				model.addAttribute("msg", result.getY());
@@ -123,10 +150,9 @@ public class LoginController {
 				model.addAttribute("msg", result.getY());
 			}
 		}
-
-		if (error) {
-			model.addAttribute("registerForm", registrationForm);
-		}
+	
+		model.addAttribute("userRegisterForm", userRegisterForm);
+		model.addAttribute("issuerRegisterForm", new IssuerRegistration());
 		return ApplicationPageConstant.register_page;
 	}
 
@@ -152,9 +178,39 @@ public class LoginController {
 
 		return com.ab.constant.config.ApplicationPageConstant.resetpassword_page;
 	}
+	@RequestMapping(value = "issuerDashboard", method = RequestMethod.GET)
+	public String issuerDashboard(Model model, @ModelAttribute("userDetailObjform") User form, HttpServletResponse response, HttpServletRequest request) {
 
+		// check if user is logged in
+		// if no errors, get user object from db/cache, and send to user
+		// dashboard
+		// user dashboard should be customized based on user type and
+		// rolse/permission user have
+
+		// all exceptions to be caught at controller level as much as possible
+
+		// we need to check first the type of user, based on that its form and
+		// page will decide
+		boolean error = false;
+		try {
+			Issuer issuer = loginServiceImpl.getIssuer(form.getUserId());
+			response.setHeader("auth-token", "124");
+			// creating 1st dash board for candidate
+			model.addAttribute("issuerObjform", issuer);
+			// ra.addFlashAttribute("userDetailObjform", userDetailObj);
+		} catch (Exception e) {
+			error = true;
+			e.printStackTrace();// logger to be implemented
+			// through custom generic error message ,
+			model.addAttribute(ApplicationStatusConstant.msg_error_generic, ApplicationStatusConstant.msg_error_processing_request);
+		}
+
+		return ApplicationPageConstant.issuer_dashboard_page;
+	}
+
+	
 	@RequestMapping(value = "candidateDashboard", method = RequestMethod.GET)
-	public String dashboard(Model model, @ModelAttribute("userDetailObjform") User form, HttpServletResponse response, HttpServletRequest request) {
+	public String candidateDashboard(Model model, @ModelAttribute("userDetailObjform") User form, HttpServletResponse response, HttpServletRequest request) {
 
 		// check if user is logged in
 		// if no errors, get user object from db/cache, and send to user

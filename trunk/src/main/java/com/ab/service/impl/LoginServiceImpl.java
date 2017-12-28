@@ -11,7 +11,7 @@ import com.ab.vo.User;
 import com.ab.vo.candidate.Candidate;
 import com.ab.vo.issuer.Issuer;
 import com.ab.vo.login.Login;
-import com.ab.vo.login.Registration;
+import com.ab.vo.login.UserRegistration;
 
 /**
  * @author Swapnil Singhai
@@ -47,13 +47,13 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 	@Override
-	public TwoTuple<Boolean, String> registerNewUser(Registration registrationForm){
+	public TwoTuple<Boolean, String> registerNewUser(UserRegistration registrationForm){
 		User user = fromRegistration(registrationForm);
 		return loginDaoImpl.registerUser(user);
 	}
 
 
-	private User fromRegistration(Registration registration) {
+	private User fromRegistration(UserRegistration registration) {
 		User user = new User();
 		user.setFirstName(registration.getFirstName());
 		user.setLastName(registration.getLastName());

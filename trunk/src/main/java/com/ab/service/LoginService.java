@@ -5,7 +5,7 @@ import com.ab.vo.User;
 import com.ab.vo.candidate.Candidate;
 import com.ab.vo.issuer.Issuer;
 import com.ab.vo.login.Login;
-import com.ab.vo.login.Registration;
+import com.ab.vo.login.UserRegistration;
 
 
 public interface LoginService {
@@ -20,6 +20,6 @@ public interface LoginService {
 	
 	Issuer getIssuer(long userId) throws Exception;
 
-	TwoTuple<Boolean, String> registerNewUser(Registration form);
+	TwoTuple<Boolean, String> registerNewUser(UserRegistration form);
 	
 }

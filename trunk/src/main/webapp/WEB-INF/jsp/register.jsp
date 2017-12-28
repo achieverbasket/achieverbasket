@@ -117,10 +117,15 @@ body {
 	<div class="container mt-lg-5">
 		<div class="row">
 			<div class="col-md-4">
+				<div class="card mb-2">
+					<div class="card-body text-xs-center">
+						<h5>Registration for Candidates/User</h5>
+					</div>
+				</div>
 				<div class="card">
 					<div class="card-body">
 						<h4 class="card-title text-xs-center">Join Us</h4>
-						<form:form name="f" form:action="${context}/register" method="post" modelAttribute="registerForm">
+						<form:form name="f" form:action="${context}/register/user" method="post" modelAttribute="userRegisterForm">
 							<div class="form-group">
 								<form:input  type="fname" class="form-control" path="firstName" 
 									 placeholder="First Name" required="true" maxlength="20"/>
@@ -139,6 +144,61 @@ body {
 							<div class="form-group">
 								<form:input type="mobile" class="form-control" path="mobile" 
 									aria-describedby="mobileHelp" placeholder="Mobile" required="false" maxlength="15"/>
+								<form:errors path="mobile" />	
+							</div>
+							<div class="form-group">
+								<form:input type="password" class="form-control"
+									path="password" placeholder="Password" maxlength="30" required="true"/>
+								<form:errors path="password" cssClass="error" />	
+							</div>
+							<div class="form-group">
+								<form:input type="password1" class="form-control"
+									path="password1" placeholder="Retype Password" maxlength="30" required="true"/>
+								<form:errors path="password1" cssClass="error" />	
+								<font class="text-muted smallcase">
+								Password policy:<br> 
+								Alphanumeric, Char length 6 - 10
+								</font>	
+							</div>
+							<button type="submit" class="btn btn-primary">Join Us</button>
+						</form:form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-4">
+				<div class="card mb-2">
+					<div class="card-body text-xs-center">
+						<h5>Registration for Organization/Issuer</h5>
+					</div>
+				</div>	
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title text-xs-center">Join Us</h4>
+						<form:form name="f" form:action="${context}/register/issuer" method="post" modelAttribute="issuerRegisterForm">
+							<div class="form-group">
+								<form:input class="form-control" path="orgName" 
+									 placeholder="Organization Name" required="true" maxlength="20"/>
+								<form:errors path="orgName" cssclass="error" />	 
+							</div>
+							<div class="form-group">
+								<form:input  type="fname" class="form-control" path="firstName" 
+									 placeholder="Contact Person First Name" required="true" maxlength="20"/>
+								<form:errors path="firstName" cssclass="error" />	 
+							</div>
+							<div class="form-group">
+								<form:input type="lname" class="form-control" path="lastName" 
+									placeholder="Contact Person Last Name" required="true" maxlength="20"/>
+								<form:errors path="lastName"  />	
+							</div>
+							<div class="form-group">
+								<form:input type="email" class="form-control" path="email" 
+									aria-describedby="emailHelp" placeholder="Contact Person Email" required="true" maxlength="50"/>
+								<form:errors path="email" />	
+							</div>
+							<div class="form-group">
+								<form:input type="mobile" class="form-control" path="mobile" 
+									aria-describedby="mobileHelp" placeholder="Contact Person Mobile" required="false" maxlength="15"/>
 								<form:errors path="mobile" />	
 							</div>
 							<div class="form-group">
