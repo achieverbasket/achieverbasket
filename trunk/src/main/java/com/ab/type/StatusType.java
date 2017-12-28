@@ -5,5 +5,8 @@ public enum StatusType {
 	FAILURE,
 	IN_PROGRESS,
 	COMPLETED,
-	STARTED
+	STARTED,
+	APPROVED,
+	REJECTED,
+	BANNED
 }
