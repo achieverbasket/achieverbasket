@@ -2,12 +2,15 @@ package com.ab.vo.certificate;
 
 import java.sql.Blob;
 
+import com.ab.type.CertificateType;
+
 public class CertificateTemplate {
 	
 	private Long certificateTemplateId;
 	private String templateName;
 	private String certificateDesc;
 	private Long issuerId;
+	private CertificateType certificateType;
 	private Blob scannedCopy;
 	private String certificateTemplateXml;
 
@@ -25,6 +28,14 @@ public class CertificateTemplate {
 
 	public void setTemplateName(String templateName) {
 		this.templateName = templateName;
+	}
+
+	public CertificateType getCertificateType() {
+		return certificateType;
+	}
+
+	public void setCertificateType(CertificateType certificateType) {
+		this.certificateType = certificateType;
 	}
 
 	public String getCertificateDesc() {
