@@ -27,6 +27,17 @@ public final class ApplicationPageConstant {
 	public static final String extracurriculamcertificate_page = "/extracurriculamcertificate";
 	public static final String professionalcertificate_page = "/professionalcertificate";
 	
+	
+	
+	public static final String certificatetemplates_page = "/certificatetemplates";
+	public static final String issuecertificate_page = "/issuecertificate";
+	public static final String searchcertificate_page = "/searchcertificate";
+	public static final String bulkloadcertificate_page = "/bulkloadcertificate";
+	public static final String createcertificate_page = "/createcertificate";
+	public static final String loadcertificateimage_page = "/loadcertificateimage";
+	
+	
+	
 	public static final String setting_page = "/setting";
 	public static final String profile_page = "/profile";
 	
