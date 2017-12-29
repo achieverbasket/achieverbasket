@@ -14,6 +14,7 @@ public class IssuerController {
 	@RequestMapping(path="/certificate/create" ,method=RequestMethod.GET)
 	public String createCertificate()
 	{
+		System.out.println("in create Certificate");
 		return ApplicationPageConstant.createcertificate_page;
 	}
 	
@@ -21,6 +22,7 @@ public class IssuerController {
 	@RequestMapping(path="/certificate/templates" ,method=RequestMethod.GET)
 	public String getCertificateTemplates()
 	{
+		System.out.println("in getCertificateTemplates");
 		return ApplicationPageConstant.certificatetemplates_page;
 	}
 	
@@ -28,6 +30,7 @@ public class IssuerController {
 	@RequestMapping(path="/certificate/issue" ,method=RequestMethod.GET)
 	public String issueCertificateToCandidate()
 	{
+		System.out.println("in issueCertificateToCandidate");
 		return ApplicationPageConstant.issuecertificate_page;
 	}
 	
@@ -37,6 +40,7 @@ public class IssuerController {
 	@RequestMapping(path="/certificate/search" ,method=RequestMethod.GET)
 	public String searchCertificates()
 	{
+		System.out.println("in searchCertificates");
 		return ApplicationPageConstant.searchcertificate_page;
 	}
 	
@@ -44,6 +48,7 @@ public class IssuerController {
 	@RequestMapping(path="/certificate/bulkload" ,method=RequestMethod.GET)
 	public String bulkLoadCertificates()
 	{
+		System.out.println("in bulkLoadCertificates");
 		return ApplicationPageConstant.bulkloadcertificate_page;
 	}
 	
@@ -51,6 +56,7 @@ public class IssuerController {
 		@RequestMapping(path="/certificate/loadimage" ,method=RequestMethod.GET)
 		public String loadCertificateImage()
 		{
+			System.out.println("in loadCertificateImage");
 			return ApplicationPageConstant.loadcertificateimage_page;
 		}
 }

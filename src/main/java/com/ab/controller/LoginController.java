@@ -121,8 +121,17 @@ public class LoginController {
 			error = true;
 			model.addAttribute(ApplicationStatusConstant.msg_error_generic, br.getFieldError());
 		} else {
-			// issuer 
-			System.out.println("issuer registration");
+			
+			System.out.println("in issuer registration");
+			System.out.println("in registerNewUser of loginController");
+			TwoTuple<Boolean, String> result = loginServiceImpl.registerNewIssuer(issuerRegisterForm);
+			if (result.getX()) {
+				model.addAttribute("twaform", new UserTwoWayAuthForm());
+				model.addAttribute("msg", result.getY());
+				return ApplicationPageConstant.twowayauth_page;
+			} else {
+				model.addAttribute("msg", result.getY());
+			}
 		}
 		
 		model.addAttribute("userRegisterForm", new UserRegistration());
@@ -141,6 +150,7 @@ public class LoginController {
 			error = true;
 			model.addAttribute(ApplicationStatusConstant.msg_error_generic, br.getFieldError());
 		} else {
+			System.out.println("in registerNewUser of loginController");
 			TwoTuple<Boolean, String> result = loginServiceImpl.registerNewUser(userRegisterForm);
 			if (result.getX()) {
 				model.addAttribute("twaform", new UserTwoWayAuthForm());
@@ -196,6 +206,7 @@ public class LoginController {
 			Issuer issuer = loginServiceImpl.getIssuer(form.getUserId());
 			response.setHeader("auth-token", "124");
 			// creating 1st dash board for candidate
+			System.out.println("in issuerDashboard for: "+issuer);
 			model.addAttribute("issuerObjform", issuer);
 			// ra.addFlashAttribute("userDetailObjform", userDetailObj);
 		} catch (Exception e) {
