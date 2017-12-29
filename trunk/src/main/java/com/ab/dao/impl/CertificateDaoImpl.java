@@ -286,6 +286,7 @@ public class CertificateDaoImpl implements CertificateDao{
 		{
 			e.printStackTrace();
 		}
+		System.out.println("multipartFile: "+multipartFile);
 		return multipartFile;
 	}
 }

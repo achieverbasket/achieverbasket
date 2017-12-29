@@ -10,6 +10,7 @@ import com.ab.service.LoginService;
 import com.ab.vo.User;
 import com.ab.vo.candidate.Candidate;
 import com.ab.vo.issuer.Issuer;
+import com.ab.vo.login.IssuerRegistration;
 import com.ab.vo.login.Login;
 import com.ab.vo.login.UserRegistration;
 
@@ -49,8 +50,17 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public TwoTuple<Boolean, String> registerNewUser(UserRegistration registrationForm){
 		User user = fromRegistration(registrationForm);
+		System.out.println("in registerNewUser of loginServiceImpl for: "+user);
 		return loginDaoImpl.registerUser(user);
 	}
+	
+	@Override
+	public TwoTuple<Boolean, String> registerNewIssuer(IssuerRegistration form){
+		User user = fromIssuerRegistration(form);
+		System.out.println("in registerNew issuer of loginServiceImpl for: "+user);
+		return loginDaoImpl.registerUser(user);
+	}
+
 
 
 	private User fromRegistration(UserRegistration registration) {
@@ -64,6 +74,16 @@ public class LoginServiceImpl implements LoginService{
 		return user;
 	}
 
+	private User fromIssuerRegistration(IssuerRegistration registration) {
+		User user = new User();
+		user.setFirstName(registration.getFirstName());
+		user.setLastName(registration.getLastName());
+		user.setEmail(registration.getEmail());
+		user.setPassword(registration.getPassword());
+		user.setUserName(registration.getFirstName()+ registration.getLastName());
+		user.setUserType(registration.getUserType());
+		return user;
+	}
 
 	@Override
 	public Candidate getCandidate(long userId) throws Exception {

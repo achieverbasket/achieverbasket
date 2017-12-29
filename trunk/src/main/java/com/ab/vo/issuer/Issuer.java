@@ -2,8 +2,13 @@ package com.ab.vo.issuer;
 
 import java.util.List;
 
+import com.ab.type.CandidateType;
 import com.ab.type.IssuerType;
+import com.ab.vo.User;
 import com.ab.vo.activity.SocialActivity;
+import com.ab.vo.activity.SocialActivityType;
+import com.ab.vo.candidate.Candidate;
+import com.ab.vo.candidate.CandidatePersonalDetail;
 import com.ab.vo.certificate.Certificate;
 import com.ab.vo.preference.PreferenceStatusType;
 
@@ -65,6 +70,15 @@ public class Issuer {
 	}
 	public void setIssuerCertificateList(List<Certificate> issuerCertificateList) {
 		this.issuerCertificateList = issuerCertificateList;
+	}
+	
+	public static Issuer from(User user) {
+		Issuer issuer = new Issuer();
+		issuer.setIssuerName(user.getFirstName());
+		issuer.setIssuerType(IssuerType.ACADEMIC);
+		//issuer.setIssuerDetail(IssuerDetail.from(user));
+		issuer.setPreferenceStatusType(PreferenceStatusType.PUBLIC);
+		return issuer;
 	}
 	
 }

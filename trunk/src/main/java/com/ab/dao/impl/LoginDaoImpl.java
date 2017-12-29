@@ -86,15 +86,22 @@ public class LoginDaoImpl implements LoginDao{
 
 	@Override
 	public TwoTuple<Boolean, String> registerUser(User user) {
+		System.out.println("in regiserUser of LoginDaoImpl for: "+user);
 		String sql = "INSERT INTO USERS (USER_ID, USERNAME, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, ENABLED, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE())";
 		Long userId = sequenceDao.getNextVal("USERS_SEQ");
 		int count =0;
 		count = jdbcTemplate.update(sql, userId, user.getUserName(), user.getPassword(), user.getUserType().getUserTypeId(), user.getFirstName(), user.getLastName(), user.getHintQ(), user.getHintA(), user.getEmail(), user.isEnabled());
 		user.setUserId(userId);
-		if(user.getUserType() == UserType.CANDIDATE) {
+		if(user.getUserType().getUserTypeId() == UserType.CANDIDATE.getUserTypeId()) {
 			Candidate candidate = candidateDao.saveCandidate(Candidate.from(user));
 			String mappingSQL = "INSERT INTO CANDIDATE_USER_MAPPING VALUES (?, ?, 0, SYSDATE())";
 			jdbcTemplate.update(mappingSQL, user.getUserId(), candidate.getCandidateId());
+		}
+		else if(user.getUserType().getUserTypeId() == UserType.ISSUER.getUserTypeId()) {
+			System.out.println("in register user for Issuer: "+user);
+			Issuer issuer = issuerDao.saveIssuer(Issuer.from(user));
+			String mappingSQL = "INSERT INTO ISSUER_USER_MAPPING VALUES (?, ?, 0, SYSDATE())";
+			jdbcTemplate.update(mappingSQL, user.getUserId(), issuer.getIssuerId());
 		}
 		return count > 0 ? new TwoTuple<Boolean, String>(true, ApplicationStatusConstant.msg_account_created_success) :  new TwoTuple<Boolean, String>(false, ApplicationStatusConstant.msg_account_created_error);
 	}
