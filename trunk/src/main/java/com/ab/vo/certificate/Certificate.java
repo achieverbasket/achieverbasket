@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ab.type.CertificateType;
+import com.ab.type.StatusType;
+import com.ab.type.VerificationStatusType;
 import com.ab.vo.City;
 import com.ab.vo.Country;
 import com.ab.vo.State;
@@ -25,6 +27,7 @@ public class Certificate implements Serializable{
 	private String endDate;
 	private CertificateTemplate certificateTemplate;
 	private String filePath;
+	private VerificationStatusType verificationStatusType;
 	private boolean verified;
 	private Long verifiedBy;
 	private String verificationDate;
@@ -98,6 +101,14 @@ public class Certificate implements Serializable{
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+
+	public VerificationStatusType getVerificationStatusType() {
+		return verificationStatusType;
+	}
+
+	public void setVerificationStatusType(VerificationStatusType verificationStatusType) {
+		this.verificationStatusType = verificationStatusType;
 	}
 
 	public boolean isVerified() {

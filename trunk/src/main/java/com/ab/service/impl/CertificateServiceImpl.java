@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ab.dao.CertificateDao;
 import com.ab.service.CertificateService;
+import com.ab.type.VerificationStatusType;
 import com.ab.vo.certificate.Certificate;
 
 @Service
@@ -65,5 +66,18 @@ public class CertificateServiceImpl implements CertificateService{
 	{
 		return certificateDaoImpl.deleteCertificatesForIssuer(issuerId);
 	}
+	
+	@Override
+	public VerificationStatusType getCertificateVerificationStatusType(Long certificateId)
+	{
+		return certificateDaoImpl.getCertificateVerificationStatusType(certificateId);
+	}
+	
+	@Override
+	public boolean updateCertificateVerificationStatus(Long certificateId, VerificationStatusType verificationStatusType)
+	{
+		return certificateDaoImpl.updateCertificateVerificationStatus(certificateId, verificationStatusType);
+	}
+
 	
 }
