@@ -91,7 +91,6 @@ public class LoginController {
 			model.addAttribute("loginForm", loginForm);
 			return ApplicationPageConstant.login_page;
 		} else {
-			userType = UserType.ISSUER;// making type issuer , should come from user object after dev by team
 			response.setHeader("auth-token", "12345");
 			if(UserType.CANDIDATE == userType) {
 				return "redirect:/candidateDashboard";
