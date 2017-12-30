@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.service.CertificateService;
 import com.ab.service.LoginService;
+import com.ab.type.StatusType;
 import com.ab.type.UserType;
+import com.ab.type.VerificationStatusType;
 import com.ab.vo.User;
 import com.ab.vo.candidate.Candidate;
 import com.ab.vo.certificate.Certificate;
@@ -131,5 +133,14 @@ public class CertificateController {
 		return ApplicationPageConstant.newcertificate_page;
 	}
 	
-
+	public VerificationStatusType getCertificateVerificationStatusType(Long certificateId)
+	{
+		return certificateServiceImpl.getCertificateVerificationStatusType(certificateId);
+	}
+	
+	public boolean updateCertificateVerificationStatus(Long certificateId, VerificationStatusType verificationStatusType)
+	{
+		return certificateServiceImpl.updateCertificateVerificationStatus(certificateId, verificationStatusType);
+	}
+	
 }

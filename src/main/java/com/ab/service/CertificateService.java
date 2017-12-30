@@ -2,6 +2,7 @@ package com.ab.service;
 
 import java.util.List;
 
+import com.ab.type.VerificationStatusType;
 import com.ab.vo.certificate.Certificate;
 
 public interface CertificateService {
@@ -15,5 +16,9 @@ public interface CertificateService {
 	public boolean deleteCertificate(long certificateId);
 	public boolean deleteCertificatesForCandidate(long candidateId);
 	public boolean deleteCertificatesForIssuer(long issuerId);
+	public VerificationStatusType getCertificateVerificationStatusType(Long certificateId);
+	public boolean updateCertificateVerificationStatus(Long certificateId, VerificationStatusType verificationStatusType);
+
+
 
 }

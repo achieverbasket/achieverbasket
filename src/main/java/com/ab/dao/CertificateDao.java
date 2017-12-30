@@ -2,6 +2,7 @@ package com.ab.dao;
 
 import java.util.List;
 
+import com.ab.type.VerificationStatusType;
 import com.ab.vo.certificate.Certificate;
 
 public interface CertificateDao {
@@ -20,5 +21,11 @@ public interface CertificateDao {
 	public boolean deleteCertificatesForCandidate(long candidateId);
 	
 	public boolean deleteCertificatesForIssuer(long issuerId);
+	
+	public boolean updateCertificateVerificationStatus(Long certificateId, VerificationStatusType verificationStatusType);
+	
+	public VerificationStatusType getCertificateVerificationStatusType(Long certificateId);
+
+
 
 }

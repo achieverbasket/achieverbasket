@@ -25,6 +25,7 @@ import com.ab.dao.CertificateDao;
 import com.ab.dao.CertificateTemplateDao;
 import com.ab.dao.SocialActivityDao;
 import com.ab.type.CertificateType;
+import com.ab.type.VerificationStatusType;
 import com.ab.vo.activity.SocialActivity;
 import com.ab.vo.activity.SocialActivityType;
 import com.ab.vo.certificate.Certificate;
@@ -80,7 +81,7 @@ public class CertificateDaoImpl implements CertificateDao{
 					new Date(format.parse(certificate.getEndDate()).getTime()),
 					certificate.getCertificateTemplate().getCertificateTemplateId(),
 					certificate.getFilePath(),
-					certificate.isVerified(),
+					certificate.getVerificationStatusType().getVerificationStatusTypeId(),
 					certificate.getVerifiedBy(),
 					certificate.getVerificationDate() == null ? null : new Date(format.parse(certificate.getVerificationDate()).getTime()), 
 					socialActivity.getSocialActivityId(),
@@ -114,7 +115,7 @@ public class CertificateDaoImpl implements CertificateDao{
 				new Date(format.parse(certificate.getIssueDate()).getTime()), 
 				new Date(format.parse(certificate.getEndDate()).getTime()),
 				certificate.getFilePath(),
-				certificate.isVerified(),
+				certificate.getVerificationStatusType().getVerificationStatusTypeId(),
 				certificate.getVerifiedBy(),
 				certificate.getVerificationDate() == null ? null : new Date(format.parse(certificate.getVerificationDate()).getTime()), 
 				certificate.getCertificateType().getCertificateTypeId(),
@@ -143,7 +144,7 @@ public class CertificateDaoImpl implements CertificateDao{
 				certificate.setEndDate(dateFormat.format(rs.getDate("END_DATE")));
 				certificate.setCertificateTemplate(certificateTemplateDao.getCertificateTemplate(rs.getLong("CERTIFICATE_TEMPLATE_ID")));
 				certificate.setFilePath(rs.getString("FILE_PATH"));
-				certificate.setVerified(rs.getBoolean("VERIFICATION_STATUS"));
+				certificate.setVerificationStatusType(VerificationStatusType.fromId(rs.getInt("VERIFICATION_STATUS")));
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
 				certificate.setVerificationDate(rs.getObject("VERIFIED_DATE") == null ? null : dateFormat.format(rs.getDate("VERIFIED_DATE")));
 				certificate.setCertificateFile(getCertificateFile(certificate.getFilePath()));
@@ -173,7 +174,7 @@ public class CertificateDaoImpl implements CertificateDao{
 				certificate.setEndDate(dateFormat.format(rs.getDate("END_DATE")));
 				certificate.setCertificateTemplate(certificateTemplateDao.getCertificateTemplate(rs.getLong("CERTIFICATE_TEMPLATE_ID")));
 				certificate.setFilePath(rs.getString("FILE_PATH"));
-				certificate.setVerified(rs.getBoolean("VERIFICATION_STATUS"));
+				certificate.setVerificationStatusType(VerificationStatusType.fromId(rs.getInt("VERIFICATION_STATUS")));
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
 				certificate.setVerificationDate(rs.getObject("VERIFIED_DATE") == null ? null : dateFormat.format(rs.getDate("VERIFIED_DATE")));
 				certificate.setCertificateFile(getCertificateFile(certificate.getFilePath()));
@@ -203,7 +204,7 @@ public class CertificateDaoImpl implements CertificateDao{
 				certificate.setEndDate(dateFormat.format(rs.getDate("END_DATE")));
 				certificate.setCertificateTemplate(certificateTemplateDao.getCertificateTemplate(rs.getLong("CERTIFICATE_TEMPLATE_ID")));
 				certificate.setFilePath(rs.getString("FILE_PATH"));
-				certificate.setVerified(rs.getBoolean("VERIFICATION_STATUS"));
+				certificate.setVerificationStatusType(VerificationStatusType.fromId(rs.getInt("VERIFICATION_STATUS")));
 				certificate.setVerifiedBy(rs.getLong("VERIFIED_BY_ID"));
 				certificate.setVerificationDate(rs.getObject("VERIFIED_DATE") == null ? null : dateFormat.format(rs.getDate("VERIFIED_DATE")));
 				certificate.setCertificateFile(getCertificateFile(certificate.getFilePath()));
@@ -213,6 +214,28 @@ public class CertificateDaoImpl implements CertificateDao{
 				
 				return certificate;
 			});
+	}
+	
+	@Override
+	public boolean updateCertificateVerificationStatus(Long certificateId, VerificationStatusType verificationStatusType) {
+	
+		String sql = "UPDATE CERTIFICATE SET VERIFICATION_STATUS=? WHERE CERTIFICATE_ID=?";
+		
+		jdbcTemplate.update(sql, verificationStatusType.getVerificationStatusTypeId(), certificateId);
+		
+		return true;
+	}
+	
+	@Override
+	public VerificationStatusType getCertificateVerificationStatusType(Long certificateId) {
+		
+		String sql = "SELECT VERIFICATION_STATUS FROM CERTIFICATE WHERE CERTIFICATE_ID=?";
+		
+		return jdbcTemplate.query(sql, new Object[] {certificateId}, (ResultSetExtractor<VerificationStatusType>) rs -> {
+			rs.next();
+			return VerificationStatusType.fromId(rs.getInt("VERIFICATION_STATUS"));
+		});
+			
 	}
 
 	@Override
