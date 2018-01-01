@@ -65,6 +65,7 @@ public class CertificateController {
 		model.addAttribute("certificate", certificate);
 		certificate.setCertificateTemplate(CertificateTemplate.defaultTemplate());
 		if(certificate.getCertificateId() == null) {
+			certificate.setVerificationStatusType(VerificationStatusType.VER_NOT_REQUESTED);
 			certificateServiceImpl.saveCertificate(certificate);
 		} else { 
 			certificateServiceImpl.updateCertificate(certificate);

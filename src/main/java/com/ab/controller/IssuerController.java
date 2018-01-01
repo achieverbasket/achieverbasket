@@ -16,10 +16,10 @@ import com.ab.vo.certificate.Certificate;
 public class IssuerController {
 	
 	@Autowired
-	CertificateService certificateService;
+	CertificateService certificateServiceImpl;
 	
 	@Autowired
-	CertificateTemplateService certificateTemplateService;
+	CertificateTemplateService certificateTemplateServiceImpl;
 	
 	// get issue certifiate page
 	@RequestMapping(path="/certificate/create" ,method=RequestMethod.GET)
@@ -34,16 +34,16 @@ public class IssuerController {
 	public String getAvailableCertificateTemplates(CertificateType certificateType)
 	{
 		System.out.println("in getAvailableCertificateTemplates");
-		certificateTemplateService.getCertificateTemplateList(null, certificateType);
+		certificateTemplateServiceImpl.getCertificateTemplateList(null, certificateType);
 		return ApplicationPageConstant.certificatetemplates_page;
 	}
 	
 	//fetch list of templates assigned to given issuer
-	@RequestMapping(path="/certificate/templates" ,method=RequestMethod.GET)
+	//@RequestMapping(path="/certificate/templates" ,method=RequestMethod.GET)
 	public String getIssuerCertificateTemplates(Long issuerId, CertificateType certificateType)
 	{
 		System.out.println("in getIssuerCertificateTemplates");
-		certificateTemplateService.getCertificateTemplateList(issuerId, certificateType);
+		certificateTemplateServiceImpl.getCertificateTemplateList(issuerId, certificateType);
 		return ApplicationPageConstant.certificatetemplates_page;
 	}
 	
@@ -54,7 +54,7 @@ public class IssuerController {
 		System.out.println("in issueCertificateToCandidate");
 		certificate.setCandidateId(candidateId);
 		certificate.setIssuerId(issuerId);
-		certificateService.saveCertificate(certificate);
+		certificateServiceImpl.saveCertificate(certificate);
 		return ApplicationPageConstant.issuecertificate_page;
 	}
 	
