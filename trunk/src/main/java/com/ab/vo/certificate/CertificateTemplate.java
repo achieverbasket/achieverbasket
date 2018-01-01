@@ -2,6 +2,8 @@ package com.ab.vo.certificate;
 
 import java.sql.Blob;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ab.type.CertificateType;
 
 public class CertificateTemplate {
@@ -13,6 +15,8 @@ public class CertificateTemplate {
 	private CertificateType certificateType;
 	private Blob scannedCopy;
 	private String certificateTemplateXml;
+	private String filePath;
+	private MultipartFile templateFile;
 
 	public Long getCertificateTemplateId() {
 		return certificateTemplateId;
@@ -68,6 +72,22 @@ public class CertificateTemplate {
 
 	public void setCertificateTemplateXml(String certificateTemplateXml) {
 		this.certificateTemplateXml = certificateTemplateXml;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public MultipartFile getTemplateFile() {
+		return templateFile;
+	}
+
+	public void setTemplateFile(MultipartFile templateFile) {
+		this.templateFile = templateFile;
 	}
 
 	public static CertificateTemplate defaultTemplate() {

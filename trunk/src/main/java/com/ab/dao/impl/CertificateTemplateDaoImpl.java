@@ -24,17 +24,17 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 	
 	@Override
 	public CertificateTemplate saveCertificateTemplate(CertificateTemplate template) {
-		String sql = "INSERT INTO CERTIFICATE_TEMPLATE (CERTIFICATE_TEMPLATE_ID, TEMPLATE_NAME, ISSUER_ID, CERTIFICATE_DESC, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, 0, SYSDATE())";
+		String sql = "INSERT INTO CERTIFICATE_TEMPLATE (CERTIFICATE_TEMPLATE_ID, TEMPLATE_NAME, ISSUER_ID, FILE_PATH, CERTIFICATE_DESC, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, 0, SYSDATE())";
 		Long templateId = sequenceDao.getNextVal("CERTIFICATE_TEMPLATE_SEQ");
-		jdbcTemplate.update(sql, templateId, template.getTemplateName(), template.getIssuerId(), template.getCertificateDesc());
+		jdbcTemplate.update(sql, templateId, template.getTemplateName(), template.getIssuerId(), template.getFilePath(), template.getCertificateDesc());
 		template.setCertificateTemplateId(templateId);
 		return template;
 	}
 
 	@Override
 	public void updateCertificateTemplate(CertificateTemplate template) {
-		String sql = "UPDATE CERTIFICATE_TEMPLATE SET TEMPLATE_NAME=?, CERTIFICATE_DESC=?, MODIFIED_BY=0, MODIFIED_TIME) WHERE CERTIFICATE_TEMPLATE_ID=?";
-		jdbcTemplate.update(sql, template.getTemplateName(), template.getCertificateDesc(), template.getCertificateTemplateId());
+		String sql = "UPDATE CERTIFICATE_TEMPLATE SET TEMPLATE_NAME=?, FILE_PATH=?, CERTIFICATE_DESC=?, MODIFIED_BY=0, MODIFIED_TIME) WHERE CERTIFICATE_TEMPLATE_ID=?";
+		jdbcTemplate.update(sql, template.getTemplateName(), template.getFilePath(), template.getCertificateDesc(), template.getCertificateTemplateId());
 	}
 
 	@Override
@@ -46,6 +46,7 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 				template.setCertificateTemplateId(certificateTemplateId);
 				template.setTemplateName(rs.getString("TEMPLATE_NAME"));
 				template.setIssuerId(rs.getLong("ISSUER_ID"));
+				template.setFilePath(rs.getString("FILE_PATH"));
 				template.setCertificateDesc(rs.getString("CERTIFICATE_DESC"));
 				return template;
 			});
@@ -61,6 +62,7 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 				template.setCertificateTemplateId(rs.getLong("CERTIFICATE_TEMPLATE_ID"));
 				template.setTemplateName(rs.getString("TEMPLATE_NAME"));
 				template.setIssuerId(issuerId);
+				template.setFilePath(rs.getString("FILE_PATH"));
 				template.setCertificateDesc(rs.getString("CERTIFICATE_DESC"));
 				return template;
 			});

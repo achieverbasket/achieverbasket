@@ -1,12 +1,14 @@
 package com.ab.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ab.dao.CertificateDao;
 import com.ab.dao.IssuerDao;
 import com.ab.dao.IssuerDetailDao;
 import com.ab.vo.issuer.Issuer;
 
+@Service
 public class IssuerServiceImpl {
 	
 	@Autowired

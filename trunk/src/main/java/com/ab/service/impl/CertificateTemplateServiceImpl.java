@@ -3,12 +3,14 @@ package com.ab.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ab.dao.CertificateTemplateDao;
 import com.ab.service.CertificateTemplateService;
 import com.ab.type.CertificateType;
 import com.ab.vo.certificate.CertificateTemplate;
 
+@Service
 public class CertificateTemplateServiceImpl implements CertificateTemplateService {
 	
 	@Autowired
