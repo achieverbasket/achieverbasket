@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @ComponentScan(basePackages="com.ab*")
 @ImportResource(value="/WEB-INF/spring/spring-app.xml")
+@EnableJdbcHttpSession
 @Import(value=SpringSecurityConfig.class)
 public class SpringApp extends WebMvcConfigurerAdapter{
 	
@@ -53,6 +56,11 @@ public class SpringApp extends WebMvcConfigurerAdapter{
 		super.addFormatters(registry);
 	}
 	
+	@Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver cmr = new CommonsMultipartResolver();
+        return cmr;
 
+    }
 	
 }

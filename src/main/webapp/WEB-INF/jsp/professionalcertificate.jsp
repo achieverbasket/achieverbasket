@@ -38,7 +38,7 @@
 					<h5 class="mb-0">Professional Certificate Details</h5>
 				</div>
 				<div class="card-body">
-					<form:form id="user-certificate-det" modelAttribute="form" action="professional" method="POST" enctype="multipart/form-data" >
+					<form:form id="user-certificate-det" modelAttribute="form" action="professional?${_csrf.parameterName}=${_csrf.token}" method="POST" enctype="multipart/form-data" >
 						<div class="card mb-1">
 							<div class="card-body">
 								<div class="row">

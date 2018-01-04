@@ -10,6 +10,7 @@
 <meta content="<%=response.getHeader("auth-token")%>" name="auth-token">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<sec:csrfMetaTags/>
 <title></title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> 
@@ -18,7 +19,7 @@
 <link href="${context}/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
 </head>
 <body class="bd-home">
-	
+
 <%@include file="header.jsp" %>
 	<div class="container-fluid">
 		<div class="row flex-xl-nowrap">

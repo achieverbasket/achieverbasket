@@ -64,6 +64,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		http.addFilter(filter);
+		
 		http.authorizeRequests()
 				.antMatchers("/", "/login**" ,  "/resetpassword**")
 				.permitAll()
@@ -82,7 +85,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.formLogin()
 				.loginPage("/login")
 				.defaultSuccessUrl("/dashboard").failureHandler(getAuthFailure())
-				.and().logout().clearAuthentication(true).invalidateHttpSession(true).deleteCookies("JSESSIONID")
+				//.and().logout().clearAuthentication(true).invalidateHttpSession(true).deleteCookies("JSESSIONID")
 				//.logoutUrl("/login?logout")
 				.and()
 				.exceptionHandling()
@@ -93,8 +96,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
 
-		http.csrf()
-				.csrfTokenRepository(
+		http.csrf().csrfTokenRepository(
 						CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
 				.logout().invalidateHttpSession(true);
 

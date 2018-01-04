@@ -19,6 +19,7 @@
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <link rel="stylesheet" href="${context}/css/main.css">
 <link rel="stylesheet" href="${context}/css/custom.css">
+<sec:csrfMetaTags/>
 <style type="text/css">
 .card{
 margin: 0;
@@ -37,17 +38,48 @@ margin: 0;
 	<!-- left panel -->
 
 	<div class="container-fluid">
+	
 		<div class="row flex-xl-nowrap">
 			<%@include file="leftnav.jsp"%>
 			<main class="col-12 col-md-9 col-xl-8  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
 				<h1 class="bd-title" id="content"></h1>
 				<div class="card mb-1 border-light">
 					<div class="card-header">
-						<h5 class="mb-0">Load Certificate Image Page</h5>
+						<h5 class="mb-0">Load Certificate Template Image Page</h5>
 					</div>
 				</div>
-				<div class="card-deck">
+				<c:if test="${!empty success}">
+					<div class="alert alert-success" role="alert">${success}</div>
+				</c:if>
+				<c:if test="${!empty  error}">
+					<div class="alert alert-danger" role="alert">${error}</div>
+				</c:if>
+				<form:form  modelAttribute="form" action="${context}/issuer/certificate/loadimage?${_csrf.parameterName}=${_csrf.token}"  enctype="multipart/form-data" method="POST">
+				<div class="row">
+					<div class="col-12 col-md-3">
+						<label class="col-form-label">Certificate Type</label>
+						<%-- <c:forEach var="enum" items="${CertificateType}">
+						    <option value="${enum}"><spring:message code="${enum.name}" /></option>
+						</c:forEach> --%>
+						<form:select path="certificateType" class="form-control form-control-sm ">
+							<form:options items="${certType}"  />
+						</form:select>
+						<form:errors path="certificateType" />
+					</div>
+				</div>	
+				<div class="row">
+					<div class="col-12 col-md-3">
+						<label class="col-form-label">Upload Template Image</label>
+						<form:input path="certificateFile" type="file" class="form-control form-control-sm" ></form:input>
+						<form:errors path="certificateFile" />
+					</div>
 				</div>
+				<div class="row mt-2">	
+					<div class="col-12 col-md-3">
+						<input type="submit" value="submit" name="submit" class="btn btn-sm btn-dark">
+					</div>
+				</div>
+				</form:form>
 			</main>
 		</div>
 	</div>

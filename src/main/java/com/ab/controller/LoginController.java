@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,7 +45,7 @@ public class LoginController {
 	public String getLoginPage(@ModelAttribute Login loginForm, Model model,HttpServletRequest req,
 			@RequestParam(value = "logout", required = false) String logout,
 			@RequestParam(value = "expired", required = false) String expired,
-			@RequestParam(value = "session", required = false) String session) {
+			@RequestParam(value = "session", required = false) String session,HttpServletResponse resp) {
 		if(null != req.getSession() && req.getSession().getAttribute("error") != null){
 			req.setAttribute("error", req.getSession().getAttribute("error"));
 			req.getSession().setAttribute("error", null);
@@ -52,9 +53,10 @@ public class LoginController {
 		if(null != session){
 			model.addAttribute(ApplicationStatusConstant.msg_error_generic, ApplicationStatusConstant.SESSION_INVALID_ERR);
 		}else if(null != logout ){
-			User user = UserController.getUserPrincipal();
-			if(null!= user){
-				SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+			if(null != auth){
+				new SecurityContextLogoutHandler().logout(req, resp, auth);
+				req.getSession().invalidate();
 			}
 			model.addAttribute(ApplicationStatusConstant.msg_success_generic, ApplicationStatusConstant.LOGOUT_SUCCESS_MSG);
 		}else if(null != expired ){

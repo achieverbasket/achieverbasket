@@ -38,7 +38,7 @@
 					<h5 class="mb-0">Create Certificate</h5>
 				</div>
 				<div class="card-body">
-					<form:form id="user-academic-det" modelAttribute="form" action="academic" enctype="multipart/form-data">
+					<form:form id="user-academic-det" modelAttribute="form" action="academic?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
 						<div class="card mb-1">
 							<div class="card-body">
 								<div class="row">

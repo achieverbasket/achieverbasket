@@ -39,7 +39,7 @@
 					<h5 class="mb-0">Academic Certificate Details</h5>
 				</div>
 				<div class="card-body">
-					<form:form id="user-academic-det" modelAttribute="form" action="academic" method="POST" enctype="multipart/form-data"  >
+					<form:form id="user-academic-det" modelAttribute="form" action="academic?${_csrf.parameterName}=${_csrf.token}" method="POST" enctype="multipart/form-data"  >
 					
 						<div class="card mb-1">
 							<div class="card-body">
@@ -107,7 +107,7 @@
 		</div>
 	</div>
 
-
+<sec:csrfInput />
 	<%@include file="footer.jsp"%>
 	
 	

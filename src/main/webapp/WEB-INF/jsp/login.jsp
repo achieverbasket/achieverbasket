@@ -159,7 +159,6 @@ body {
 	</div>
 	</div>
 
-<sec:csrfInput />
 <%@include file="footer.jsp" %>				
 	
 
