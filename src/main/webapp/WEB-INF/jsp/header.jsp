@@ -18,28 +18,33 @@
 			<input class="form-control col-md-12" type="text" placeholder="Search"
 				aria-label="Search">
 		</form>
+		
 		<ul class="navbar-nav mr-auto">
+			<c:if test="${type == 'candidate'}">	
 			<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="http://example.com"
 					id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false">Certificate</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown01">
-					<a class="dropdown-item" href="${context}/certificates/1">My Certificates</a>
-					<a class="dropdown-item" href="${context}/certificate">Create Certificate</a>
-					</div></li>
-		</ul>		
+						<a class="dropdown-item" href="${context}/certificates/1">My Certificates</a>
+						<a class="dropdown-item" href="${context}/certificate">Create Certificate</a>
+					</div>
+			</li>
+			</c:if>	
+		</ul>	
+		
 		<form class="form-inline">
 			<c:choose>
-  				<c:when test="${not empty userDetailObjform.firstName}">
+  				<c:when test="${not empty username}">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fa fa-user" aria-hidden="true"></i> <c:out value="${userDetailObjform.firstName}"></c:out>
+								<i class="fa fa-user" aria-hidden="true"></i> <c:out value="${username}"></c:out>
 							</a>
 							<div class="dropdown-menu">
 								<a class="dropdown-item" href="${context}/setting">Setting</a>
 								<a class="dropdown-item" href="${context}/profile">Profile</a>
-								<a class="dropdown-item" href="${context}/logout">Logout</a>
+								<a class="dropdown-item" href="${context}/login?logout">Logout</a>
 							</div>
 						</li>
 					</ul>

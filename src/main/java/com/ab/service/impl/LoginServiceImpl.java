@@ -31,7 +31,8 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public User loginUser(Login loginForm) throws Exception {
 		System.out.println("In Signin User========");
-		return loginDaoImpl.loginUser(loginForm).getZ().orElse(null);
+		User user = loginDaoImpl.loginUser(loginForm);
+		return user;
 	}
 
 
@@ -64,24 +65,19 @@ public class LoginServiceImpl implements LoginService{
 
 
 	private User fromRegistration(UserRegistration registration) {
-		User user = new User();
-		user.setFirstName(registration.getFirstName());
-		user.setLastName(registration.getLastName());
-		user.setEmail(registration.getEmail());
-		user.setPassword(registration.getPassword());
-		user.setUserName(registration.getFirstName()+ registration.getLastName());
-		user.setUserType(registration.getUserType());
+		User user = new User(registration.getFirstName()+ registration.getLastName(), registration.getPassword(),
+				true, true, 
+				true, true, null, null, 
+				registration.getUserType(), registration.getFirstName(), registration.getLastName(), registration.getEmail(), null);
+		
 		return user;
 	}
 
 	private User fromIssuerRegistration(IssuerRegistration registration) {
-		User user = new User();
-		user.setFirstName(registration.getFirstName());
-		user.setLastName(registration.getLastName());
-		user.setEmail(registration.getEmail());
-		user.setPassword(registration.getPassword());
-		user.setUserName(registration.getFirstName()+ registration.getLastName());
-		user.setUserType(registration.getUserType());
+		User user = new User(registration.getFirstName()+ registration.getLastName(), registration.getPassword(),
+				true, true, 
+				true, true, null, null, 
+				registration.getUserType(), registration.getFirstName(), registration.getLastName(), registration.getEmail(), null);
 		return user;
 	}
 

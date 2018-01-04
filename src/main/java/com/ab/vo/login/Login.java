@@ -2,22 +2,11 @@ package com.ab.vo.login;
 
 public class Login {
 	
-	private String userName;
+	private String username;
 	private String password;
 	private String hintQ;
 	private String hintA;
-	/**
-	 * @return the loginId
-	 */
-	public String getUserName() {
-		return userName;
-	}
-	/**
-	 * @param loginId the loginId to set
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+	
 	/**
 	 * @return the password
 	 */
@@ -53,6 +42,12 @@ public class Login {
 	 */
 	public void setHintA(String hintA) {
 		this.hintA = hintA;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 

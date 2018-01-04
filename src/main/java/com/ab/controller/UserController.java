@@ -1,5 +1,6 @@
 package com.ab.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -104,15 +105,19 @@ public class UserController {
 	public String editPersonalRecord(@PathVariable(required = true) Integer id,Model model) {
 		
 		//get the data for id
-		User userDetailObj = new User();
+		/*User userDetailObj = new User();
 		userDetailObj.setUserId(1l);
 		userDetailObj.setFirstName("Swapnil");
 		userDetailObj.setLastName("Singhai");
 		userDetailObj.setEmail("Swap@a.com");
 		userDetailObj.setUserType(UserType.CANDIDATE);
 		
-		model.addAttribute("form", userDetailObj);
+		model.addAttribute("form", userDetailObj);*/
 		return ApplicationPageConstant.newuserpersonaldet_page;
+	}
+	
+	public static User getUserPrincipal(){
+		return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.ab.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -9,6 +10,8 @@ import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.service.CertificateService;
 import com.ab.service.CertificateTemplateService;
 import com.ab.type.CertificateType;
+import com.ab.type.UserType;
+import com.ab.vo.User;
 import com.ab.vo.certificate.Certificate;
 
 @Controller
@@ -23,16 +26,36 @@ public class IssuerController {
 	
 	// get issue certifiate page
 	@RequestMapping(path="/certificate/create" ,method=RequestMethod.GET)
-	public String createCertificate()
+	public String createCertificate(Model model)
 	{
+		User user = UserController.getUserPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 		System.out.println("in create Certificate");
 		return ApplicationPageConstant.createcertificate_page;
 	}
 	
 	//fetch list of templates available in repository to issuer to choose from
 	@RequestMapping(path="/certificate/templates" ,method=RequestMethod.GET)
-	public String getAvailableCertificateTemplates(CertificateType certificateType)
+	public String getAvailableCertificateTemplates(CertificateType certificateType,Model model)
 	{
+		User user = UserController.getUserPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 		System.out.println("in getAvailableCertificateTemplates");
 		certificateTemplateServiceImpl.getCertificateTemplateList(null, certificateType);
 		return ApplicationPageConstant.certificatetemplates_page;
@@ -40,45 +63,90 @@ public class IssuerController {
 	
 	//fetch list of templates assigned to given issuer
 	//@RequestMapping(path="/certificate/templates" ,method=RequestMethod.GET)
-	public String getIssuerCertificateTemplates(Long issuerId, CertificateType certificateType)
+	public String getIssuerCertificateTemplates(Long issuerId, CertificateType certificateType,
+			Model  model)
 	{
-		System.out.println("in getIssuerCertificateTemplates");
+		User user = UserController.getUserPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 		certificateTemplateServiceImpl.getCertificateTemplateList(issuerId, certificateType);
 		return ApplicationPageConstant.certificatetemplates_page;
 	}
 	
 	// get issue certifiate page
 	@RequestMapping(path="/certificate/issue" ,method=RequestMethod.GET)
-	public String issueCertificateToCandidate(Long issuerId, Long candidateId, Certificate certificate)
+	public String issueCertificateToCandidate(Certificate certificate,Model model)
 	{
-		System.out.println("in issueCertificateToCandidate");
-		certificate.setCandidateId(candidateId);
-		certificate.setIssuerId(issuerId);
+		User user = UserController.getUserPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 		certificateServiceImpl.saveCertificate(certificate);
 		return ApplicationPageConstant.issuecertificate_page;
 	}
 	
 	//search certificate
 	@RequestMapping(path="/certificate/search" ,method=RequestMethod.GET)
-	public String searchCertificates()
+	public String searchCertificates(Model model)
 	{
-		System.out.println("in searchCertificates");
+		User user = UserController.getUserPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 		return ApplicationPageConstant.searchcertificate_page;
 	}
 	
 	//bulk load page
 	@RequestMapping(path="/certificate/bulkload" ,method=RequestMethod.GET)
-	public String bulkLoadCertificates()
+	public String bulkLoadCertificates(Model model)
 	{
-		System.out.println("in bulkLoadCertificates");
+		
+		User user = UserController.getUserPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 		return ApplicationPageConstant.bulkloadcertificate_page;
 	}
 	
 	// get issue certifiate page
 	@RequestMapping(path="/certificate/loadimage" ,method=RequestMethod.GET)
-	public String loadCertificateImage()
+	public String loadCertificateImage(Model model)
 	{
-		System.out.println("in loadCertificateImage");
+		User user = UserController.getUserPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 		return ApplicationPageConstant.loadcertificateimage_page;
 	}
 }
