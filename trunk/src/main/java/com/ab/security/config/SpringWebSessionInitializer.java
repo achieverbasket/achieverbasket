@@ -1,5 +1,7 @@
 package com.ab.security.config;
 
-public class SpringWebSessionInitializer{
+import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
+
+public class SpringWebSessionInitializer extends AbstractHttpSessionApplicationInitializer {
 
 }

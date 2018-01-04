@@ -117,7 +117,13 @@ public class UserController {
 	}
 	
 	public static User getUserPrincipal(){
-		return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(null!= SecurityContextHolder.getContext().getAuthentication()&&
+				null!= SecurityContextHolder.getContext().getAuthentication().getPrincipal()){
+			if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User){
+				return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			}
+		}
+		return null;
 	}
 	
 }

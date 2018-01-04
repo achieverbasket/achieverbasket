@@ -3,6 +3,8 @@ package com.ab.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -44,7 +46,7 @@ public class IssuerController {
 	
 	//fetch list of templates available in repository to issuer to choose from
 	@RequestMapping(path="/certificate/templates" ,method=RequestMethod.GET)
-	public String getAvailableCertificateTemplates(CertificateType certificateType,Model model)
+	public String getAvailableCertificateTemplates(Model model)
 	{
 		User user = UserController.getUserPrincipal();
 		if(null != user){
@@ -56,14 +58,14 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
-		System.out.println("in getAvailableCertificateTemplates");
-		certificateTemplateServiceImpl.getCertificateTemplateList(null, certificateType);
+		
+		//certificateTemplateServiceImpl.getCertificateTemplateList(null, certificateType);
 		return ApplicationPageConstant.certificatetemplates_page;
 	}
 	
 	//fetch list of templates assigned to given issuer
 	//@RequestMapping(path="/certificate/templates" ,method=RequestMethod.GET)
-	public String getIssuerCertificateTemplates(Long issuerId, CertificateType certificateType,
+	public String getIssuerCertificateTemplates(
 			Model  model)
 	{
 		User user = UserController.getUserPrincipal();
@@ -76,13 +78,13 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
-		certificateTemplateServiceImpl.getCertificateTemplateList(issuerId, certificateType);
+		//certificateTemplateServiceImpl.getCertificateTemplateList(issuerId, certificateType);
 		return ApplicationPageConstant.certificatetemplates_page;
 	}
 	
 	// get issue certifiate page
 	@RequestMapping(path="/certificate/issue" ,method=RequestMethod.GET)
-	public String issueCertificateToCandidate(Certificate certificate,Model model)
+	public String issueCertificateToCandidate(Model model)
 	{
 		User user = UserController.getUserPrincipal();
 		if(null != user){
@@ -94,7 +96,7 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
-		certificateServiceImpl.saveCertificate(certificate);
+		//certificateServiceImpl.saveCertificate(certificate);
 		return ApplicationPageConstant.issuecertificate_page;
 	}
 	
@@ -133,9 +135,8 @@ public class IssuerController {
 		return ApplicationPageConstant.bulkloadcertificate_page;
 	}
 	
-	// get issue certifiate page
 	@RequestMapping(path="/certificate/loadimage" ,method=RequestMethod.GET)
-	public String loadCertificateImage(Model model)
+	public String getCertificateImagePage(@ModelAttribute Certificate certificate,Model model)
 	{
 		User user = UserController.getUserPrincipal();
 		if(null != user){
@@ -147,6 +148,19 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
+		model.addAttribute("form", certificate);
+		return ApplicationPageConstant.loadcertificateimage_page;
+	}
+	
+	@RequestMapping(path="/certificate/loadimage" ,method=RequestMethod.POST)
+	public String loadCertificateImage(@ModelAttribute Certificate certificate,Model model,BindingResult br)
+	{
+		// null need to be check here in spring way
+		
+		System.out.println(certificate.getCertificateType() + certificate.getFilePath());
+		
+		model.addAttribute("success", "Certificate Template Image uploaded successfully");
+		model.addAttribute("form", certificate);
 		return ApplicationPageConstant.loadcertificateimage_page;
 	}
 }

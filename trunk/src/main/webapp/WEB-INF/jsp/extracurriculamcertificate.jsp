@@ -39,7 +39,7 @@
 					<h5 class="mb-0">Extra Curricular Certificate Details</h5>
 				</div>
 				<div class="card-body">
-					<form:form id="user-extra-det" modelAttribute="form" action="extracurriculam" method="POST" enctype="multipart/form-data">
+					<form:form id="user-extra-det" modelAttribute="form" action="extracurriculam?${_csrf.parameterName}=${_csrf.token}" method="POST" enctype="multipart/form-data">
 						<div class="card mb-1">
 							<div class="card-body">
 								<div class="row">

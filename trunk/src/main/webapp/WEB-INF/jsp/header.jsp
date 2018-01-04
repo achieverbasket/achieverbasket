@@ -1,4 +1,4 @@
-
+	<sec:csrfInput/>
 <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
 	<a class="navbar-brand" href="#">Achiever Basket</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
