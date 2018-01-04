@@ -5,12 +5,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ab.constant.config.ApplicationPageConstant;
@@ -38,11 +41,62 @@ public class LoginController {
 	LoginService loginServiceImpl;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String getLoginPage(@ModelAttribute Login loginForm, Model model) {
+	public String getLoginPage(@ModelAttribute Login loginForm, Model model,HttpServletRequest req,
+			@RequestParam(value = "logout", required = false) String logout,
+			@RequestParam(value = "expired", required = false) String expired,
+			@RequestParam(value = "session", required = false) String session) {
+		if(null != req.getSession() && req.getSession().getAttribute("error") != null){
+			req.setAttribute("error", req.getSession().getAttribute("error"));
+			req.getSession().setAttribute("error", null);
+		}
+		if(null != session){
+			model.addAttribute(ApplicationStatusConstant.msg_error_generic, ApplicationStatusConstant.SESSION_INVALID_ERR);
+		}else if(null != logout ){
+			User user = UserController.getUserPrincipal();
+			if(null!= user){
+				SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+			}
+			model.addAttribute(ApplicationStatusConstant.msg_success_generic, ApplicationStatusConstant.LOGOUT_SUCCESS_MSG);
+		}else if(null != expired ){
+			model.addAttribute(ApplicationStatusConstant.msg_error_generic, ApplicationStatusConstant.LOGGED_OUT_ERR);
+		}
 		model.addAttribute("loginForm", loginForm);
 		return ApplicationPageConstant.login_page;
 	}
-
+	
+	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	public String dashboard(@ModelAttribute Login loginForm, Model model){
+			
+		// get user
+		User user = UserController.getUserPrincipal();
+		try{
+			if(null != user){
+				UserType userType = user.getUserType();
+				if(UserType.CANDIDATE.equals(userType)){
+					Candidate candidate = loginServiceImpl.getCandidateDetail(user);
+					model.addAttribute("form", candidate);
+					model.addAttribute("username", candidate.getCandidateName());
+					model.addAttribute("type", "candidate");
+					return ApplicationPageConstant.candidate_dashboard_page;
+				}else if(UserType.ISSUER.equals(userType)){
+					Issuer issuer = loginServiceImpl.getIssuer(user.getUserId());
+					model.addAttribute("form", issuer);
+					model.addAttribute("username", issuer.getIssuerName());
+					model.addAttribute("type", "issuer");
+					return ApplicationPageConstant.issuer_dashboard_page;
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			model.addAttribute(ApplicationStatusConstant.msg_error_generic, ApplicationStatusConstant.msg_error_processing_request);
+		}
+		model.addAttribute("loginForm", loginForm);
+		return ApplicationPageConstant.login_page;
+	}
+	
+	
+	
+	/*
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String loginUser(@Valid @ModelAttribute(name = "loginForm") Login loginForm, BindingResult br, Model model,
 			RedirectAttributes ra, HttpServletResponse response, HttpServletRequest request) {
@@ -50,7 +104,7 @@ public class LoginController {
 		UserType userType = UserType.CANDIDATE;
 		
 		if (null != loginForm) {
-			System.out.println("UserName: " + loginForm.getUserName() + "Password:  " + loginForm.getPassword());
+			System.out.println("UserName: " + loginForm.getUsername() + "Password:  " + loginForm.getPassword());
 
 			if (null != br && br.hasErrors()) {
 				error = true;
@@ -101,7 +155,7 @@ public class LoginController {
 			}
 		}
 	}
-
+*/
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String getRegisterUserPage(@ModelAttribute UserRegistration userRegisterForm,
 			@ModelAttribute IssuerRegistration issuerRegisterForm,Model model) {
@@ -187,7 +241,7 @@ public class LoginController {
 
 		return com.ab.constant.config.ApplicationPageConstant.resetpassword_page;
 	}
-	@RequestMapping(value = "issuerDashboard", method = RequestMethod.GET)
+	/*@RequestMapping(value = "issuerDashboard", method = RequestMethod.GET)
 	public String issuerDashboard(Model model, @ModelAttribute("userDetailObjform") User form, HttpServletResponse response, HttpServletRequest request) {
 
 		// check if user is logged in
@@ -248,7 +302,7 @@ public class LoginController {
 
 		return ApplicationPageConstant.candidate_dashboard_page;
 	}
-
+*/
 	@RequestMapping(value = "/register/twa", method = RequestMethod.POST)
 	public String twoWayAuthenticateUser(Model model, @Valid @ModelAttribute(name = "twaform") UserTwoWayAuthForm form,
 			BindingResult br, RedirectAttributes ra) {

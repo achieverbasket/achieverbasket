@@ -75,15 +75,19 @@ import com.ab.vo.issuer.IssuerDetail;
 		public IssuerDetail getIssuerDetailByIssuerId(Long issuerId){
 			String sql = "SELECT ISSUER_DETAIL_ID, ISSUER_ID, ISSUER_INCEPTION_DATE, ISSUER_END_DATE, EMAIL, ADDRESS_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER_DETAIL WHERE ISSUER_ID=?";
 			return jdbcTemplate.query(sql, new Object[] {issuerId}, (ResultSetExtractor<IssuerDetail>) rs -> {
-				rs.next();
-				IssuerDetail issuerDetail = new IssuerDetail();
-				issuerDetail.setIssuerDetailId(rs.getLong("ISSUER_DETAIL_ID"));
-				issuerDetail.setIssuerId(rs.getLong("ISSUER_ID"));
-				issuerDetail.setIssuerInceptionDate(new DateTime(rs.getDate("INCEPTION_DATE")));
-				issuerDetail.setIssuerEndDate(new DateTime(rs.getDate("END_DATE")));
-				issuerDetail.setAddress(addressDao.getAddress(rs.getLong("ADDRESS_ID")));
-				issuerDetail.setEmailId(rs.getString("EMAIL"));
-				return issuerDetail;
+				if(rs.next()){
+					IssuerDetail issuerDetail = new IssuerDetail();
+					issuerDetail.setIssuerDetailId(rs.getLong("ISSUER_DETAIL_ID"));
+					issuerDetail.setIssuerId(rs.getLong("ISSUER_ID"));
+					issuerDetail.setIssuerInceptionDate(new DateTime(rs.getDate("INCEPTION_DATE")));
+					issuerDetail.setIssuerEndDate(new DateTime(rs.getDate("END_DATE")));
+					issuerDetail.setAddress(addressDao.getAddress(rs.getLong("ADDRESS_ID")));
+					issuerDetail.setEmailId(rs.getString("EMAIL"));
+					return issuerDetail;
+				}else{
+					return null;// swapnil modified this code
+				}
+				
 			});
 		}
 		

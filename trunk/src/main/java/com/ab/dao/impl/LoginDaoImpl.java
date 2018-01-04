@@ -1,6 +1,7 @@
 package com.ab.dao.impl;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,13 +12,14 @@ import com.ab.constant.config.ApplicationStatusConstant;
 import com.ab.dao.CandidateDao;
 import com.ab.dao.IssuerDao;
 import com.ab.dao.LoginDao;
-import com.ab.datastructure.Tuple;
 import com.ab.datastructure.TwoTuple;
+import com.ab.form.CustomRoleForm;
 import com.ab.type.UserType;
 import com.ab.vo.User;
 import com.ab.vo.candidate.Candidate;
 import com.ab.vo.issuer.Issuer;
 import com.ab.vo.login.Login;
+
 
 @Repository
 public class LoginDaoImpl implements LoginDao{
@@ -35,39 +37,41 @@ public class LoginDaoImpl implements LoginDao{
 	private IssuerDao issuerDao;
 
 	@Override
-	public Tuple<Boolean, String, Optional<User>> loginUser(Login login) {
+	public User loginUser(Login login) {
 		String sql = "SELECT USER_ID, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, ENABLED FROM USERS WHERE USERNAME=?";
 		System.out.println("in login"+login);
-		ResultSetExtractor<Tuple<Boolean, String, Optional<User>>> rse = rs -> {
-			if(rs.next()) {
-				User user = new User();
-				user.setUserId(rs.getLong("USER_ID"));
-				user.setUserName(login.getUserName());
-				user.setPassword(rs.getString("PASSWORD"));
-				user.setEmail(rs.getString("EMAIL"));
-				user.setEnabled(rs.getBoolean("ENABLED"));
-				user.setFirstName(rs.getString("FIRST_NAME"));
-				user.setLastName(rs.getString("LAST_NAME"));
-				user.setHintQ(rs.getString("HINT_Q"));
-				user.setHintA(rs.getString("HINT_A"));
-				user.setUserType(UserType.fromId(rs.getInt("USER_TYPE_ID")));
-//				return new Tuple<Boolean, String, Optional<User>>(true, "Success.", Optional.of(user));
-				if(user.getPassword().equals(login.getPassword())) {
-					if(rs.getBoolean("ENABLED")) {
-						return new Tuple<Boolean, String, Optional<User>>(true, "Success.", Optional.of(user));
-					} else {
-						return new Tuple<Boolean, String, Optional<User>>(false, "Account not activated.", Optional.of(user));
-					}
-				} else {
-					return new Tuple<Boolean, String, Optional<User>>(false, "Password incorrect.", Optional.of(user));
-				}
-			} else {
-				return new Tuple<Boolean, String, Optional<User>>(false, "Username not found.", Optional.empty());
-			}
-			
-		};
 		
-		return jdbcTemplate.query(sql, new Object[]{login.getUserName()}, rse);
+		ResultSetExtractor<User> rse = rs -> {
+			if(rs.next()) {
+				// get roles , hard coding them for now, structure of roles should be
+				List<com.ab.form.CustomRoleForm> roles = new ArrayList<CustomRoleForm>();
+				CustomRoleForm role = new CustomRoleForm();
+				role.setName("ROLE_USER");role.setName("ROLE_ADMIN");role.setName("ROLE_ISSUER");
+				roles.add(role);	
+				String status = null;
+				if(rs.getString("PASSWORD")!= null && rs.getString("PASSWORD").equalsIgnoreCase(login.getPassword()) ){
+					if(rs.getBoolean("ENABLED")) {
+						status = "Success";
+					}else{
+						status = "Account not activated";
+					}
+				}else{
+					status = "Password incorrect";
+				}
+				
+				User user = new User(login.getUsername(), rs.getString("PASSWORD"), rs.getBoolean("ENABLED"),
+						true, true, 
+						true, roles, status, UserType.fromId(rs.getInt("USER_TYPE_ID")), 
+						rs.getString("FIRST_NAME"), rs.getString("LAST_NAME"), rs.getString("EMAIL"), rs.getLong("USER_ID"));
+				
+				
+				return user;
+				
+			} else {
+				return null;
+			}
+		};
+		return jdbcTemplate.query(sql, new Object[]{login.getUsername()}, rse);
 	}
 
 	@Override

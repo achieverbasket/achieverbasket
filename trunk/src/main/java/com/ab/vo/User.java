@@ -1,10 +1,34 @@
 package com.ab.vo;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
+import org.springframework.security.core.GrantedAuthority;
+
+import com.ab.form.CustomRoleForm;
 import com.ab.type.UserType;
 
-public class User{
+public class User extends org.springframework.security.core.userdetails.User{
+
+	public User(String username, String password,
+			boolean enabled, boolean accountNonExpired,
+			boolean credentialsNonExpired, boolean accountNonLocked,
+			Collection<? extends GrantedAuthority> authorities,
+			String status,UserType userType,String firstName, String lastName,String email,Long userId
+			) {
+		super(username, password, enabled, accountNonExpired, credentialsNonExpired,
+				accountNonLocked, authorities);
+		this.status = status;
+		this.userType = userType;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.userId = userId;
+		this.userName = username;
+	}
+	
+	private static final long serialVersionUID = 1L;
 	private Long userId;
 	private String userName;
 	private String password;
@@ -14,8 +38,9 @@ public class User{
 	private String email;
 	private String hintQ;
 	private String hintA;
-	private boolean enabled=false;
 	private UserType userType;
+	private String status;
+	private List<CustomRoleForm> customRoleForm;
 
 	public Long getUserId() {
 		return userId;
@@ -89,14 +114,6 @@ public class User{
 		this.hintA = hintA;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	public UserType getUserType() {
 		return userType;
 	}
@@ -109,6 +126,22 @@ public class User{
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", image=" + Arrays.toString(image) + ", email=" + email
-				+ ", hintQ=" + hintQ + ", hintA=" + hintA + ", enabled=" + enabled + ", userType=" + userType + "]";
+				+ ", hintQ=" + hintQ + ", hintA=" + hintA +  ", userType=" + userType + "]";
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public List<CustomRoleForm> getCustomRoleForm() {
+		return customRoleForm;
+	}
+
+	public void setCustomRoleForm(List<CustomRoleForm> customRoleForm) {
+		this.customRoleForm = customRoleForm;
 	}
 }

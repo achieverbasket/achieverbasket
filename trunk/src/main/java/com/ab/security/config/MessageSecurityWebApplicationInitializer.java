@@ -8,7 +8,7 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
  * ordering of the Filter instances.
  * 
  * */
-public class MessageSecurityWebApplicationInitializer /*extends AbstractSecurityWebApplicationInitializer */{
+public class MessageSecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
 	
 	
 	

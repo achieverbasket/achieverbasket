@@ -7,12 +7,12 @@
 			<div class="card text-center bg-success" >
 				<img class="rounded-circle mx-auto d-block mt-1" width="100" height="100" id="image" style="max-width: 100%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Sun_poster.svg/500px-Sun_poster.svg.png" alt="Card image cap">
 				<div class="card-body">
-					<h5 class="card-title text-white">Swapnil Singhai</h5>
+					<h5 class="card-title text-white">${form.candidateName}</h5>
 				</div>
 				<ul class="list-group list-group-flush">
-					<li class="list-group-item">Associate Developer</li>
-					<li class="list-group-item">MSCI</li>
-					<li class="list-group-item">Mumbai, India</li>
+					<li class="list-group-item">${form.candidatePersonalDetail.email}</li>
+					<li class="list-group-item">${form.candidatePersonalDetail.dateOfBirth}</li>
+					<li class="list-group-item">${form.candidatePersonalDetail.gender}</li>
 				</ul>
 			</div>
 	</div>

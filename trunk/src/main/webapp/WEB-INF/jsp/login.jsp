@@ -135,9 +135,9 @@ body {
 						<h4 class="card-title text-xs-center">Login</h4>
 						<form:form name="f" form:action="${context}/login" method="post" modelAttribute="loginForm">
 							<div class="form-group">
-								<form:input type="text" class="form-control" path="userName" 
+								<form:input type="text" class="form-control" path="username" 
 								 placeholder="UserName" required="true" maxlength="50"/>
-								<form:errors path="userName" />
+								<form:errors path="username" />
 							</div>
 							<div class="form-group">
 								<form:input type="password" class="form-control"
@@ -159,7 +159,7 @@ body {
 	</div>
 	</div>
 
-
+<sec:csrfInput />
 <%@include file="footer.jsp" %>				
 	
 

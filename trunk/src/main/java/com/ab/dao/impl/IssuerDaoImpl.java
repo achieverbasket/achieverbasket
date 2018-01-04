@@ -56,6 +56,9 @@ public class IssuerDaoImpl implements IssuerDao{
 	@Override
 	public Issuer getIssuer(Long issuerId) {
 		String sql = "SELECT ISSUER_NAME, ISSUER_TYPE_ID, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER WHERE ISSUER_ID=?";
+		// every where when no null check is performed on using lambda java 8 rs feature , error will occur
+		// either dont use it or do null check handling
+		// i have made changes to 1 place for line 73 -- inside getIssuerDetailByIssuerId method
 		Issuer issu = jdbcTemplate.query(sql, new Object[] {issuerId}, (ResultSetExtractor<Issuer>) rs -> {
 				rs.next();
 				Issuer issuer = new Issuer();

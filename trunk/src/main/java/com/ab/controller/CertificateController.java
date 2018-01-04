@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.service.CertificateService;
 import com.ab.service.LoginService;
-import com.ab.type.StatusType;
 import com.ab.type.UserType;
 import com.ab.type.VerificationStatusType;
 import com.ab.vo.User;
@@ -44,9 +44,17 @@ public class CertificateController {
 
 	@RequestMapping(path="/certificate" ,method=RequestMethod.GET)
 	public String getCertificate(@ModelAttribute Certificate certificate,Model model, HttpServletRequest request){
+		User principal = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(null != principal){
+			UserType userType = principal.getUserType();
+			model.addAttribute("username", principal.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 		model.addAttribute("form", certificate);
-		User user = (User) request.getSession().getAttribute("user");
-		System.out.println("*** in getCertificate for Session User :" + user);
 		return ApplicationPageConstant.newcertificate_page;
 	}
 
@@ -78,7 +86,16 @@ public class CertificateController {
 	@RequestMapping(path="/certificates/{id}" ,method=RequestMethod.GET)
 	public String getCertificatListByUserId(@PathVariable String id,@RequestParam(required=false) String fdate,@RequestParam(required=false) String tdate,
 			@RequestParam(required=false) Integer pageno,Model model,@ModelAttribute Candidate obj ,HttpServletResponse response,HttpServletRequest request) throws Exception {
-		User user = (User) request.getSession().getAttribute("user");
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 		List<Certificate> certificateList = Lists.newArrayList();
 		System.out.println("***** in getCertificatListByUserId for Session User :" + user);
 		if(user.getUserType().equals(UserType.CANDIDATE))
@@ -101,8 +118,16 @@ public class CertificateController {
 	public String getCertificatDetailId(@PathVariable Integer id,@RequestParam(required=false) String fdate,@RequestParam(required=false) String tdate,
 			@RequestParam(required=false) Integer pageno,Model model,@ModelAttribute Candidate obj ,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		
-		User user = (User) request.getSession().getAttribute("user");
-		System.out.println("**** in getCertificatDetailId for Session User :" + user);
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 		Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
 		System.out.println("getting Certificate data for candidateId:" + candidateId);
 		Certificate certificate = certificateServiceImpl.getCertificate(id);
@@ -113,7 +138,16 @@ public class CertificateController {
 	
 	@RequestMapping(path="/certificate/edit/{id}" ,method=RequestMethod.GET)
 	public String editCertificate(@PathVariable Integer id,Model model, HttpServletRequest request) throws Exception {
-		User user = (User) request.getSession().getAttribute("user");
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
 
 		Certificate certificate = null;
 		System.out.println("**** in editCertificate for Session User :" + user);

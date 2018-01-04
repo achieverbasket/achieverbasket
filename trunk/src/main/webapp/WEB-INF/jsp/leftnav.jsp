@@ -20,7 +20,7 @@
 			<%-- <a class="bd-toc-link" href="${context}/dashboard"> Getting
 				started </a> --%>
 			<ul class="nav bd-sidenav">
-				<li class="active bd-sidenav-active"><a href="${context}/issuerDashboard"> DashBoard </a></li>
+				<li class="active bd-sidenav-active"><a href="${context}/dashboard">DashBoard</a></li>
 				<li class=""><a href="${context}/issuer/certificate/create">Create Certificate</a></li>
 				<li class=""><a href="${context}/issuer/certificate/issue">Issue Certificate</a></li>
 				<li class=""><a href="${context}/issuer/certificate/templates">Certificate Templates</a></li>
@@ -29,7 +29,7 @@
 				<%-- <li class=""><a href="${context}/issuer/certificate/inqueue">Certificates in Queue</a></li> --%>
 				<li class=""><a href="${context}/issuer/certificate/search">Search Certificate</a></li>
 				
-				<li class=""><a href="${context}/blog">Write Blog</a></li>
+				<li class=""><a href="${context}/issuer/blog">Write Blog</a></li>
 			</ul>
 		</div>
 
