@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.service.CertificateService;
 import com.ab.service.CertificateTemplateService;
-import com.ab.type.CertificateType;
 import com.ab.type.UserType;
 import com.ab.vo.User;
 import com.ab.vo.certificate.Certificate;
@@ -28,7 +27,7 @@ public class IssuerController {
 	
 	// get issue certifiate page
 	@RequestMapping(path="/certificate/create" ,method=RequestMethod.GET)
-	public String createCertificate(Model model)
+	public String createCertificate(@ModelAttribute Certificate certificate ,Model model)
 	{
 		User user = UserController.getUserPrincipal();
 		if(null != user){
@@ -40,7 +39,7 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
-		System.out.println("in create Certificate");
+		model.addAttribute("form", certificate);
 		return ApplicationPageConstant.createcertificate_page;
 	}
 	
@@ -119,7 +118,7 @@ public class IssuerController {
 	
 	//bulk load page
 	@RequestMapping(path="/certificate/bulkload" ,method=RequestMethod.GET)
-	public String bulkLoadCertificates(Model model)
+	public String bulkLoadCertificates(@ModelAttribute Certificate certificate,Model model)
 	{
 		
 		User user = UserController.getUserPrincipal();
@@ -132,6 +131,26 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
+		model.addAttribute("form", certificate);
+		return ApplicationPageConstant.bulkloadcertificate_page;
+	}
+	
+	@RequestMapping(path="/certificate/bulkload" ,method=RequestMethod.POST)
+	public String bulkLoadCertificatesProcessing(@ModelAttribute Certificate certificate ,Model model)
+	{
+		System.out.println("file name ---------------  "+certificate.getCertificateFile().getOriginalFilename());
+		User user = UserController.getUserPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
+		model.addAttribute("form", certificate);
+		model.addAttribute("success", "Certificate file uploaded successfully");
 		return ApplicationPageConstant.bulkloadcertificate_page;
 	}
 	

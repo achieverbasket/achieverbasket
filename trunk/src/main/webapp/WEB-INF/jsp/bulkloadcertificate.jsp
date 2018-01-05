@@ -46,8 +46,26 @@ margin: 0;
 						<h5 class="mb-0">Bulk Load Certificate Page</h5>
 					</div>
 				</div>
-				<div class="card-deck">
+				<c:if test="${!empty success}">
+					<div class="alert alert-success" role="alert">${success}</div>
+				</c:if>
+				<c:if test="${!empty  error}">
+					<div class="alert alert-danger" role="alert">${error}</div>
+				</c:if>
+				<form:form  modelAttribute="form" action="${context}/issuer/certificate/bulkload?${_csrf.parameterName}=${_csrf.token}"  enctype="multipart/form-data" method="POST">
+				<div class="row">
+					<div class="col-12 col-md-3">
+						<label class="col-form-label">Upload Template Image</label>
+						<form:input path="certificateFile" type="file" class="form-control form-control-sm" ></form:input>
+						<form:errors path="certificateFile" />
+					</div>
 				</div>
+				<div class="row mt-2">	
+					<div class="col-12 col-md-3">
+						<input type="submit" value="submit" name="submit" class="btn btn-sm btn-dark">
+					</div>
+				</div>
+				</form:form>
 			</main>
 		</div>
 	</div>
