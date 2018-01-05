@@ -65,7 +65,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.addFilter(filter);
+		//http.addFilter(filter);
 		
 		http.authorizeRequests()
 				.antMatchers("/", "/login**" ,  "/resetpassword**")
