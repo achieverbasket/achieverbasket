@@ -44,10 +44,10 @@ public class CertificateController {
 
 	@RequestMapping(path="/certificate" ,method=RequestMethod.GET)
 	public String getCertificate(@ModelAttribute Certificate certificate,Model model, HttpServletRequest request){
-		User principal = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(null != principal){
-			UserType userType = principal.getUserType();
-			model.addAttribute("username", principal.getUserName());
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
 			if(UserType.CANDIDATE.equals(userType)){
 				model.addAttribute("type", "candidate");
 			}else if(UserType.ISSUER.equals(userType)){
@@ -66,17 +66,20 @@ public class CertificateController {
 		System.out.println("posting certificate file: "+certificate.getCertificateFile().getOriginalFilename());
 		System.out.println("posting certificate filename: "+certificate.getCertificateFile().getOriginalFilename());
 		System.out.println("posting certificate filesize: "+certificate.getCertificateFile().getSize());
-		User user = (User) request.getSession().getAttribute("user");
+		//User user = (User) request.getSession().getAttribute("user");
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.out.println("Session User :" + user);
-		Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
-		certificate.setCandidateId(candidateId);
-		model.addAttribute("certificate", certificate);
-		certificate.setCertificateTemplate(CertificateTemplate.defaultTemplate());
-		if(certificate.getCertificateId() == null) {
-			certificate.setVerificationStatusType(VerificationStatusType.VER_NOT_REQUESTED);
-			certificateServiceImpl.saveCertificate(certificate);
-		} else { 
-			certificateServiceImpl.updateCertificate(certificate);
+		if(null != user){
+			Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
+			certificate.setCandidateId(candidateId);
+			model.addAttribute("certificate", certificate);
+			certificate.setCertificateTemplate(CertificateTemplate.defaultTemplate());
+			if(certificate.getCertificateId() == null) {
+				certificate.setVerificationStatusType(VerificationStatusType.VER_NOT_REQUESTED);
+				certificateServiceImpl.saveCertificate(certificate);
+			} else { 
+				certificateServiceImpl.updateCertificate(certificate);
+			}
 		}
 		model.addAttribute("form", certificate);
 		return ApplicationPageConstant.newcertificate_page;
