@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ab.dao.IssuerDao;
+import com.ab.dao.impl.IssuerDaoImpl;
 import com.ab.service.LocationService;
 import com.ab.vo.City;
 import com.ab.vo.Country;
 import com.ab.vo.State;
+import com.ab.vo.issuer.Issuer;
 
 
 
@@ -21,6 +24,9 @@ public class SearchController {
 	@Autowired
 	LocationService locationServiceImpl;
 	
+	@Autowired
+	IssuerDao issuerDaoImpl;
+	
 	@ResponseBody
 	 @RequestMapping(value= "/country" , method = RequestMethod.GET )
 		public List<Country> countryAutoComplete(@RequestParam(value="query",required=false) String query){
@@ -28,7 +34,7 @@ public class SearchController {
 		try {
 				result = locationServiceImpl.countryAutoComplete(query);
 		} catch (Exception ex) {
-			
+			ex.printStackTrace();
 		}
 		
 		return result;
@@ -41,7 +47,7 @@ public class SearchController {
 		try {
 				result = locationServiceImpl.stateAutoComplete(query);
 		} catch (Exception ex) {
-			
+			ex.printStackTrace();
 		}
 		
 		return result;
@@ -52,9 +58,25 @@ public class SearchController {
 		public List<City> cityAutoComplete(@RequestParam(value="query",required=false) String query){
 		 List<City> result = null;
 		try {
+			System.out.println("in cityAutoComplete: "+query);
 				result = locationServiceImpl.cityAutoComplete(query);
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			
+		}
+		
+		return result;
+	} 
+	
+	@ResponseBody
+	 @RequestMapping(value= "/issuer" , method = RequestMethod.GET )
+		public List<Issuer> issuerAutoComplete(@RequestParam(value="query",required=false) String query){
+		 List<Issuer> result = null;
+		try {
+			System.out.println("in issuerAutoComplete: "+query);
+				result = issuerDaoImpl.getIssuerAutoComplete(query);
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 		
 		return result;

@@ -221,8 +221,31 @@ $(document).ready(function() {
 	    },
 	    limit:100
 	});
+    var searchILucene = new Bloodhound({
+	    datumTokenizer: function (datum) {
+	        return Bloodhound.tokenizers.whitespace(datum.value);
+	    },
+	    queryTokenizer: Bloodhound.tokenizers.whitespace,
+	    remote: {
+	    	wildcard: '%QUERY',
+	        url: 'issuer?query=%QUERY',
+	        replace: function(url, uriEncodedQuery) {
+	            val = $('#selectdd option:selected').val();
+	            return url.replace("%QUERY",uriEncodedQuery)
+	          },
+	        cache: false,
+	        filter: function (obj) {
+	        	return $.each( obj, function( key, value ) {
+	        		return {
+	                    value: value.name
+	                };
+	        	});
+	        }
+	    },
+	    limit:100
+	});
     
-	searchCLucene.initialize();searchSLucene.initialize();searchCityLucene.initialize();
+	searchCLucene.initialize();searchSLucene.initialize();searchCityLucene.initialize();searchILucene.initialize();
 	
 		$('#'+$.escapeSelector('country.name')).typeahead({hint: true,
 			  highlight: true,
@@ -259,7 +282,18 @@ $(document).ready(function() {
 		});
 		$('#'+$.escapeSelector('city.name')).on('typeahead:selected', function (e, datum) {
 			$('#'+$.escapeSelector('city.name')).val(datum.name);
-		});	
+		});
+		$('#'+$.escapeSelector('issuer.issuerName')).typeahead({hint: true,
+			  highlight: true,
+			  minLength: 3}, {
+			display : function(item){ return item.issuerName},
+			source : searchILucene.ttAdapter(),
+			templates: {
+		        empty: [
+		            '<div class="empty-message"> Cannot find.</div>'
+		        ]   
+		    }
+		});
 		
 		var comment_div = '<div id="commentbox" class="input-group input-group-sm"><input type="text" class="form-control">';
 		comment_div = comment_div+'<span class="input-group-btn"><button class="btn btn-primary" type="button">Reply</button></span></div>';
