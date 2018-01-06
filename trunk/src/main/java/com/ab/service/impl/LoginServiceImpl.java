@@ -1,18 +1,26 @@
 package com.ab.service.impl;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.ab.dao.LoginDao;
 import com.ab.dao.SocialActivityDao;
 import com.ab.datastructure.TwoTuple;
+import com.ab.form.CustomRoleForm;
 import com.ab.service.LoginService;
+import com.ab.type.UserType;
 import com.ab.vo.User;
 import com.ab.vo.candidate.Candidate;
 import com.ab.vo.issuer.Issuer;
 import com.ab.vo.login.IssuerRegistration;
 import com.ab.vo.login.Login;
 import com.ab.vo.login.UserRegistration;
+import com.google.common.collect.Lists;
 
 /**
  * @author Swapnil Singhai
@@ -62,21 +70,36 @@ public class LoginServiceImpl implements LoginService{
 		return loginDaoImpl.registerUser(user);
 	}
 
+//	User(String username, String password,
+//			boolean enabled, boolean accountNonExpired,
+//			boolean credentialsNonExpired, boolean accountNonLocked,
+//			Collection<? extends GrantedAuthority> authorities,
+//			String status,UserType userType,String firstName, String lastName,String email,Long userId
+//			)
 
 
 	private User fromRegistration(UserRegistration registration) {
+		CustomRoleForm customRoleForm = new CustomRoleForm();
+		customRoleForm.setName("ROLE_USER");
+		List<GrantedAuthority> grantedAuthorityList = Lists.newArrayList();
+		
+		grantedAuthorityList.add(customRoleForm);
 		User user = new User(registration.getFirstName()+ registration.getLastName(), registration.getPassword(),
 				true, true, 
-				true, true, null, null, 
+				true, true, grantedAuthorityList, null, 
 				registration.getUserType(), registration.getFirstName(), registration.getLastName(), registration.getEmail(), null);
-		
+	
 		return user;
 	}
 
 	private User fromIssuerRegistration(IssuerRegistration registration) {
+		CustomRoleForm customRoleForm = new CustomRoleForm();
+		customRoleForm.setName("ROLE_ISSUER");
+		List<GrantedAuthority> grantedAuthorityList = Lists.newArrayList();
+
 		User user = new User(registration.getFirstName()+ registration.getLastName(), registration.getPassword(),
 				true, true, 
-				true, true, null, null, 
+				true, true, grantedAuthorityList, null, 
 				registration.getUserType(), registration.getFirstName(), registration.getLastName(), registration.getEmail(), null);
 		return user;
 	}
