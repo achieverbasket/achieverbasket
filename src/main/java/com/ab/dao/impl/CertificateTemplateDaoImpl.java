@@ -39,7 +39,7 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 
 	@Override
 	public CertificateTemplate getCertificateTemplate(Long certificateTemplateId) {
-		String sql = "SELECT TEMPLATE_NAME, ISSUER_ID, CERTIFICATE_TYPE_ID, CERTIFICATE_DESC, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CERTIFICATE_TEMPLATE WHERE CERTIFICATE_TEMPLATE_ID=?";
+		String sql = "SELECT TEMPLATE_NAME, ISSUER_ID, CERTIFICATE_TYPE_ID, CERTIFICATE_DESC, FILE_PATH, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CERTIFICATE_TEMPLATE WHERE CERTIFICATE_TEMPLATE_ID=?";
 		return jdbcTemplate.query(sql, new Object[] {certificateTemplateId}, (ResultSetExtractor<CertificateTemplate>) rs -> {
 				rs.next();
 				CertificateTemplate template = new CertificateTemplate();
@@ -54,7 +54,7 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 	
 	@Override
 	public List<CertificateTemplate> getCertificateTemplateList(Long issuerId, CertificateType certificateType) {
-		String sql = "SELECT TEMPLATE_NAME, CERTIFICATE_TEMPLATE_ID, CERTIFICATE_TYPE_ID, CERTIFICATE_DESC, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CERTIFICATE_TEMPLATE WHERE ISSUER_ID=? AND CERTIFICATE_TYPE_ID=?";
+		String sql = "SELECT TEMPLATE_NAME, CERTIFICATE_TEMPLATE_ID, CERTIFICATE_TYPE_ID, CERTIFICATE_DESC, FILE_PATH CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CERTIFICATE_TEMPLATE WHERE ISSUER_ID=? AND CERTIFICATE_TYPE_ID=?";
 		
 		return jdbcTemplate.query(sql, new Object[] {issuerId,  certificateType.getCertificateTypeId()}, (RowMapper<CertificateTemplate>) (rs,arg) -> {
 				rs.next();
