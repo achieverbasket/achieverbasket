@@ -237,7 +237,7 @@ $(document).ready(function() {
 	        filter: function (obj) {
 	        	return $.each( obj, function( key, value ) {
 	        		return {
-	                    value: value.name
+	                    value: value.issuerName
 	                };
 	        	});
 	        }
