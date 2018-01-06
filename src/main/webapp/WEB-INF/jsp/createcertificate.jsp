@@ -48,6 +48,19 @@ margin: 0;
 				</div>
 				<form:form  modelAttribute="form" action="${context}/issuer/certificate/create"   method="POST">
 				<div class="row">
+					<!-- src="https://i.guim.co.uk/img/media/d17f2f060f4e607ad357ba7cf8ee618999840540/0_0_1920_1152/master/1920.jpg?w=1900&q=55&auto=format&usm=12&fit=max&s=05557699bc9c3f0999416d4bdb422f19" -->
+					<div class="col-12 col-md-3">
+						<label class="col-form-label">Certificate Image</label>
+						<img alt="" class="img-fluid" id="cet-image"
+						src="" >
+						<form:input type="hidden" path="filePath" value=""></form:input>
+					</div>
+					<div class="col-12 col-md-9">
+						<a href="#" onclick="window.open('${context}/issuer/certificate/imagelist','popwin','width=640, height=480')"
+						>Select Existing Images</a>
+					</div>
+				</div>
+				<div class="row">
 					<div class="col-12 col-md-3">
 						<label class="col-form-label">Certificate Type</label>
 						<form:select path="certificateType" class="form-control form-control-sm ">

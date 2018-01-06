@@ -1,5 +1,8 @@
 package com.ab.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.service.CertificateService;
 import com.ab.service.CertificateTemplateService;
+import com.ab.type.CertificateType;
 import com.ab.type.UserType;
 import com.ab.vo.User;
 import com.ab.vo.certificate.Certificate;
+import com.ab.vo.certificate.CertificateTemplate;
 
 @Controller
 @RequestMapping("/issuer")
@@ -27,7 +32,7 @@ public class IssuerController {
 	
 	// get issue certifiate page
 	@RequestMapping(path="/certificate/create" ,method=RequestMethod.GET)
-	public String createCertificate(@ModelAttribute Certificate certificate ,Model model)
+	public String getcreateCertificatePage(@ModelAttribute Certificate certificate ,Model model)
 	{
 		User user = UserController.getUserPrincipal();
 		if(null != user){
@@ -41,6 +46,47 @@ public class IssuerController {
 		}
 		model.addAttribute("form", certificate);
 		return ApplicationPageConstant.createcertificate_page;
+	}
+	
+	// get issue certifiate page
+		@RequestMapping(path="/certificate/create" ,method=RequestMethod.POST)
+		public String createCertificate(@ModelAttribute Certificate certificate ,Model model)
+		{
+			System.out.println("certificate.getFilePath()----------"+certificate.getFilePath());
+			User user = UserController.getUserPrincipal();
+			if(null != user){
+				UserType userType = user.getUserType();
+				model.addAttribute("username", user.getUserName());
+				if(UserType.CANDIDATE.equals(userType)){
+					model.addAttribute("type", "candidate");
+				}else if(UserType.ISSUER.equals(userType)){
+					model.addAttribute("type", "issuer");
+				}
+			}
+			model.addAttribute("form", certificate);
+			return ApplicationPageConstant.createcertificate_page;
+		}
+	
+	@RequestMapping(path="/certificate/imagelist" ,method=RequestMethod.GET)
+	public String getAvailableIssuerImageList(Model model)
+	{
+		User user = UserController.getUserPrincipal();
+		if(null != user){
+			UserType userType = user.getUserType();
+			model.addAttribute("username", user.getUserName());
+			if(UserType.CANDIDATE.equals(userType)){
+				model.addAttribute("type", "candidate");
+			}else if(UserType.ISSUER.equals(userType)){
+				model.addAttribute("type", "issuer");
+			}
+		}
+		List<CertificateTemplate> list = new ArrayList<CertificateTemplate>();
+		CertificateTemplate certTemp = new CertificateTemplate();
+		certTemp.setCertificateTemplateId(1L);
+		list.add(certTemp);
+		//List<CertificateTemplate> list = certificateTemplateServiceImpl.getCertificateTemplateList(null, CertificateType.ACADEMIC);
+		model.addAttribute("templatelist", list);
+		return "/certificateimagelist";
 	}
 	
 	//fetch list of templates available in repository to issuer to choose from
