@@ -1,5 +1,7 @@
 package com.ab.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,10 @@ public class IssuerServiceImpl {
 	
 	Issuer getIssuer(Long issuerId) {
 		return issuerDao.getIssuer(issuerId);
+	}
+	
+	List<Issuer> getIssuerList() {
+		return issuerDao.getIssuerList();
 	}
 	
 	void removeIssuer(Long issuerId) {

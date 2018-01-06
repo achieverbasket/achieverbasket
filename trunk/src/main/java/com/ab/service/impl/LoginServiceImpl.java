@@ -70,14 +70,6 @@ public class LoginServiceImpl implements LoginService{
 		return loginDaoImpl.registerUser(user);
 	}
 
-//	User(String username, String password,
-//			boolean enabled, boolean accountNonExpired,
-//			boolean credentialsNonExpired, boolean accountNonLocked,
-//			Collection<? extends GrantedAuthority> authorities,
-//			String status,UserType userType,String firstName, String lastName,String email,Long userId
-//			)
-
-
 	private User fromRegistration(UserRegistration registration) {
 		CustomRoleForm customRoleForm = new CustomRoleForm();
 		customRoleForm.setName("ROLE_USER");
