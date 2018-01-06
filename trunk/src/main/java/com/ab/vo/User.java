@@ -26,6 +26,7 @@ public class User extends org.springframework.security.core.userdetails.User{
 		this.email = email;
 		this.userId = userId;
 		this.userName = username;
+		this.password = password;
 	}
 	
 	private static final long serialVersionUID = 1L;
