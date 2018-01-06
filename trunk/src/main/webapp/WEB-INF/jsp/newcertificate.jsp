@@ -63,7 +63,7 @@
 									
 									<div class="col-12 col-md-5">
 										<label class="col-form-label">Certificate Issuer</label>
-										<form:input path="issuer.issuerName" class="form-control"></form:input>
+										<form:input path="issuer.issuerName" class="typeahead form-control"></form:input>
 										<form:errors path="issuer.issuerName" />
 									</div>
 									 <div class="col-12 col-md-2">

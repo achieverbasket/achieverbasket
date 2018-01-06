@@ -222,7 +222,7 @@ public class IssuerController {
 	{
 		// null need to be check here in spring way
 		
-		System.out.println(certificate.getCertificateType() + certificate.getFilePath());
+		System.out.println("in loadCertificateImage: "+certificate.getCertificateType() + certificate.getFilePath());
 		
 		model.addAttribute("success", "Certificate Template Image uploaded successfully");
 		model.addAttribute("form", certificate);
