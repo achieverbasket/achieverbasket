@@ -26,7 +26,7 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 	public CertificateTemplate saveCertificateTemplate(CertificateTemplate template) {
 		String sql = "INSERT INTO CERTIFICATE_TEMPLATE (CERTIFICATE_TEMPLATE_ID, TEMPLATE_NAME, ISSUER_ID, FILE_PATH, CERTIFICATE_DESC,CERTIFICATE_TYPE_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?,?, ?, ?, ?, 0, SYSDATE())";
 		Long templateId = sequenceDao.getNextVal("CERTIFICATE_TEMPLATE_SEQ");
-		jdbcTemplate.update(sql, templateId, template.getTemplateName(), template.getIssuerId(), template.getFilePath(), template.getCertificateDesc(),template.getCertificateType().getCertificateTypeId());
+		jdbcTemplate.update(sql, templateId, template.getTemplateName(), template.getIssuerId(), template.getTemplateFile().getOriginalFilename(), template.getCertificateDesc(),template.getCertificateType().getCertificateTypeId());
 		template.setCertificateTemplateId(templateId);
 		return template;
 	}
