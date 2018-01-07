@@ -42,8 +42,8 @@ public class CertificateDaoImpl implements CertificateDao{
 
 		try {
 
-			String sql = "INSERT INTO CERTIFICATE (CERTIFICATE_ID, CERTIFICATE_NAME, CANDIDATE_ID, CERTIFICATE_TYPE, ISSUE_DATE, END_DATE, CERTIFICATE_TEMPLATE_ID, FILE_PATH, VERIFICATION_STATUS, "
-					+ "VERIFIED_BY_ID, VERIFIED_DATE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE())";
+			String sql = "INSERT INTO CERTIFICATE (CERTIFICATE_ID, CERTIFICATE_NAME, CANDIDATE_ID, ISSUER_ID,CERTIFICATE_TYPE, ISSUE_DATE, END_DATE, CERTIFICATE_TEMPLATE_ID, FILE_PATH, VERIFICATION_STATUS, "
+					+ "VERIFIED_BY_ID, VERIFIED_DATE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE())";
 	
 			Long certificateId = sequenceDao.getNextVal("CERTIFICATE_SEQ");
 			SocialActivity socialActivity = socialActivityDao.saveSocialActivity(new SocialActivity(SocialActivityType.CERTIFICATE));
@@ -55,9 +55,9 @@ public class CertificateDaoImpl implements CertificateDao{
 			
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
-			System.out.println("date original: "+(certificate.getIssueDate()));
-			System.out.println("issue date formated: "+new Date(format.parse(certificate.getIssueDate()).getTime()));
-			System.out.println("end date formated: "+new Date(format.parse(certificate.getEndDate()).getTime()));
+//			System.out.println("date original: "+(certificate.getIssueDate()));
+//			System.out.println("issue date formated: "+new Date(format.parse(certificate.getIssueDate()).getTime()));
+//			System.out.println("end date formated: "+new Date(format.parse(certificate.getEndDate()).getTime()));
 
 			String filePath = FileUtil.saveDocumentToFile(certificate.getCandidateId(), certificate.getCertificateId(), certificate.getCertificateFile());
 			certificate.setFilePath(filePath);
@@ -65,6 +65,7 @@ public class CertificateDaoImpl implements CertificateDao{
 			jdbcTemplate.update(sql, certificateId, 
 					certificate.getCertificateName(),
 					certificate.getCandidateId(),
+					certificate.getIssuer().getIssuerId(),
 					certificate.getCertificateType().getCertificateTypeId(),
 					new Date(format.parse(certificate.getIssueDate()).getTime()), 
 					new Date(format.parse(certificate.getEndDate()).getTime()),

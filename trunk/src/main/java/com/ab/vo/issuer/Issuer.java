@@ -81,4 +81,11 @@ public class Issuer {
 		return issuer;
 	}
 	
+
+	@Override
+	public String toString()
+	{
+		return "issuerId: "+issuerId+" issuerName: "+issuerName+" issuerType: "+issuerType+" issuerDetail: "+issuerDetail+" issuerRanking: "+issuerRanking+" preferenceStatusType: "+preferenceStatusType+" socialActivity: "+socialActivity+" issuerCertificateList"+issuerCertificateList;
+	}
+	
 }
