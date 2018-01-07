@@ -37,7 +37,10 @@ public class IssuerDaoImpl implements IssuerDao{
 	
 	@Autowired
 	private IssuerDetailDao issuerDetailDao;
-
+	
+	private static final String getIssuerId = "select ISSUER_ID from ISSUER_USER_MAPPING where USER_ID = ?"; 
+	
+	
 	@Override
 	public Issuer saveIssuer(Issuer issuer) {
 		String sql = "INSERT INTO ISSUER (ISSUER_ID, ISSUER_NAME, ISSUER_TYPE_ID, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, 0, SYSDATE())";
@@ -134,5 +137,10 @@ public class IssuerDaoImpl implements IssuerDao{
 	public void removeIssuer(Long issuerId) {
 		String sql = "DELETE FROM ISSUER WHERE ISSUER_ID=?";
 		jdbcTemplate.update(sql, issuerId);
+	}
+
+	@Override
+	public long getIssuerId(Long userId) {
+		return jdbcTemplate.queryForObject(getIssuerId,new Object[]{userId},Long.class );
 	}
 }

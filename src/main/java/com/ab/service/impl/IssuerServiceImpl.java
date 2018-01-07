@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 import com.ab.dao.CertificateDao;
 import com.ab.dao.IssuerDao;
 import com.ab.dao.IssuerDetailDao;
+import com.ab.service.IssuerService;
 import com.ab.vo.issuer.Issuer;
 
 @Service
-public class IssuerServiceImpl {
+public class IssuerServiceImpl implements IssuerService{
 	
 	@Autowired
 	IssuerDao issuerDao;
@@ -20,28 +21,33 @@ public class IssuerServiceImpl {
 	IssuerDetailDao issuerDetailDao;
 
 	
-	Issuer saveIssuer(Issuer issuer) {
+	public Issuer saveIssuer(Issuer issuer) {
 		
 		issuerDetailDao.saveIssuerDetail(issuer.getIssuerDetail());
 		return issuerDao.saveIssuer(issuer);
 	}
 
-	void updateIssuer(Issuer issuer) {
+	public void updateIssuer(Issuer issuer) {
 		issuerDetailDao.updateIssuerDetail(issuer.getIssuerDetail());
 		issuerDao.updateIssuer(issuer);
 		
 	}
 	
-	Issuer getIssuer(Long issuerId) {
+	public Issuer getIssuer(Long issuerId) {
 		return issuerDao.getIssuer(issuerId);
 	}
 	
-	List<Issuer> getIssuerList() {
+	public List<Issuer> getIssuerList() {
 		return issuerDao.getIssuerList();
 	}
 	
-	void removeIssuer(Long issuerId) {
+	public void removeIssuer(Long issuerId) {
 		issuerDao.removeIssuer(issuerId);
+	}
+
+	@Override
+	public long getIssuerId(Long userId) {
+		return issuerDao.getIssuerId(userId);
 	}
 
 

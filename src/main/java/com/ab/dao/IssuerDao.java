@@ -16,5 +16,5 @@ public interface IssuerDao {
 	public List<Issuer> getIssuerList();
 	
 	public List<Issuer> getIssuerAutoComplete(String data);	
-	
+	public long getIssuerId(Long userId);
 }
