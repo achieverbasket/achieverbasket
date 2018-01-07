@@ -208,7 +208,7 @@ public class Certificate implements Serializable{
 	{
 		return "certificateId: "+certificateId+" issuerId"+issuerId+" candidateId: "+candidateId+" certificateName: "+certificateName+" certificateType:"
 				+certificateType+ " preferenceStatusType: "+preferenceStatusType+" issueDate:"+issueDate+" endDate:"+ endDate+"	certificateTemplate: "+certificateTemplate+
-				" filePath: "+filePath +" verified: "+verified+" verifiedBy: "+verifiedBy+	" verificationDate: "+verificationDate+" socialActivity: "+socialActivity+" issuer:"+issuer+" certificateFile"+certificateFile;
+				" filePath: "+filePath +" verified: "+verified+" verifiedBy: "+verifiedBy+	" verificationDate: "+verificationDate+" socialActivity: "+socialActivity+" issuer:[ "+issuer+" ] certificateFile"+certificateFile;
 		
 	}
 
