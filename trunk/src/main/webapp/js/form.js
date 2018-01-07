@@ -207,14 +207,14 @@ $(document).ready(function() {
 	    	wildcard: '%QUERY',
 	        url: 'state?query=%QUERY',
 	        replace: function(url, uriEncodedQuery) {
-	            val = $('#selectdd option:selected').val();
+	        	val = $('#selectdd option:selected').val();
 	            return url.replace("%QUERY",uriEncodedQuery)
 	          },
 	        cache: false,
 	        filter: function (obj) {
 	        	return $.each( obj, function( key, value ) {
 	        		return {
-	                    value: value.name
+	        			value: value.name
 	                };
 	        	});
 	        }
@@ -258,10 +258,12 @@ $(document).ready(function() {
 		        ]   
 		    }
 		});
-		$('#'+$.escapeSelector('state.name')).typeahead({hint: true,
+		$('#' + $.escapeSelector( 'state.name' )).typeahead({hint: true,
 			  highlight: true,
 			  minLength: 3}, {
-			display : function(item){ return item.name},
+			display : function(item){
+				return item.name
+				},
 			source : searchSLucene.ttAdapter(),
 			templates: {
 		        empty: [
@@ -269,7 +271,7 @@ $(document).ready(function() {
 		        ]   
 		    }
 		});
-		$('#'+$.escapeSelector('city.name')).typeahead({hint: true,
+		$('#'+$.escapeSelector('#city.name')).typeahead({hint: true,
 			  highlight: true,
 			  minLength: 3}, {
 			display : function(item){ return item.name},

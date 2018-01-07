@@ -111,31 +111,23 @@ public class IssuerDaoImpl implements IssuerDao{
 	public List<Issuer> getIssuerAutoComplete(String data) {
 		
 		System.out.println("in getIssuerAutoComplete: "+data);
-		
 	
-		String sql = "SELECT ISSUER_NAME, ISSUER_TYPE_ID, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER where lower(issuer_name) like lower(?)";
-		// every where when no null check is performed on using lambda java 8 rs feature , error will occur
-		// either dont use it or do null check handling
-		// i have made changes to 1 place for line 73 -- inside getIssuerDetailByIssuerId method
-		return jdbcTemplate.query(sql, new Object[] { data+"%" }, (RowMapper<Issuer>) (rs, arg) -> {
-				if(rs.next())
-				{
-					Issuer issuer = new Issuer();
-					Long issuerId = rs.getLong("ISSUER_ID");
-					issuer.setIssuerId(issuerId);
-					issuer.setIssuerName(rs.getString("ISSUER_NAME"));
-					issuer.setIssuerType(IssuerType.fromId(rs.getInt("ISSUER_TYPE_ID")));
-					issuer.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
-					issuer.setIssuerCertificateList(certificateDao.getIssuerCertificates(issuerId));
-					issuer.setIssuerDetail(issuerDetailDao.getIssuerDetailByIssuerId(issuerId));
-					return issuer;
-				}
-				else {
-					return null;
-				}
-					
-			});
+		String sql = "SELECT ISSUER_ID,ISSUER_NAME, ISSUER_TYPE_ID, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER where lower(issuer_name) like lower(?) ";
 		
+		RowMapper<Issuer> mapper = (RowMapper<Issuer>) (rs, arg) -> {
+			Issuer issuer = new Issuer();
+			Long issuerId = rs.getLong("ISSUER_ID");
+			issuer.setIssuerId(issuerId);
+			issuer.setIssuerName(rs.getString("ISSUER_NAME"));
+			issuer.setIssuerType(IssuerType.fromId(rs.getInt("ISSUER_TYPE_ID")));
+			issuer.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
+			issuer.setIssuerCertificateList(certificateDao.getIssuerCertificates(issuerId));
+			issuer.setIssuerDetail(issuerDetailDao.getIssuerDetailByIssuerId(issuerId));
+			return issuer;
+		};
+		
+		List<Issuer> issuer = jdbcTemplate.query(sql, new Object[] { data+"%"}, mapper);
+		return issuer;
 	}
 
 	@Override
