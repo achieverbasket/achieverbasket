@@ -34,7 +34,7 @@ public final class ApplicationPageConstant {
 	public static final String searchcertificate_page = "/searchcertificate";
 	public static final String bulkloadcertificate_page = "/bulkloadcertificate";
 	public static final String createcertificate_page = "/createcertificate";
-	public static final String loadcertificateimage_page = "/loadcertificateimage";
+	public static final String createcertificatetemplate_page = "/createcertificatetemplate";
 	
 	
 	

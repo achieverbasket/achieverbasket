@@ -45,7 +45,7 @@ margin: 0;
 				<h1 class="bd-title" id="content"></h1>
 				<div class="card mb-1 border-light">
 					<div class="card-header">
-						<h5 class="mb-0">Load Certificate Template Image Page</h5>
+						<h5 class="mb-0">Create Certificate Template</h5>
 					</div>
 				</div>
 				<c:if test="${!empty success}">
@@ -54,13 +54,20 @@ margin: 0;
 				<c:if test="${!empty  error}">
 					<div class="alert alert-danger" role="alert">${error}</div>
 				</c:if>
-				<form:form  modelAttribute="form" action="${context}/issuer/certificate/loadimage?${_csrf.parameterName}=${_csrf.token}"  enctype="multipart/form-data" method="POST">
+				<form:form  modelAttribute="form" action="${context}/issuer/certificate/create/template?${_csrf.parameterName}=${_csrf.token}"  enctype="multipart/form-data" method="POST">
 				<div class="row">
 					<div class="col-12 col-md-3">
-						<label class="col-form-label">Certificate Type</label>
-						<%-- <c:forEach var="enum" items="${CertificateType}">
-						    <option value="${enum}"><spring:message code="${enum.name}" /></option>
-						</c:forEach> --%>
+						<label class="col-form-label">Name</label>
+						<form:input path="templateName" type="text" class="form-control form-control-sm" ></form:input>
+						<form:errors path="templateName" />
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="col-form-label">Description</label>
+						<form:input path="certificateDesc" type="text" class="form-control form-control-sm" ></form:input>
+						<form:errors path="certificateDesc" />
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="col-form-label">Template Certificate Type</label>
 						<form:select path="certificateType" class="form-control form-control-sm ">
 							<form:options items="${certType}"  />
 						</form:select>
@@ -70,8 +77,8 @@ margin: 0;
 				<div class="row">
 					<div class="col-12 col-md-3">
 						<label class="col-form-label">Upload Template Image</label>
-						<form:input path="certificateFile" type="file" class="form-control form-control-sm" ></form:input>
-						<form:errors path="certificateFile" />
+						<form:input path="templateFile" type="file" class="form-control form-control-sm" ></form:input>
+						<form:errors path="templateFile" />
 					</div>
 				</div>
 				<div class="row mt-2">	

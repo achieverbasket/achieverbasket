@@ -39,20 +39,41 @@ margin: 0;
 	<div class="container-fluid">
 		<div class="row flex-xl-nowrap">
 			<%@include file="leftnav.jsp"%>
-			<main class="col-12 col-md-9 col-xl-8  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
+			<main class="col-12 col-md-10 col-xl-9  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
+				
 				<h1 class="bd-title" id="content"></h1>
 				<div class="card mb-1 border-light">
 					<div class="card-header">
-						<h5 class="mb-0">Issuer Certificate Template List Page</h5>
+						<h5 class="mb-0">View Certificate Templates</h5>
 					</div>
 				</div>
-				<div class="card-deck">
-				</div>
+				<table class="table table-sm table-responsive table-bordered ">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">S.No</th>
+							<th scope="col">Template Id</th>
+							<th scope="col">Name</th>
+							<th scope="col">Description</th>
+							<th scope="col">Image Path</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="obj" items="${list}" varStatus="i">
+							<tr>
+								<td>${i.index}</td>
+								<td>${obj.certificateTemplateId}</td>
+								<th scope="row">${obj.templateName}</th>
+								<td>${obj.certificateDesc}</td>
+								<td><a href="${obj.filePath}">Click to View</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				
 			</main>
 		</div>
 	</div>
 
-	<%-- <center></center> --%>
 	<div></div>
 
 

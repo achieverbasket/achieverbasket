@@ -24,9 +24,9 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 	
 	@Override
 	public CertificateTemplate saveCertificateTemplate(CertificateTemplate template) {
-		String sql = "INSERT INTO CERTIFICATE_TEMPLATE (CERTIFICATE_TEMPLATE_ID, TEMPLATE_NAME, ISSUER_ID, FILE_PATH, CERTIFICATE_DESC, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, 0, SYSDATE())";
+		String sql = "INSERT INTO CERTIFICATE_TEMPLATE (CERTIFICATE_TEMPLATE_ID, TEMPLATE_NAME, ISSUER_ID, FILE_PATH, CERTIFICATE_DESC,CERTIFICATE_TYPE_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?,?, ?, ?, ?, 0, SYSDATE())";
 		Long templateId = sequenceDao.getNextVal("CERTIFICATE_TEMPLATE_SEQ");
-		jdbcTemplate.update(sql, templateId, template.getTemplateName(), template.getIssuerId(), template.getFilePath(), template.getCertificateDesc());
+		jdbcTemplate.update(sql, templateId, template.getTemplateName(), template.getIssuerId(), template.getFilePath(), template.getCertificateDesc(),template.getCertificateType().getCertificateTypeId());
 		template.setCertificateTemplateId(templateId);
 		return template;
 	}
@@ -54,15 +54,14 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 	
 	@Override
 	public List<CertificateTemplate> getCertificateTemplateList(Long issuerId, CertificateType certificateType) {
-		String sql = "SELECT TEMPLATE_NAME, CERTIFICATE_TEMPLATE_ID, CERTIFICATE_TYPE_ID, CERTIFICATE_DESC, FILE_PATH CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CERTIFICATE_TEMPLATE WHERE ISSUER_ID=? AND CERTIFICATE_TYPE_ID=?";
+		String sql = "SELECT TEMPLATE_NAME, CERTIFICATE_TEMPLATE_ID, CERTIFICATE_TYPE_ID, CERTIFICATE_DESC, FILE_PATH CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CERTIFICATE_TEMPLATE WHERE ISSUER_ID = ? ";
 		
-		return jdbcTemplate.query(sql, new Object[] {issuerId,  certificateType.getCertificateTypeId()}, (RowMapper<CertificateTemplate>) (rs,arg) -> {
-				rs.next();
+		return jdbcTemplate.query(sql, new Object[] {issuerId}, (RowMapper<CertificateTemplate>) (rs,arg) -> {
 				CertificateTemplate template = new CertificateTemplate();
 				template.setCertificateTemplateId(rs.getLong("CERTIFICATE_TEMPLATE_ID"));
 				template.setTemplateName(rs.getString("TEMPLATE_NAME"));
 				template.setIssuerId(issuerId);
-				template.setFilePath(rs.getString("FILE_PATH"));// hard coding by swapnil, chnage this accodinlgy
+				template.setFilePath("https://s3.ap-south-1.amazonaws.com/achieverbasketimg/issuer/template/library_icons_TemplatesSquare.png");// rs.getString("FILE_PATH") hard coding by swapnil, chnage this accodinlgy
 				//after aws s3 impl
 				template.setCertificateDesc(rs.getString("CERTIFICATE_DESC"));
 				return template;

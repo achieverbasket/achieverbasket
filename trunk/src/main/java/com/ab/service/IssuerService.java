@@ -4,12 +4,14 @@ import com.ab.vo.issuer.Issuer;
 
 public interface IssuerService {
 	
-	Issuer saveIssuer(Issuer issuer);
+	public Issuer saveIssuer(Issuer issuer);
 
-	void updateIssuer(Issuer issuer);
+	public void updateIssuer(Issuer issuer);
 	
-	Issuer getIssuer(Long issuerId);
+	public Issuer getIssuer(Long issuerId);
 	
-	void removeIssuer(Long issuerId);
+	public void removeIssuer(Long issuerId);
+	 
+	public long getIssuerId(Long userId);
 
 }

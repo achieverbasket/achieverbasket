@@ -24,8 +24,8 @@
 				<li class="active bd-sidenav-active"><a href="${context}/dashboard">DashBoard</a></li>
 				<li class=""><a href="${context}/issuer/certificate/create">Create Certificate</a></li>
 				<li class=""><a href="${context}/issuer/certificate/issue">Issue Certificate</a></li>
-				<li class=""><a href="${context}/issuer/certificate/templates">Certificate Templates</a></li>
-				<li class=""><a href="${context}/issuer/certificate/loadimage">Load Certificate Image</a></li>
+				<li class=""><a href="${context}/issuer/certificate/templates">View Certificate Templates</a></li>
+				<li class=""><a href="${context}/issuer/certificate/create/template">Create Certificate Template</a></li>
 				<li class=""><a href="${context}/issuer/certificate/bulkload">Bulk Certificate Load</a></li>
 				<%-- <li class=""><a href="${context}/issuer/certificate/inqueue">Certificates in Queue</a></li> --%>
 				<li class=""><a href="${context}/issuer/certificate/search">Search Certificate</a></li>
