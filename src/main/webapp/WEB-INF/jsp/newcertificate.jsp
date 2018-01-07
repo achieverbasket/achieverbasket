@@ -29,9 +29,9 @@
 
 	<!-- left panel -->
 
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row flex-xl-nowrap">
-			
+			<%@include file="leftnav.jsp"%>
 			<main class="col-12 col-md-10  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
 			<h1 class="bd-title" id="content"></h1>
 			<div class="card mb-1 border-light">

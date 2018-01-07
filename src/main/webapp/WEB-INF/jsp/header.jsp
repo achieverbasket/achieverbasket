@@ -1,4 +1,5 @@
-	<sec:csrfInput/>
+<sec:csrfMetaTags/>
+<sec:csrfInput/>
 <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
 	<a class="navbar-brand" href="#">Achiever Basket</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -42,6 +43,7 @@
 								<i class="fa fa-user" aria-hidden="true"></i> <c:out value="${username}"></c:out>
 							</a>
 							<div class="dropdown-menu">
+								<a class="dropdown-item" href="${context}/dashboard">Dashboard</a>
 								<a class="dropdown-item" href="${context}/setting">Setting</a>
 								<a class="dropdown-item" href="${context}/profile">Profile</a>
 								<a class="dropdown-item" href="${context}/login?logout">Logout</a>
