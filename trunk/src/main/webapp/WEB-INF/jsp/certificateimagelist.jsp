@@ -39,28 +39,41 @@ margin: 0;
 	<div class="container-fluid">
 		<div class="row flex-xl-nowrap">
 		
-			<main class="col-12 col-md-9 col-xl-8  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
+			<main class="col-12 col-md-10 col-xl-10  bd-content" role="main"><!-- py-md-3 pl-md-5 -->
 				<h1 class="bd-title" id="content"></h1>
 				<div class="card mb-1 border-light">
 					<div class="card-header">
-						<h5 class="mb-0">Imgae List</h5>
+						<h5 class="mb-0">Template List</h5>
 					</div>
 				</div>
 				<form:form  modelAttribute="form" action="${context}/issuer/certificate/create"   method="POST">
-				<div class="row">
-					<c:forEach var="list" items="${templatelist}">
-						<div class="col-12 col-md-3">
-							${list.certificateTemplateId}
-							<img alt="" class="img-fluid" id="${list.certificateTemplateId}"
-							src="https://i.guim.co.uk/img/media/d17f2f060f4e607ad357ba7cf8ee618999840540/0_0_1920_1152/master/1920.jpg?w=1900&q=55&auto=format&usm=12&fit=max&s=05557699bc9c3f0999416d4bdb422f19" >
-							</div>
-					</c:forEach>
-				</div>
-				<div class="row mt-2">	
-					<div class="col-12 col-md-3">
-						<input type="submit" value="submit" name="submit" class="btn btn-sm btn-dark">
-					</div>
-				</div>
+				<table class="table table-sm table-responsive table-bordered ">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">S.No</th>
+							<th scope="col">Template Id</th>
+							<th scope="col">Name</th>
+							<th scope="col">Description</th>
+							<th scope="col">Certificate Type</th>
+							<th scope="col">Image Path</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="obj" items="${templatelist}" varStatus="i">
+							<tr id="row-${i.index}">
+								<td id="i-${i.index}">${i.index}</td>
+								<td id="cti-${i.index}">${obj.certificateTemplateId}</td>
+								<td id="tn-${i.index}">${obj.templateName}</td>
+								<td id="cd-${i.index}">${obj.certificateDesc}</td>
+								<td id="ct-${i.index}">${obj.certificateType}</td>
+								<td ><img id="imgsrc-${i.index}" class="img-fluid mr-3" style="height: 64px;width: 64px;" 
+								src="${obj.filePath}"></td>
+								<td><a href="#" id="${i.index}">Click to View</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 				</form:form>
 			</main>
 		</div>
@@ -85,10 +98,12 @@ margin: 0;
 	
 	<script language="javascript"> 
 	$(document).ready(function () {
-		$('img').click(function () {
-            alert($(this).attr('src'));
-            window.opener.document.getElementById('cet-image').src = $(this).attr('src');
-            window.opener.document.getElementById('filePath').value = $(this).attr('id');
+		$('a').click(function () {
+            window.opener.document.getElementById('certificateTemplate.certificateTemplateId').value = $('#cti-'+$(this).attr('id')).text();
+            window.opener.document.getElementById('certificateTemplate.templateName').value = $('#tn-'+$(this).attr('id')).text();
+            window.opener.document.getElementById('certificateTemplate.certificateDesc').value = $('#cd-'+$(this).attr('id')).text();
+            window.opener.document.getElementById('certificateTemplate.certificateType').value = $('#ct-'+$(this).attr('id')).text();
+            window.opener.document.getElementById('certificateTemplate.templateFile').src = $('#imgsrc-'+$(this).attr('id')).attr('src');
             window.close();
         });
         
