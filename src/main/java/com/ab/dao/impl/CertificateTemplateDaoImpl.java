@@ -64,6 +64,7 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 				template.setFilePath("https://s3.ap-south-1.amazonaws.com/achieverbasketimg/issuer/template/library_icons_TemplatesSquare.png");// rs.getString("FILE_PATH") hard coding by swapnil, chnage this accodinlgy
 				//after aws s3 impl
 				template.setCertificateDesc(rs.getString("CERTIFICATE_DESC"));
+				template.setCertificateType(CertificateType.fromId(rs.getInt("CERTIFICATE_TYPE_ID")));
 				return template;
 			});
 

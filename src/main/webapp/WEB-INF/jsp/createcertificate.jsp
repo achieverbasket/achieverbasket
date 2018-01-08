@@ -46,20 +46,49 @@ margin: 0;
 						<h5 class="mb-0">Create Certificate</h5>
 					</div>
 				</div>
+				<c:if test="${!empty success}">
+					<div class="alert alert-success" role="alert">${success}</div>
+				</c:if>
+				<c:if test="${!empty  error}">
+					<div class="alert alert-danger" role="alert">${error}</div>
+				</c:if>
 				<form:form  modelAttribute="form" action="${context}/issuer/certificate/create"   method="POST">
 				<div class="row">
-					<!-- src="https://i.guim.co.uk/img/media/d17f2f060f4e607ad357ba7cf8ee618999840540/0_0_1920_1152/master/1920.jpg?w=1900&q=55&auto=format&usm=12&fit=max&s=05557699bc9c3f0999416d4bdb422f19" -->
-					<div class="col-12 col-md-3">
-						<label class="col-form-label">Certificate Image</label>
-						<img alt="" class="img-fluid" id="cet-image"
-						src="" >
-						<form:input type="hidden" path="filePath" value=""></form:input>
-					</div>
 					<div class="col-12 col-md-9">
 						<a href="#" onclick="window.open('${context}/issuer/certificate/imagelist','popwin','width=640, height=480')"
-						>Select Existing Images</a>
+						>Select Certificate Template</a>
 					</div>
 				</div>
+				<table class="table table-sm table-responsive table-bordered ">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">Template Id</th><th scope="col">Name</th><th scope="col">Description</th><th scope="col">Certificate Type</th><th scope="col">Image Path</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr id="row-p">
+							<td>
+								<%-- <form:input path="endDate" class="form-control form-control-sm readonly="readonly"/> --%>
+								<input value="" name="certificateTemplate.certificateTemplateId" id="certificateTemplate.certificateTemplateId" class="form-control form-control-sm" type="text" readonly="readonly" >
+							</td>
+							<td>
+								<%-- <form:input path="endDate" class="form-control form-control-sm readonly="readonly"/> --%>
+								<input value="" name="certificateTemplate.templateName" id="certificateTemplate.templateName" class="form-control form-control-sm" type="text" readonly="readonly" >
+							</td>
+							<td>
+								<%-- <form:input path="endDate" class="form-control form-control-sm readonly="readonly"/> --%>
+								<input value="" name="certificateTemplate.certificateDesc" id="certificateTemplate.certificateDesc" type="text" readonly="readonly" class="form-control form-control-sm">
+							</td>
+							<td>
+								<%-- <form:input path="endDate" class="form-control form-control-sm readonly="readonly"/> --%>
+								<input value="" name="certificateTemplate.certificateType" id="certificateTemplate.certificateType" type="text" readonly="readonly" class="form-control form-control-sm">
+							</td>
+							<td>
+								<img name="certificateTemplate.templateFile" id="certificateTemplate.templateFile" class="img-fluid mr-3" style="height: 64px;width: 64px;" src="">
+							</td>
+						</tr>
+					</tbody>
+				</table>
 				<div class="row">
 					<div class="col-12 col-md-3">
 						<label class="col-form-label">Certificate Type</label>

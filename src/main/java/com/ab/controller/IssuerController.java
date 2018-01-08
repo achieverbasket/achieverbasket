@@ -67,6 +67,7 @@ public class IssuerController {
 				}
 			}
 			model.addAttribute("form", certificate);
+			model.addAttribute("success", "Certificate created successfully");
 			return ApplicationPageConstant.createcertificate_page;
 		}
 	
@@ -84,10 +85,8 @@ public class IssuerController {
 			}
 		}
 		List<CertificateTemplate> list = new ArrayList<CertificateTemplate>();
-		CertificateTemplate certTemp = new CertificateTemplate();
-		certTemp.setCertificateTemplateId(1L);
-		list.add(certTemp);
-		//List<CertificateTemplate> list = certificateTemplateServiceImpl.getCertificateTemplateList(null, CertificateType.ACADEMIC);
+		Long issuerId = issuerServiceImpl.getIssuerId(user.getUserId());
+		list = certificateTemplateServiceImpl.getCertificateTemplateList(issuerId, null);
 		model.addAttribute("templatelist", list);
 		return "/certificateimagelist";
 	}
