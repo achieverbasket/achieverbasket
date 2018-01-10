@@ -1,5 +1,8 @@
 package com.ab.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +13,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.service.CertificateService;
 import com.ab.service.CertificateTemplateService;
 import com.ab.service.IssuerService;
 import com.ab.type.UserType;
+import com.ab.util.CustomAWS;
 import com.ab.vo.User;
 import com.ab.vo.certificate.Certificate;
 import com.ab.vo.certificate.CertificateTemplate;
@@ -240,9 +245,23 @@ public class IssuerController {
 		
 		Long issuerId = issuerServiceImpl.getIssuerId(user.getUserId());
 		certtemp.setIssuerId(issuerId);
-		certificateTemplateServiceImpl.saveCertificateTemplate(certtemp);
-		model.addAttribute("success", "Certificate Template Image uploaded successfully");
+		/*AWS file save, more logic later*/
+		try {
+			CustomAWS.uploadDocument(convert(certtemp.getTemplateFile()), "achieverbasketimg", certtemp.getTemplateFile().getOriginalFilename());
+			certificateTemplateServiceImpl.saveCertificateTemplate(certtemp);
+			model.addAttribute("success", "Certificate Template Image uploaded successfully");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("form", certtemp);
 		return ApplicationPageConstant.createcertificatetemplate_page;
+	}
+	public static File convert(MultipartFile file) throws IOException {
+	    File convFile = new File(file.getOriginalFilename());
+	    convFile.createNewFile();
+	    FileOutputStream fos = new FileOutputStream(convFile);
+	    fos.write(file.getBytes());
+	    fos.close();
+	    return convFile;
 	}
 }
