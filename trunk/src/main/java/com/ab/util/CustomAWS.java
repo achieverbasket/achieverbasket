@@ -26,6 +26,7 @@ public class CustomAWS {
 	
 	public static String uploadDocument(File file,String bucketName,String objKey) throws IOException{
 			if(s3Obj.doesObjectExist(bucketName, objKey)){
+				System.out.println("Object Key already exists: "+" file: "+file+" bucketName: "+bucketName+" objKey: "+objKey);
 				return "Object Key already exists";
 			}else{
 				/*TransferManager tm = TransferManagerBuilder.standard().withS3Client(s3Obj).build();
@@ -37,6 +38,7 @@ public class CustomAWS {
 				PutObjectRequest  pobj = new PutObjectRequest(bucketName, objKey, file);
 				pobj.setAccessControlList(acl);
 				s3Obj.putObject(pobj);
+				System.out.println("file: "+file+" bucketName: "+bucketName+" objKey: "+objKey);
 				// return the final string
 			}
 			
