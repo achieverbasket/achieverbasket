@@ -71,6 +71,21 @@ public class CandidateDaoImpl implements CandidateDao {
 		cand.setCandidatePersonalDetail(candidatePersonalDetailDao.getPersonalDetailByCandidateId(candidateId));
 		return cand;
 	}
+	
+	@Override
+	public Candidate getCandidateByEmailOrMobile(String emailId, Long mobileNumber) {
+		String sql ="select CANDIDATE_NAME, CANDIDATE_TYPE_ID, SOCIAL_ACTIVITY_ID from CANDIDATE C where C.CANDIDATE_ID =("+
+					 "select CPD.CANDIDATE_ID from CANDIDATE_PERSONAL_DETAIL CPD WHERE CPD.CANDIDATE_ID=C.CANDIDATE_ID AND ( CPD.EMAIL=? OR CPD.MOBILE_NUMBER= ?));";
+		return jdbcTemplate.query(sql, new Object[] {emailId, mobileNumber}, (ResultSetExtractor<Candidate>) rs -> {
+			rs.next();
+			Candidate candidate = new Candidate();
+			candidate.setCandidateId(rs.getLong("CANDIDATE_ID"));
+			candidate.setCandidateName(rs.getString("CANDIDATE_NAME"));
+			candidate.setCandidateType(CandidateType.fromId(rs.getInt("CANDIDATE_TYPE_ID")));
+			candidate.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
+			return candidate;
+		});
+	}
 
 	@Override
 	public void removeCandidate(Long candidateId) {

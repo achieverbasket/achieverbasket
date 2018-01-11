@@ -28,6 +28,7 @@ import com.ab.vo.User;
 import com.ab.vo.certificate.Certificate;
 import com.ab.vo.certificate.CertificateTemplate;
 import com.ab.vo.issuer.Issuer;
+import com.google.api.client.util.Lists;
 
 @Controller
 @RequestMapping("/issuer")
@@ -80,6 +81,7 @@ public class IssuerController {
 			certificate.setVerificationStatusType(VerificationStatusType.VERIFIED);
 			certificate.setVerifiedBy(user.getUserId());
 			certificate.setCertificateType(certificate.getCertificateTemplate().getCertificateType());
+			
 			certificateServiceImpl.saveCertificate(certificate);
 				
 			model.addAttribute("form", certificate);
@@ -203,9 +205,9 @@ public class IssuerController {
 	}
 	
 	@RequestMapping(path="/certificate/bulkload" ,method=RequestMethod.POST)
-	public String bulkLoadCertificatesProcessing(@ModelAttribute Certificate certificate ,Model model)
+	public String bulkLoadCertificatesProcessing(@ModelAttribute File certificateXlsFile ,Model model)
 	{
-		System.out.println("file name ---------------  "+certificate.getCertificateFile().getOriginalFilename());
+		System.out.println("file name ---------------  "+certificateXlsFile);
 		User user = UserController.getUserPrincipal();
 		if(null != user){
 			UserType userType = user.getUserType();
@@ -216,7 +218,7 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
-		model.addAttribute("form", certificate);
+		//model.addAttribute("form", certificate);
 		model.addAttribute("success", "Certificate file uploaded successfully");
 		return ApplicationPageConstant.bulkloadcertificate_page;
 	}
@@ -267,6 +269,7 @@ public class IssuerController {
 		model.addAttribute("form", certtemp);
 		return ApplicationPageConstant.createcertificatetemplate_page;
 	}
+	
 	public static File convert(MultipartFile file) throws IOException {
 	    File convFile = new File(file.getOriginalFilename());
 	    convFile.createNewFile();
@@ -274,5 +277,11 @@ public class IssuerController {
 	    fos.write(file.getBytes());
 	    fos.close();
 	    return convFile;
+	}
+	
+	public List<Certificate> getCertificateListFromXls(File xlsFile) {
+		List<Certificate> certificateList = Lists.newArrayList();
+		
+		return certificateList;
 	}
 }
