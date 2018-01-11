@@ -38,7 +38,7 @@ public class LoginDaoImpl implements LoginDao{
 
 	@Override
 	public User loginUser(Login login) {
-		String sql = "SELECT USER_ID, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, ENABLED FROM USERS WHERE USERNAME=?";
+		String sql = "SELECT USER_ID, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, MOBILE_NUMBER, ENABLED FROM USERS WHERE USERNAME=?";
 		System.out.println("in login"+login);
 		
 		ResultSetExtractor<User> rse = rs -> {
@@ -62,7 +62,7 @@ public class LoginDaoImpl implements LoginDao{
 				User user = new User(login.getUsername(), rs.getString("PASSWORD"), rs.getBoolean("ENABLED"),
 						true, true, 
 						true, roles, status, UserType.fromId(rs.getInt("USER_TYPE_ID")), 
-						rs.getString("FIRST_NAME"), rs.getString("LAST_NAME"), rs.getString("EMAIL"), rs.getLong("USER_ID"));
+						rs.getString("FIRST_NAME"), rs.getString("LAST_NAME"), rs.getString("EMAIL"), rs.getLong("MOBILE_NUMBER"), rs.getLong("USER_ID"));
 				
 				
 				return user;
@@ -91,10 +91,10 @@ public class LoginDaoImpl implements LoginDao{
 	@Override
 	public TwoTuple<Boolean, String> registerUser(User user) {
 		System.out.println("in regiserUser of LoginDaoImpl for: "+user);
-		String sql = "INSERT INTO USERS (USER_ID, USERNAME, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, ENABLED, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE())";
+		String sql = "INSERT INTO USERS (USER_ID, USERNAME, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, MOBILE_NUMBER, ENABLED, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE())";
 		Long userId = sequenceDao.getNextVal("USERS_SEQ");
 		int count =0;
-		count = jdbcTemplate.update(sql, userId, user.getUserName(), user.getPassword(), user.getUserType().getUserTypeId(), user.getFirstName(), user.getLastName(), user.getHintQ(), user.getHintA(), user.getEmail(), user.isEnabled());
+		count = jdbcTemplate.update(sql, userId, user.getUserName(), user.getPassword(), user.getUserType().getUserTypeId(), user.getFirstName(), user.getLastName(), user.getHintQ(), user.getHintA(), user.getEmail(), user.getMobileNumber(), user.isEnabled());
 		user.setUserId(userId);
 		if(user.getUserType().getUserTypeId() == UserType.CANDIDATE.getUserTypeId()) {
 			Candidate candidate = candidateDao.saveCandidate(Candidate.from(user));

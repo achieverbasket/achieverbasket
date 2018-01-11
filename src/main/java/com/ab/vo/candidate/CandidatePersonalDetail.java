@@ -18,6 +18,7 @@ public class CandidatePersonalDetail {
 	private Address address;
 	private Gender gender;
 	private String email;
+	private Long mobileNumber;
 	
 	private MaritalStatus maritalStatus;
 
@@ -91,6 +92,14 @@ public class CandidatePersonalDetail {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(Long mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 	public MaritalStatus getMaritalStatus() {

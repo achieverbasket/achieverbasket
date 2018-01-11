@@ -26,8 +26,8 @@ import com.ab.vo.issuer.IssuerDetail;
 
 		@Override
 		public IssuerDetail saveIssuerDetail(IssuerDetail issuerDetail){
-			String sql = "INSERT INTO ISSUER_DETAIL (ISSUER_DETAIL_ID, ISSUER_ID, ISSUER_INCEPTION_DATE, ISSUER_END_DATE, EMAIL, ADDRESS_ID, CREATED_BY, CREATED_TIME) "
-						+ "VALUES (?, ?, ?, ?, ?, ?, 0, SYSDATE())";
+			String sql = "INSERT INTO ISSUER_DETAIL (ISSUER_DETAIL_ID, ISSUER_ID, ISSUER_INCEPTION_DATE, ISSUER_END_DATE, EMAIL, MOBILE_NUMBER, ADDRESS_ID, CREATED_BY, CREATED_TIME) "
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?, 0, SYSDATE())";
 			Long issuerDetailId = sequenceDao.getNextVal("ISSUER_DETAIL_SEQ");
 			Address address = addressDao.saveAddress(issuerDetail.getAddress());
 			jdbcTemplate.update(sql, issuerDetailId, 
@@ -35,7 +35,8 @@ import com.ab.vo.issuer.IssuerDetail;
 					issuerDetail.getIssuerInceptionDate().toDate().getTime(), 
 					issuerDetail.getIssuerEndDate().toDate().getTime(), 
 					address.getAddressId(),
-					issuerDetail.getEmailId()
+					issuerDetail.getEmailId(),
+					issuerDetail.getMobileNumber()
 					);
 			
 			issuerDetail.setIssuerDetailId(issuerDetailId);
@@ -45,19 +46,20 @@ import com.ab.vo.issuer.IssuerDetail;
 
 		@Override
 		public void updateIssuerDetail(IssuerDetail issuerDetail){
-			String sql = "UPDATE ISSUER_DETAIL SET ISSUER_INCEPTION_DATE=?, ISSUER_END_DATE=?, EMAIL=?, MODIFIED_BY=0, MODIFIED_TIME=SYSDATE()) WHERE ISSUER_DETAIL_ID =?";
+			String sql = "UPDATE ISSUER_DETAIL SET ISSUER_INCEPTION_DATE=?, ISSUER_END_DATE=?, EMAIL=?, MOBILE_NUMBER=?, MODIFIED_BY=0, MODIFIED_TIME=SYSDATE()) WHERE ISSUER_DETAIL_ID =?";
 			jdbcTemplate.update(sql,  
 					issuerDetail.getIssuerId(), 
 					issuerDetail.getIssuerInceptionDate().toDate().getTime(), 
 					issuerDetail.getIssuerEndDate().toDate().getTime(), 
 					issuerDetail.getEmailId(),
+					issuerDetail.getMobileNumber(),
 					issuerDetail.getIssuerDetailId()
 					);
 		}
 		
 		@Override
 		public IssuerDetail getIssuerDetail(Long issuerDetailId){
-			String sql = "SELECT ISSUER_DETAIL_ID, ISSUER_ID, ISSUER_INCEPTION_DATE, ISSUER_END_DATE, EMAIL, ADDRESS_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER_DETAIL WHERE ISSUER_DETAIL_ID=?";
+			String sql = "SELECT ISSUER_DETAIL_ID, ISSUER_ID, ISSUER_INCEPTION_DATE, ISSUER_END_DATE, EMAIL, MOBILE_NUMBER, ADDRESS_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER_DETAIL WHERE ISSUER_DETAIL_ID=?";
 			return jdbcTemplate.query(sql, new Object[] {issuerDetailId}, (ResultSetExtractor<IssuerDetail>) rs -> {
 					rs.next();
 					IssuerDetail issuerDetail = new IssuerDetail();
@@ -67,13 +69,14 @@ import com.ab.vo.issuer.IssuerDetail;
 					issuerDetail.setIssuerEndDate(new DateTime(rs.getDate("END_DATE")));
 					issuerDetail.setAddress(addressDao.getAddress(rs.getLong("ADDRESS_ID")));
 					issuerDetail.setEmailId(rs.getString("EMAIL"));
+					issuerDetail.setMobileNumber(rs.getLong("MOBILE_NUMBER"));
 					return issuerDetail;
 				});
 		}
 
 		@Override
 		public IssuerDetail getIssuerDetailByIssuerId(Long issuerId){
-			String sql = "SELECT ISSUER_DETAIL_ID, ISSUER_ID, ISSUER_INCEPTION_DATE, ISSUER_END_DATE, EMAIL, ADDRESS_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER_DETAIL WHERE ISSUER_ID=?";
+			String sql = "SELECT ISSUER_DETAIL_ID, ISSUER_ID, ISSUER_INCEPTION_DATE, ISSUER_END_DATE, EMAIL, MOBILE_NUMBER, ADDRESS_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER_DETAIL WHERE ISSUER_ID=?";
 			return jdbcTemplate.query(sql, new Object[] {issuerId}, (ResultSetExtractor<IssuerDetail>) rs -> {
 				if(rs.next()){
 					IssuerDetail issuerDetail = new IssuerDetail();
@@ -83,6 +86,7 @@ import com.ab.vo.issuer.IssuerDetail;
 					issuerDetail.setIssuerEndDate(new DateTime(rs.getDate("END_DATE")));
 					issuerDetail.setAddress(addressDao.getAddress(rs.getLong("ADDRESS_ID")));
 					issuerDetail.setEmailId(rs.getString("EMAIL"));
+					issuerDetail.setMobileNumber(rs.getLong("MOBILE_NUMBER"));
 					return issuerDetail;
 				}else{
 					return null;// swapnil modified this code

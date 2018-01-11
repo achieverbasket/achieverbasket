@@ -11,24 +11,6 @@ import com.ab.type.UserType;
 
 public class User extends org.springframework.security.core.userdetails.User{
 
-	public User(String username, String password,
-			boolean enabled, boolean accountNonExpired,
-			boolean credentialsNonExpired, boolean accountNonLocked,
-			Collection<? extends GrantedAuthority> authorities,
-			String status,UserType userType,String firstName, String lastName,String email,Long userId
-			) {
-		super(username, password, enabled, accountNonExpired, credentialsNonExpired,
-				accountNonLocked, authorities);
-		this.status = status;
-		this.userType = userType;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.userId = userId;
-		this.userName = username;
-		this.password = password;
-	}
-	
 	private static final long serialVersionUID = 1L;
 	private Long userId;
 	private String userName;
@@ -37,11 +19,32 @@ public class User extends org.springframework.security.core.userdetails.User{
 	private String lastName;
 	private byte[] image;
 	private String email;
+	private Long mobileNumber;
 	private String hintQ;
 	private String hintA;
 	private UserType userType;
 	private String status;
 	private List<CustomRoleForm> customRoleForm;
+	
+	public User(String username, String password,
+			boolean enabled, boolean accountNonExpired,
+			boolean credentialsNonExpired, boolean accountNonLocked,
+			Collection<? extends GrantedAuthority> authorities,
+			String status,UserType userType,String firstName, String lastName,String email, Long mobileNumber, Long userId
+			) {
+		super(username, password, enabled, accountNonExpired, credentialsNonExpired,
+				accountNonLocked, authorities);
+		this.status = status;
+		this.userType = userType;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.mobileNumber = mobileNumber;
+		this.userId = userId;
+		this.userName = username;
+		this.password = password;
+	}
+	
 
 	public Long getUserId() {
 		return userId;
@@ -97,6 +100,14 @@ public class User extends org.springframework.security.core.userdetails.User{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(Long mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 	public String getHintQ() {

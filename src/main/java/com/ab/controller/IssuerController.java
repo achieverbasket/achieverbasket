@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,11 +20,14 @@ import com.ab.constant.config.ApplicationPageConstant;
 import com.ab.service.CertificateService;
 import com.ab.service.CertificateTemplateService;
 import com.ab.service.IssuerService;
+import com.ab.service.LoginService;
 import com.ab.type.UserType;
+import com.ab.type.VerificationStatusType;
 import com.ab.util.CustomAWS;
 import com.ab.vo.User;
 import com.ab.vo.certificate.Certificate;
 import com.ab.vo.certificate.CertificateTemplate;
+import com.ab.vo.issuer.Issuer;
 
 @Controller
 @RequestMapping("/issuer")
@@ -37,6 +41,9 @@ public class IssuerController {
 	
 	@Autowired
 	CertificateTemplateService certificateTemplateServiceImpl;
+	
+	@Autowired
+	LoginService loginService;
 	
 	// get issue certifiate page
 	@RequestMapping(path="/certificate/create" ,method=RequestMethod.GET)
@@ -58,19 +65,23 @@ public class IssuerController {
 	
 	// get issue certifiate page
 		@RequestMapping(path="/certificate/create" ,method=RequestMethod.POST)
-		public String createCertificate(@ModelAttribute Certificate certificate ,Model model)
+		public String createCertificate(@ModelAttribute Certificate certificate ,Model model) throws Exception
 		{
-			System.out.println("certificate.getFilePath()----------"+certificate.getFilePath());
+			System.out.println("certificate val----------"+certificate);
 			User user = UserController.getUserPrincipal();
 			if(null != user){
-				UserType userType = user.getUserType();
 				model.addAttribute("username", user.getUserName());
-				if(UserType.CANDIDATE.equals(userType)){
-					model.addAttribute("type", "candidate");
-				}else if(UserType.ISSUER.equals(userType)){
-					model.addAttribute("type", "issuer");
-				}
+				model.addAttribute("type", "issuer");
+				Issuer issuer =loginService.getIssuer(user.getUserId());
+				certificate.setIssuer(issuer);
+				certificate.setIssuerId(issuer.getIssuerId());
 			}
+			
+			certificate.setVerificationStatusType(VerificationStatusType.VERIFIED);
+			certificate.setVerifiedBy(user.getUserId());
+			certificate.setCertificateType(certificate.getCertificateTemplate().getCertificateType());
+			certificateServiceImpl.saveCertificate(certificate);
+				
 			model.addAttribute("form", certificate);
 			model.addAttribute("success", "Certificate created successfully");
 			return ApplicationPageConstant.createcertificate_page;
