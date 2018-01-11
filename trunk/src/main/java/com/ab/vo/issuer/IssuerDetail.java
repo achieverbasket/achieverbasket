@@ -12,6 +12,7 @@ public class IssuerDetail {
 	private DateTime issuerEndDate;
 	private Address address;
 	private String emailId;
+	private Long mobileNumber;
 	
 	public Long getIssuerDetailId() {
 		return issuerDetailId;
@@ -48,6 +49,12 @@ public class IssuerDetail {
 	}
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
+	}
+	public Long getMobileNumber() {
+		return mobileNumber;
+	}
+	public void setMobileNumber(Long mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 	

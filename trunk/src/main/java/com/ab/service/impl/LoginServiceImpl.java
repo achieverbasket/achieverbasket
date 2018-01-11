@@ -79,7 +79,7 @@ public class LoginServiceImpl implements LoginService{
 		User user = new User(registration.getFirstName()+ registration.getLastName(), registration.getPassword(),
 				true, true, 
 				true, true, grantedAuthorityList, null, 
-				registration.getUserType(), registration.getFirstName(), registration.getLastName(), registration.getEmail(), null);
+				registration.getUserType(), registration.getFirstName(), registration.getLastName(), registration.getEmail(), new Long(registration.getMobile()), null);
 	
 		return user;
 	}
@@ -92,7 +92,7 @@ public class LoginServiceImpl implements LoginService{
 		User user = new User(registration.getFirstName()+ registration.getLastName(), registration.getPassword(),
 				true, true, 
 				true, true, grantedAuthorityList, null, 
-				registration.getUserType(), registration.getFirstName(), registration.getLastName(), registration.getEmail(), null);
+				registration.getUserType(), registration.getFirstName(), registration.getLastName(), registration.getEmail(),  new Long(registration.getMobile()), null);
 		return user;
 	}
 
