@@ -12,4 +12,7 @@ public interface CandidateDao {
 	Candidate getCandidate(Long candidateId);
 	
 	void removeCandidate(Long candidateId);
+	
+	Candidate getCandidateByEmailOrMobile(String emailId, Long mobileNumber);
+
 }
