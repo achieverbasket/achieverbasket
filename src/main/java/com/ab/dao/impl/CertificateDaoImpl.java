@@ -59,8 +59,10 @@ public class CertificateDaoImpl implements CertificateDao{
 //			System.out.println("issue date formated: "+new Date(format.parse(certificate.getIssueDate()).getTime()));
 //			System.out.println("end date formated: "+new Date(format.parse(certificate.getEndDate()).getTime()));
 
-			String filePath = FileUtil.saveDocumentToFile(certificate.getCandidateId(), certificate.getCertificateId(), certificate.getCertificateFile());
-			certificate.setFilePath(filePath);
+			if(null!=certificate.getCertificateFile()) {
+				String filePath = FileUtil.saveDocumentToFile(certificate.getCandidateId(), certificate.getCertificateId(), certificate.getCertificateFile());
+				certificate.setFilePath(filePath);
+			}
 			
 			jdbcTemplate.update(sql, certificateId, 
 					certificate.getCertificateName(),
@@ -68,7 +70,7 @@ public class CertificateDaoImpl implements CertificateDao{
 					certificate.getIssuer().getIssuerId(),
 					certificate.getCertificateType().getCertificateTypeId(),
 					new Date(format.parse(certificate.getIssueDate()).getTime()), 
-					new Date(format.parse(certificate.getEndDate()).getTime()),
+					new Date(certificate.getEndDate()==null?null:format.parse(certificate.getEndDate()).getTime()),
 					certificate.getCertificateTemplate().getCertificateTemplateId(),
 					certificate.getFilePath(),
 					certificate.getVerificationStatusType().getVerificationStatusTypeId(),

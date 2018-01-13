@@ -23,8 +23,10 @@ import com.ab.service.IssuerService;
 import com.ab.service.LoginService;
 import com.ab.type.UserType;
 import com.ab.type.VerificationStatusType;
+import com.ab.util.CSVReader;
 import com.ab.util.CustomAWS;
 import com.ab.vo.User;
+import com.ab.vo.certificate.BulkCertificate;
 import com.ab.vo.certificate.Certificate;
 import com.ab.vo.certificate.CertificateTemplate;
 import com.ab.vo.issuer.Issuer;
@@ -124,6 +126,7 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
+		System.out.print("in getAvailableCertificateTemplates for "+user.getUserId());
 		List<CertificateTemplate> list = new ArrayList<CertificateTemplate>();
 		Long issuerId = issuerServiceImpl.getIssuerId(user.getUserId());
 		list = certificateTemplateServiceImpl.getCertificateTemplateList(issuerId, null);
@@ -146,6 +149,7 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
+		System.out.print("in getIssuerCertificateTemplates for "+user.getUserId());
 		//certificateTemplateServiceImpl.getCertificateTemplateList(issuerId, certificateType);
 		return ApplicationPageConstant.certificatetemplates_page;
 	}
@@ -189,7 +193,7 @@ public class IssuerController {
 	@RequestMapping(path="/certificate/bulkload" ,method=RequestMethod.GET)
 	public String bulkLoadCertificates(@ModelAttribute Certificate certificate,Model model)
 	{
-		
+		System.out.println("in bulkupload get");
 		User user = UserController.getUserPrincipal();
 		if(null != user){
 			UserType userType = user.getUserType();
@@ -205,9 +209,10 @@ public class IssuerController {
 	}
 	
 	@RequestMapping(path="/certificate/bulkload" ,method=RequestMethod.POST)
-	public String bulkLoadCertificatesProcessing(@ModelAttribute File certificateXlsFile ,Model model)
+	public String bulkLoadCertificatesProcessing(@ModelAttribute Certificate certificate ,Model model)
 	{
-		System.out.println("file name ---------------  "+certificateXlsFile);
+		System.out.println("in bulkupload");
+		//System.out.println("file name ---------------  "+certificateCSVFile);
 		User user = UserController.getUserPrincipal();
 		if(null != user){
 			UserType userType = user.getUserType();
@@ -218,7 +223,10 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
-		//model.addAttribute("form", certificate);
+		//List<BulkCertificate> bulkCertificateList = CSVReader.getBulkCertificateList(certificateCSVFile);
+		List<BulkCertificate> bulkCertificateList = CSVReader.getBulkCertificateList(CSVReader.getFile());
+		issuerServiceImpl.saveBulkCertificate(bulkCertificateList);
+		model.addAttribute("form", certificate);
 		model.addAttribute("success", "Certificate file uploaded successfully");
 		return ApplicationPageConstant.bulkloadcertificate_page;
 	}
