@@ -48,6 +48,7 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 				template.setIssuerId(rs.getLong("ISSUER_ID"));
 				template.setFilePath(rs.getString("FILE_PATH"));
 				template.setCertificateDesc(rs.getString("CERTIFICATE_DESC"));
+				template.setCertificateType(CertificateType.fromId(rs.getInt("CERTIFICATE_TYPE_ID")));
 				return template;
 			});
 	}
@@ -55,7 +56,7 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 	@Override
 	public List<CertificateTemplate> getCertificateTemplateList(Long issuerId, CertificateType certificateType) {
 		String sql = "SELECT TEMPLATE_NAME, CERTIFICATE_TEMPLATE_ID, CERTIFICATE_TYPE_ID, CERTIFICATE_DESC, FILE_PATH CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CERTIFICATE_TEMPLATE WHERE ISSUER_ID = ? ";
-		
+		System.out.println("in getCertificateTemplateList: "+issuerId);
 		return jdbcTemplate.query(sql, new Object[] {issuerId}, (RowMapper<CertificateTemplate>) (rs,arg) -> {
 				CertificateTemplate template = new CertificateTemplate();
 				template.setCertificateTemplateId(rs.getLong("CERTIFICATE_TEMPLATE_ID"));
