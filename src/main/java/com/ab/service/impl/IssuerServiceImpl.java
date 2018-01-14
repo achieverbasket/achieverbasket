@@ -10,7 +10,6 @@ import com.ab.dao.CertificateDao;
 import com.ab.dao.CertificateTemplateDao;
 import com.ab.dao.IssuerDao;
 import com.ab.dao.IssuerDetailDao;
-import com.ab.dao.impl.SequenceDao;
 import com.ab.service.IssuerService;
 import com.ab.type.CandidateType;
 import com.ab.type.VerificationStatusType;
@@ -43,9 +42,6 @@ public class IssuerServiceImpl implements IssuerService{
 	@Autowired
 	CertificateTemplateDao certificateTemplateDao;
 	
-	@Autowired
-	private SequenceDao sequenceDao;
-
 	@Override
 	public Issuer saveIssuer(Issuer issuer) {
 		
@@ -109,6 +105,7 @@ public class IssuerServiceImpl implements IssuerService{
 		
 		certificate.setCertificateTemplate(certificateTemplate);
 		certificate.setCertificateType(certificateTemplate.getCertificateType());
+		certificate.setTemplateBased(true);
 		certificate.setEndDate(bulkCertificate.getCertificateEndDate());
 		certificate.setIssueDate(bulkCertificate.getCertifcateIssueDate());
 		
@@ -125,10 +122,6 @@ public class IssuerServiceImpl implements IssuerService{
 	
 	private Candidate getCandidate(BulkCertificate bulkCertificate) {
 		Candidate candidate = new Candidate();
-//		Long candidateId = sequenceDao.getNextVal("CANDIDATE_SEQ");
-//		Long candidatePersonalDetailId = sequenceDao.getNextVal("CANDIDATE_PERSONAL_DETAIL_SEQ");
-		
-		//candidate.setCandidateId(candidateId);
 		candidate.setCandidateName(bulkCertificate.getCandidateName());
 		candidate.setCandidateType(CandidateType.CANDIDATE);
 		
@@ -136,10 +129,8 @@ public class IssuerServiceImpl implements IssuerService{
 		candidate.setSocialActivity(new SocialActivity(SocialActivityType.PROFILE));
 		
 		CandidatePersonalDetail candidatePersonalDetail = new CandidatePersonalDetail();
-		//candidatePersonalDetail.setCandidateId(candidateId);
 		candidatePersonalDetail.setFirstName(bulkCertificate.getCandidateName());
 		candidatePersonalDetail.setLastName(bulkCertificate.getCandidateName());
-		//candidatePersonalDetail.setCandidatePersonalDetailId(candidatePersonalDetailId);
 		candidatePersonalDetail.setEmail(bulkCertificate.getCandidateEmail());
 		candidatePersonalDetail.setMobileNumber(bulkCertificate.getCandidateMobileNumber());
 		candidatePersonalDetail.setAddress(new Address());

@@ -83,6 +83,7 @@ public class IssuerController {
 			certificate.setVerificationStatusType(VerificationStatusType.VERIFIED);
 			certificate.setVerifiedBy(user.getUserId());
 			certificate.setCertificateType(certificate.getCertificateTemplate().getCertificateType());
+			certificate.setTemplateBased(true);
 			
 			certificateServiceImpl.saveCertificate(certificate);
 				

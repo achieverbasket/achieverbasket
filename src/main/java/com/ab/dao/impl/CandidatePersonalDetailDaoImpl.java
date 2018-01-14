@@ -68,7 +68,7 @@ public class CandidatePersonalDetailDaoImpl implements CandidatePersonalDetailDa
 
 	@Override
 	public CandidatePersonalDetail getPersonalDetailByCandidateId(Long candidateId) {
-		String sql = "SELECT PERSONAL_DETAIL_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, DOB, EMAIL, GENDER, MARITAL_STATUS, ADDRESS_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CANDIDATE_PERSONAL_DETAIL WHERE CANDIDATE_ID=?";
+		String sql = "SELECT PERSONAL_DETAIL_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, DOB, EMAIL, MOBILE_NUMBER, GENDER, MARITAL_STATUS, ADDRESS_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CANDIDATE_PERSONAL_DETAIL WHERE CANDIDATE_ID=?";
 		return jdbcTemplate.query(sql, new Object[] {candidateId}, (ResultSetExtractor<CandidatePersonalDetail>) rs -> {
 				rs.next();
 				CandidatePersonalDetail personalDetail = new CandidatePersonalDetail();
