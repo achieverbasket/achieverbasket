@@ -22,6 +22,7 @@ public class Certificate implements Serializable{
 	private Long candidateId;
 	private String certificateName;
 	private CertificateType certificateType;
+	private boolean isTemplateBased;
 	private PreferenceStatusType preferenceStatusType;
 	private String issueDate;
 	private String endDate;
@@ -34,6 +35,7 @@ public class Certificate implements Serializable{
 	private SocialActivity socialActivity;
 	private Issuer issuer;
 	private MultipartFile certificateFile;
+
 	
 	private State state;
 	private Country country;
@@ -203,6 +205,14 @@ public class Certificate implements Serializable{
 		this.certificateType = certificateType;
 	}
 	
+	public boolean isTemplateBased() {
+		return isTemplateBased;
+	}
+
+	public void setTemplateBased(boolean isTemplateBased) {
+		this.isTemplateBased = isTemplateBased;
+	}
+
 	@Override
 	public String toString()
 	{
