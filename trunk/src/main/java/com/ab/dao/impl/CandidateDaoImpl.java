@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.ab.dao.CandidateDao;
 import com.ab.dao.CandidatePersonalDetailDao;
-import com.ab.dao.CertificateDao;
 import com.ab.dao.SocialActivityDao;
 import com.ab.type.CandidateType;
 import com.ab.vo.activity.SocialActivity;
@@ -28,19 +27,21 @@ public class CandidateDaoImpl implements CandidateDao {
 	@Autowired
 	private SocialActivityDao socialActivityDao;
 
-	@Autowired
-	private CertificateDao certificateDao;
-
 	@Override
 	public Candidate saveCandidate(Candidate candidate) {
 		
 		System.out.println("in saveCandidate: "+candidate);
-		String sql = "INSERT INTO CANDIDATE (CANDIDATE_ID, CANDIDATE_NAME, CANDIDATE_TYPE_ID, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, 0, SYSDATE())";
+		String sql = "INSERT INTO CANDIDATE (CANDIDATE_ID, CANDIDATE_NAME, CANDIDATE_TYPE_ID, IS_ACTIVE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, 0, SYSDATE())";
 
 		Long candidateId = sequenceDao.getNextVal("CANDIDATE_SEQ");
 		
 		SocialActivity socialActivity = socialActivityDao.saveSocialActivity(new SocialActivity(SocialActivityType.PROFILE));
-		jdbcTemplate.update(sql, candidateId, candidate.getCandidateName(), candidate.getCandidateType().getCandidateTypeId(), socialActivity.getSocialActivityId());
+		jdbcTemplate.update(sql, 
+				candidateId, 
+				candidate.getCandidateName(), 
+				candidate.getCandidateType().getCandidateTypeId(), 
+				candidate.isActive()==true?1:0, 
+				socialActivity.getSocialActivityId());
 		
 		candidate.setCandidateId(candidateId);
 		candidate.setSocialActivity(socialActivity);
@@ -58,13 +59,14 @@ public class CandidateDaoImpl implements CandidateDao {
 
 	@Override
 	public Candidate getCandidate(Long candidateId) {
-		String sql = "SELECT CANDIDATE_NAME, CANDIDATE_TYPE_ID, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CANDIDATE WHERE CANDIDATE_ID=?";
+		String sql = "SELECT CANDIDATE_NAME, CANDIDATE_TYPE_ID, IS_ACTIVE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CANDIDATE WHERE CANDIDATE_ID=?";
 		Candidate cand = jdbcTemplate.query(sql, new Object[] {candidateId}, (ResultSetExtractor<Candidate>) rs -> {
 				rs.next();
 				Candidate candidate = new Candidate();
 				candidate.setCandidateId(candidateId);
 				candidate.setCandidateName(rs.getString("CANDIDATE_NAME"));
 				candidate.setCandidateType(CandidateType.fromId(rs.getInt("CANDIDATE_TYPE_ID")));
+				candidate.setActive(rs.getBoolean("IS_ACTIVE"));
 				candidate.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
 				return candidate;
 			});

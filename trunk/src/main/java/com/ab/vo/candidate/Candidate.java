@@ -13,6 +13,7 @@ public class Candidate{
 	private Long candidateId;
 	private String candidateName;
 	private CandidateType candidateType;
+	private boolean isActive;
 	private CandidatePersonalDetail candidatePersonalDetail;
 	private PreferenceStatusType preferenceStatusType;
 	private SocialActivity socialActivity;
@@ -40,6 +41,14 @@ public class Candidate{
 
 	public void setCandidateType(CandidateType candidateType) {
 		this.candidateType = candidateType;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public CandidatePersonalDetail getCandidatePersonalDetail() {
@@ -78,6 +87,7 @@ public class Candidate{
 		Candidate candidate = new Candidate();
 		candidate.setCandidateName(user.getFirstName());
 		candidate.setCandidateType(CandidateType.CANDIDATE);
+		candidate.setActive(true);//All Register user are active
 		candidate.setCandidatePersonalDetail(CandidatePersonalDetail.from(user));
 		candidate.setPreferenceStatusType(PreferenceStatusType.PUBLIC);
 		candidate.setSocialActivity(new SocialActivity(SocialActivityType.PROFILE));
