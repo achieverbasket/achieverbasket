@@ -1,6 +1,5 @@
 package com.ab.dao.impl;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,8 @@ import com.ab.dao.IssuerDao;
 import com.ab.dao.IssuerDetailDao;
 import com.ab.dao.SocialActivityDao;
 import com.ab.type.IssuerType;
-import com.ab.vo.City;
 import com.ab.vo.activity.SocialActivity;
 import com.ab.vo.activity.SocialActivityType;
-import com.ab.vo.certificate.Certificate;
 import com.ab.vo.issuer.Issuer;
 
 
@@ -43,13 +40,18 @@ public class IssuerDaoImpl implements IssuerDao{
 	
 	@Override
 	public Issuer saveIssuer(Issuer issuer) {
-		String sql = "INSERT INTO ISSUER (ISSUER_ID, ISSUER_NAME, ISSUER_TYPE_ID, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, 0, SYSDATE())";
+		String sql = "INSERT INTO ISSUER (ISSUER_ID, ISSUER_NAME, ISSUER_TYPE_ID, IS_ACTIVE,SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, 0, SYSDATE())";
 
 		Long issuerId = sequenceDao.getNextVal("ISSUER_SEQ");
 		
 		SocialActivity socialActivity = socialActivityDao.saveSocialActivity(new SocialActivity(SocialActivityType.PROFILE));
 
-		jdbcTemplate.update(sql, issuerId, issuer.getIssuerName(), issuer.getIssuerType().getIssuerTypeId(), socialActivity.getSocialActivityId());
+		jdbcTemplate.update(sql, 
+				issuerId, 
+				issuer.getIssuerName(), 
+				issuer.getIssuerType().getIssuerTypeId(),
+				issuer.isActive()==true?1:0,
+				socialActivity.getSocialActivityId());
 		
 		issuer.setIssuerId(issuerId);
 		issuer.setSocialActivity(socialActivity);
@@ -74,6 +76,7 @@ public class IssuerDaoImpl implements IssuerDao{
 				issuer.setIssuerId(issuerId);
 				issuer.setIssuerName(rs.getString("ISSUER_NAME"));
 				issuer.setIssuerType(IssuerType.fromId(rs.getInt("ISSUER_TYPE_ID")));
+				issuer.setActive(rs.getBoolean("IS_ACTIVE"));
 				issuer.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
 				return issuer;
 			});
@@ -85,7 +88,7 @@ public class IssuerDaoImpl implements IssuerDao{
 	
 	@Override
 	public List<Issuer> getIssuerList() {
-		String sql = "SELECT ISSUER_NAME, ISSUER_TYPE_ID, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER";
+		String sql = "SELECT ISSUER_NAME, ISSUER_TYPE_ID, IS_ACTIVE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER";
 		// every where when no null check is performed on using lambda java 8 rs feature , error will occur
 		// either dont use it or do null check handling
 		// i have made changes to 1 place for line 73 -- inside getIssuerDetailByIssuerId method
@@ -97,6 +100,7 @@ public class IssuerDaoImpl implements IssuerDao{
 					issuer.setIssuerId(issuerId);
 					issuer.setIssuerName(rs.getString("ISSUER_NAME"));
 					issuer.setIssuerType(IssuerType.fromId(rs.getInt("ISSUER_TYPE_ID")));
+					issuer.setActive(rs.getBoolean("IS_ACTIVE"));
 					issuer.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
 					issuer.setIssuerCertificateList(certificateDao.getIssuerCertificates(issuerId));
 					issuer.setIssuerDetail(issuerDetailDao.getIssuerDetailByIssuerId(issuerId));
@@ -115,7 +119,7 @@ public class IssuerDaoImpl implements IssuerDao{
 		
 		System.out.println("in getIssuerAutoComplete: "+data);
 	
-		String sql = "SELECT ISSUER_ID,ISSUER_NAME, ISSUER_TYPE_ID, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER where lower(issuer_name) like lower(?) ";
+		String sql = "SELECT ISSUER_ID,ISSUER_NAME, ISSUER_TYPE_ID, IS_ACTIVE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER where lower(issuer_name) like lower(?) ";
 		
 		RowMapper<Issuer> mapper = (RowMapper<Issuer>) (rs, arg) -> {
 			Issuer issuer = new Issuer();
@@ -123,6 +127,7 @@ public class IssuerDaoImpl implements IssuerDao{
 			issuer.setIssuerId(issuerId);
 			issuer.setIssuerName(rs.getString("ISSUER_NAME"));
 			issuer.setIssuerType(IssuerType.fromId(rs.getInt("ISSUER_TYPE_ID")));
+			issuer.setActive(rs.getBoolean("IS_ACTIVE"));
 			issuer.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
 			issuer.setIssuerCertificateList(certificateDao.getIssuerCertificates(issuerId));
 			issuer.setIssuerDetail(issuerDetailDao.getIssuerDetailByIssuerId(issuerId));

@@ -17,6 +17,7 @@ public class Issuer {
 	private Long issuerId;
 	private String issuerName;
 	private IssuerType issuerType;
+	private boolean isActive;
 	private IssuerDetail issuerDetail;
 	private IssuerRanking issuerRanking;
 	private PreferenceStatusType preferenceStatusType;
@@ -40,6 +41,12 @@ public class Issuer {
 	}
 	public void setIssuerType(IssuerType issuerType) {
 		this.issuerType = issuerType;
+	}
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	public IssuerDetail getIssuerDetail() {
 		return issuerDetail;
@@ -76,6 +83,7 @@ public class Issuer {
 		Issuer issuer = new Issuer();
 		issuer.setIssuerName(user.getFirstName());
 		issuer.setIssuerType(IssuerType.ACADEMIC);
+		issuer.setActive(true);//Issuer coming from registration is active
 		//issuer.setIssuerDetail(IssuerDetail.from(user));
 		issuer.setPreferenceStatusType(PreferenceStatusType.PUBLIC);
 		return issuer;

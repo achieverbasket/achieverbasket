@@ -124,6 +124,7 @@ public class IssuerServiceImpl implements IssuerService{
 		Candidate candidate = new Candidate();
 		candidate.setCandidateName(bulkCertificate.getCandidateName());
 		candidate.setCandidateType(CandidateType.CANDIDATE);
+		candidate.setActive(false);//As this is Issuer generated candidate, its not active yet.
 		
 		candidate.setPreferenceStatusType(PreferenceStatusType.PUBLIC);
 		candidate.setSocialActivity(new SocialActivity(SocialActivityType.PROFILE));
