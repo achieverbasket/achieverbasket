@@ -224,9 +224,17 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
+		try {
+			File file = convert(certificate.getCertificateFile());
+			List<BulkCertificate> bulkCertificateList = CSVReader.getBulkCertificateList(file);
+			issuerServiceImpl.saveBulkCertificate(bulkCertificateList);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
 		//List<BulkCertificate> bulkCertificateList = CSVReader.getBulkCertificateList(certificateCSVFile);
-		List<BulkCertificate> bulkCertificateList = CSVReader.getBulkCertificateList(CSVReader.getFile());
-		issuerServiceImpl.saveBulkCertificate(bulkCertificateList);
+		
+		
 		model.addAttribute("form", certificate);
 		model.addAttribute("success", "Certificate file uploaded successfully");
 		return ApplicationPageConstant.bulkloadcertificate_page;
