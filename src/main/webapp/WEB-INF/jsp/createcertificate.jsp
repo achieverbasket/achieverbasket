@@ -44,7 +44,7 @@ margin: 0;
 				<h1 class="bd-title" id="content"></h1>
 				<div class="card mb-1 border-light">
 					<div class="card-header">
-						<h5 class="mb-0">Create Certificate</h5>
+						<h5 class="mb-0">Issue Certificate to Candidate</h5>
 					</div>
 				</div>
 				<c:if test="${!empty success}">
@@ -56,8 +56,10 @@ margin: 0;
 				<form:form  modelAttribute="form" action="${context}/issuer/certificate/create"   method="POST">
 				<div class="row">
 					<div class="col-12 col-md-9">
-						<a href="#" onclick="window.open('${context}/issuer/certificate/imagelist','popwin','width=640, height=480')"
-						>Select Certificate Template</a>
+						<a class="btn btn-light btn-sm  mb-1 mt-1" href="#" onclick="window.open('${context}/issuer/certificate/imagelist','popwin','width=640, height=480')"
+						>Select Existing Certificate Template</a>
+						<a class="btn btn-light btn-sm float-right mb-1 mt-1" href="${context}/issuer/certificate/create/template" 
+						>Create New Certificate Template</a>
 					</div>
 				</div>
 				<table class="table table-sm table-responsive table-bordered ">
@@ -90,13 +92,30 @@ margin: 0;
 						</tr>
 					</tbody>
 				</table>
-				<div class="row">
+				<%-- <div class="row">
 					<div class="col-12 col-md-3">
 						<label class="col-form-label">Certificate Type</label>
 						<form:select path="certificateType" class="form-control form-control-sm ">
 							<form:options items="${certType}"  />
 						</form:select>
 						<form:errors path="certificateType" />
+					</div>
+				</div> --%>
+				<div class="row">
+					<div class="col-12 col-md-3">
+						<label class="col-form-label">Candidate Name</label>
+						<form:input path="candidate.candidateName" class="form-control form-control-sm"/>
+						<form:errors path="candidate.candidateName" />
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="col-form-label">Candidate Email</label>
+						<form:input path="candidate.candidatePersonalDetail.email" class="form-control form-control-sm"/>
+						<form:errors path="candidate.candidatePersonalDetail.email" />
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="col-form-label">Candidate Mobile Number</label>
+						<form:input path="candidate.candidatePersonalDetail.mobileNumber" class="form-control form-control-sm"/>
+						<form:errors path="candidate.candidatePersonalDetail.mobileNumber" />
 					</div>
 				</div>	
 				<div class="row">

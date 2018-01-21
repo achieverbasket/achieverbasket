@@ -5,12 +5,12 @@ import java.io.Serializable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ab.type.CertificateType;
-import com.ab.type.StatusType;
 import com.ab.type.VerificationStatusType;
 import com.ab.vo.City;
 import com.ab.vo.Country;
 import com.ab.vo.State;
 import com.ab.vo.activity.SocialActivity;
+import com.ab.vo.candidate.Candidate;
 import com.ab.vo.issuer.Issuer;
 import com.ab.vo.preference.PreferenceStatusType;
 
@@ -20,6 +20,7 @@ public class Certificate implements Serializable{
 	private	Long certificateId;
 	private Long issuerId;
 	private Long candidateId;
+	private Candidate candidate;
 	private String certificateName;
 	private CertificateType certificateType;
 	private boolean isTemplateBased;
@@ -220,6 +221,14 @@ public class Certificate implements Serializable{
 				+certificateType+ " preferenceStatusType: "+preferenceStatusType+" issueDate:"+issueDate+" endDate:"+ endDate+"	certificateTemplate: "+certificateTemplate+
 				" filePath: "+filePath +" verified: "+verified+" verifiedBy: "+verifiedBy+	" verificationDate: "+verificationDate+" socialActivity: "+socialActivity+" issuer:[ "+issuer+" ] certificateFile"+certificateFile;
 		
+	}
+
+	public Candidate getCandidate() {
+		return candidate;
+	}
+
+	public void setCandidate(Candidate candidate) {
+		this.candidate = candidate;
 	}
 
 	
