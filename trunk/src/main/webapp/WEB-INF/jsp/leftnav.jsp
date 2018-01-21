@@ -22,8 +22,8 @@
 			<ul class="nav bd-sidenav">
 			<c:if test="${type != 'candidate'}">
 				<li class="active bd-sidenav-active"><a href="${context}/dashboard">DashBoard</a></li>
-				<li class=""><a href="${context}/issuer/certificate/create">Create Certificate</a></li>
-				<li class=""><a href="${context}/issuer/certificate/issue">Issue Certificate</a></li>
+				<li class=""><a href="${context}/issuer/certificate/create">Issue Certificate</a></li>
+				<%-- <li class=""><a href="${context}/issuer/certificate/issue">Issue Certificate</a></li> --%>
 				<li class=""><a href="${context}/issuer/certificate/templates">View Certificate Templates</a></li>
 				<li class=""><a href="${context}/issuer/certificate/create/template">Create Certificate Template</a></li>
 				<li class=""><a href="${context}/issuer/certificate/bulkload">Bulk Certificate Load</a></li>

@@ -66,7 +66,7 @@ public class IssuerController {
 		return ApplicationPageConstant.createcertificate_page;
 	}
 	
-	// get issue certifiate page
+	// get issue certificate page
 		@RequestMapping(path="/certificate/create" ,method=RequestMethod.POST)
 		public String createCertificate(@ModelAttribute Certificate certificate ,Model model) throws Exception
 		{
@@ -156,7 +156,7 @@ public class IssuerController {
 	}
 	
 	// get issue certifiate page
-	@RequestMapping(path="/certificate/issue" ,method=RequestMethod.GET)
+	/*@RequestMapping(path="/certificate/issue" ,method=RequestMethod.GET)
 	public String issueCertificateToCandidate(Model model)
 	{
 		User user = UserController.getUserPrincipal();
@@ -171,7 +171,7 @@ public class IssuerController {
 		}
 		//certificateServiceImpl.saveCertificate(certificate);
 		return ApplicationPageConstant.issuecertificate_page;
-	}
+	}*/
 	
 	//search certificate
 	@RequestMapping(path="/certificate/search" ,method=RequestMethod.GET)
