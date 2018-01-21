@@ -43,7 +43,7 @@ margin: 0;
 				<h1 class="bd-title" id="content"></h1>
 				<div class="card mb-1 border-light">
 					<div class="card-header">
-						<h5 class="mb-0">Issuer Certificate To Candidate Page</h5>
+						<h5 class="mb-0">Issuer Certificate To Candidate</h5>
 					</div>
 				</div>
 				<div class="card-deck">

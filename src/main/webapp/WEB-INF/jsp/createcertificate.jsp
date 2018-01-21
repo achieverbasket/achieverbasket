@@ -19,6 +19,7 @@
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <link rel="stylesheet" href="${context}/css/main.css">
 <link rel="stylesheet" href="${context}/css/custom.css">
+<link href="${context}/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
 <style type="text/css">
 .card{
 margin: 0;
@@ -101,12 +102,12 @@ margin: 0;
 				<div class="row">
 					<div class="col-12 col-md-3">
 						<label class="col-form-label">issueDate</label>
-						<form:input path="issueDate" class="form-control form-control-sm "/>
+						<form:input path="issueDate" class="form-control form-control-sm datepicker"/>
 						<form:errors path="certificateType" />
 					</div>
 					<div class="col-12 col-md-3">
 						<label class="col-form-label">endDate</label>
-						<form:input path="endDate" class="form-control form-control-sm "/>
+						<form:input path="endDate" class="form-control form-control-sm datepicker"/>
 						<form:errors path="certificateType" />
 					</div>
 				</div>
@@ -134,6 +135,8 @@ margin: 0;
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${context}/js/bootstrap-datepicker.min.js">
+		</script>	
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/0.11.1/typeahead.bundle.min.js"
 		type="text/javascript"></script>
