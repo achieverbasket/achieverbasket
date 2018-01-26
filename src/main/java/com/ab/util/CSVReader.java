@@ -47,11 +47,12 @@ public class CSVReader {
 		    		bulkCertificate.setCandidateId(array[1].trim().equals("")?null:new Long(array[1]));
 		    		bulkCertificate.setCertificateTemplateId(new Long(array[2]));//Mandatory
 		    		bulkCertificate.setCertificateName(array[3].trim().equals("")?null:new String(array[3]));
-		    		bulkCertificate.setCandidateName(array[4].trim().equals("")?null:new String(array[4]));
-		    		bulkCertificate.setCandidateEmail(array[5].trim().equals("")?null:new String(array[5]));
-		    		bulkCertificate.setCandidateMobileNumber(array[6].trim().equals("")?null:new Long(array[6]));
-		    		bulkCertificate.setCertifcateIssueDate(new String(array[7]).replace('-', '/'));//Mandatory
-		    		bulkCertificate.setCertificateEndDate(array[8].trim().equals("")?null:new String(array[8]).replace('-', '/'));
+		    		bulkCertificate.setCandidateFirstName(array[4].trim().equals("")?null:new String(array[4]));
+		    		bulkCertificate.setCandidateLastName(array[5].trim().equals("")?null:new String(array[5]));
+		    		bulkCertificate.setCandidateEmail(array[6].trim().equals("")?null:new String(array[6]));
+		    		bulkCertificate.setCandidateMobileNumber(array[7].trim().equals("")?null:new Long(array[7]));
+		    		bulkCertificate.setCertifcateIssueDate(new String(array[8]).replace('-', '/'));//Mandatory
+		    		bulkCertificate.setCertificateEndDate(array[9].trim().equals("")?null:new String(array[9]).replace('-', '/'));
 			        System.out.println("bulkCertificate: "+ bulkCertificate);
 			        bulkCertificateList.add(bulkCertificate);
 		    	}

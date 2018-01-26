@@ -19,6 +19,10 @@ public interface IssuerService {
 	 
 	public long getIssuerId(Long userId);
 	
-	public void saveBulkCertificate(List<BulkCertificate> bulkCertificateList);
+	public void saveBulkCertificateList(List<BulkCertificate> bulkCertificateList);
+	
+	public void saveBulkCertificate(BulkCertificate bulkCertificate);
+	
+	public List<Issuer> getIssuerListByActiveFlag(boolean isActive);
 
 }

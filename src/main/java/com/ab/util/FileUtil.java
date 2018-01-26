@@ -2,14 +2,16 @@ package com.ab.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class FileUtil {
 	
-	final static String location = "C:/Users/Sara/Google Drive/DigitalResume/documents";
+	final static String location = "C:/DigitalResume/documents";
 	
 	private FileUtil()
 	{
@@ -52,6 +54,7 @@ public class FileUtil {
 		    {
 				File file = new File(filePath);
 			    FileInputStream input = new FileInputStream(file);
+			    
 			    multipartFile = new MockMultipartFile("file",
 			            file.getName(), "text/plain", IOUtils.toByteArray(input));
 		    }
@@ -66,6 +69,18 @@ public class FileUtil {
 		}
 		System.out.println("multipartFile: "+multipartFile);
 		return multipartFile;
+	}
+	
+	public static void main(String[] args) {
+		try {
+		MultipartFile file = FileUtil.getDocumentFile("C:/Users/Sara/Google Drive/DigitalResume/documents/12/45.pdf");
+		
+		FileUtil.saveDocumentToFile(99l,999l,file);
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -2,6 +2,7 @@ package com.ab.dao;
 
 import java.util.List;
 
+import com.ab.vo.candidate.Candidate;
 import com.ab.vo.issuer.Issuer;
 
 public interface IssuerDao {
@@ -17,4 +18,7 @@ public interface IssuerDao {
 	
 	public List<Issuer> getIssuerAutoComplete(String data);	
 	public long getIssuerId(Long userId);
+	
+	List<Issuer> getIssuerListByActiveFlag(boolean isActive);
+
 }
