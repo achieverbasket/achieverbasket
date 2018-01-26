@@ -1,8 +1,11 @@
 package com.ab.dao.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.ab.dao.CandidateDao;
@@ -12,6 +15,7 @@ import com.ab.type.CandidateType;
 import com.ab.vo.activity.SocialActivity;
 import com.ab.vo.activity.SocialActivityType;
 import com.ab.vo.candidate.Candidate;
+import com.ab.vo.certificate.Certificate;
 
 @Repository
 public class CandidateDaoImpl implements CandidateDao {
@@ -99,5 +103,25 @@ public class CandidateDaoImpl implements CandidateDao {
 	public void removeCandidate(Long candidateId) {
 		String sql = "DELETE FROM CANDIDATE WHERE CANDIDATE_ID=?";
 		jdbcTemplate.update(sql, candidateId);
+	}
+	
+	@Override
+	public List<Candidate> getCandidateListByActiveFlag(boolean isActive) {
+		String sql = "SELECT CANDIDATE_ID, CANDIDATE_NAME, CANDIDATE_TYPE_ID, IS_ACTIVE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CANDIDATE WHERE IS_ACTIVE=?";
+		return jdbcTemplate.query(sql, new Object[] {isActive},  (RowMapper<Candidate>)  (rs, arg) -> {
+			if(rs.next())
+			{
+				Candidate candidate = new Candidate();
+				candidate.setCandidateId(rs.getLong("CANDIDATE_ID"));
+				candidate.setCandidateName(rs.getString("CANDIDATE_NAME"));
+				candidate.setCandidateType(CandidateType.fromId(rs.getInt("CANDIDATE_TYPE_ID")));
+				candidate.setActive(rs.getBoolean("IS_ACTIVE"));
+				candidate.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
+				return candidate;
+			}
+			else {
+				return null;
+			}
+			});
 	}
 }

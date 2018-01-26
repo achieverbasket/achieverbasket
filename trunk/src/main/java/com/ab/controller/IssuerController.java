@@ -67,30 +67,49 @@ public class IssuerController {
 	}
 	
 	// get issue certificate page
-		@RequestMapping(path="/certificate/create" ,method=RequestMethod.POST)
-		public String createCertificate(@ModelAttribute Certificate certificate ,Model model) throws Exception
-		{
-			System.out.println("certificate val----------"+certificate);
-			User user = UserController.getUserPrincipal();
-			if(null != user){
-				model.addAttribute("username", user.getUserName());
-				model.addAttribute("type", "issuer");
-				Issuer issuer =loginService.getIssuer(user.getUserId());
-				certificate.setIssuer(issuer);
-				certificate.setIssuerId(issuer.getIssuerId());
-			}
-			
-			certificate.setVerificationStatusType(VerificationStatusType.VERIFIED);
-			certificate.setVerifiedBy(user.getUserId());
-			certificate.setCertificateType(certificate.getCertificateTemplate().getCertificateType());
-			certificate.setTemplateBased(true);
-			
-			certificateServiceImpl.saveCertificate(certificate);
-				
-			model.addAttribute("form", certificate);
-			model.addAttribute("success", "Certificate created successfully");
-			return ApplicationPageConstant.createcertificate_page;
+//		@RequestMapping(path="/certificate/create" ,method=RequestMethod.POST)
+//		public String createCertificate(@ModelAttribute Certificate certificate ,Model model) throws Exception
+//		{
+//			System.out.println("certificate val----------"+certificate);
+//			User user = UserController.getUserPrincipal();
+//			if(null != user){
+//				model.addAttribute("username", user.getUserName());
+//				model.addAttribute("type", "issuer");
+//				Issuer issuer =loginService.getIssuer(user.getUserId());
+//				certificate.setIssuer(issuer);
+//				certificate.setIssuerId(issuer.getIssuerId());
+//			}
+//			
+//			certificate.setVerificationStatusType(VerificationStatusType.VERIFIED);
+//			certificate.setVerifiedBy(user.getUserId());
+//			certificate.setCertificateType(certificate.getCertificateTemplate().getCertificateType());
+//			certificate.setTemplateBased(true);
+//			
+//			certificateServiceImpl.saveCertificate(certificate);
+//				
+//			model.addAttribute("form", certificate);
+//			model.addAttribute("success", "Certificate created successfully");
+//			return ApplicationPageConstant.createcertificate_page;
+//		}
+	
+	@RequestMapping(path="/certificate/create" ,method=RequestMethod.POST)
+	public String createCertificate(@ModelAttribute BulkCertificate bulkCertificate ,Model model) throws Exception
+	{
+		System.out.println("bulkCertificate val----------"+bulkCertificate);
+		User user = UserController.getUserPrincipal();
+		if(null != user){
+			model.addAttribute("username", user.getUserName());
+			model.addAttribute("type", "issuer");
+			Issuer issuer =loginService.getIssuer(user.getUserId());
+			bulkCertificate.setIssuerId(issuer.getIssuerId());
 		}
+		
+		issuerServiceImpl.saveBulkCertificate(bulkCertificate);
+			
+		model.addAttribute("form", bulkCertificate);
+		model.addAttribute("success", "Certificate created successfully");
+		return ApplicationPageConstant.createcertificate_page;
+	}
 	
 	@RequestMapping(path="/certificate/imagelist" ,method=RequestMethod.GET)
 	public String getAvailableIssuerImageList(Model model)
@@ -227,7 +246,7 @@ public class IssuerController {
 		try {
 			File file = convert(certificate.getCertificateFile());
 			List<BulkCertificate> bulkCertificateList = CSVReader.getBulkCertificateList(file);
-			issuerServiceImpl.saveBulkCertificate(bulkCertificateList);
+			issuerServiceImpl.saveBulkCertificateList(bulkCertificateList);
 		} catch (IOException e) {
 			
 			e.printStackTrace();
@@ -285,6 +304,10 @@ public class IssuerController {
 		}
 		model.addAttribute("form", certtemp);
 		return ApplicationPageConstant.createcertificatetemplate_page;
+	}
+	
+	public List<Issuer> getIssuerListByActiveFlag(boolean isActive) {
+		return issuerServiceImpl.getIssuerListByActiveFlag(isActive);
 	}
 	
 	public static File convert(MultipartFile file) throws IOException {

@@ -77,11 +77,16 @@ public class IssuerServiceImpl implements IssuerService{
 	}
 	
 	@Override
-	public void saveBulkCertificate(List<BulkCertificate> bulkCertificateList) {
+	public void saveBulkCertificateList(List<BulkCertificate> bulkCertificateList) {
 		
 		for(BulkCertificate bulkCertificate: bulkCertificateList) {
-			certificateDao.saveCertificate(bulkCertificateToCertificateConverter(bulkCertificate));
+			saveBulkCertificate(bulkCertificate);
 		}
+	}
+	
+	@Override
+	public void saveBulkCertificate(BulkCertificate bulkCertificate) {
+			certificateDao.saveCertificate(bulkCertificateToCertificateConverter(bulkCertificate));
 	}
 	
 	private Certificate bulkCertificateToCertificateConverter(BulkCertificate bulkCertificate) {
@@ -122,7 +127,7 @@ public class IssuerServiceImpl implements IssuerService{
 	
 	private Candidate getCandidate(BulkCertificate bulkCertificate) {
 		Candidate candidate = new Candidate();
-		candidate.setCandidateName(bulkCertificate.getCandidateName());
+		candidate.setCandidateName(bulkCertificate.getCandidateFirstName());
 		candidate.setCandidateType(CandidateType.CANDIDATE);
 		candidate.setActive(false);//As this is Issuer generated candidate, its not active yet.
 		
@@ -130,8 +135,8 @@ public class IssuerServiceImpl implements IssuerService{
 		candidate.setSocialActivity(new SocialActivity(SocialActivityType.PROFILE));
 		
 		CandidatePersonalDetail candidatePersonalDetail = new CandidatePersonalDetail();
-		candidatePersonalDetail.setFirstName(bulkCertificate.getCandidateName());
-		candidatePersonalDetail.setLastName(bulkCertificate.getCandidateName());
+		candidatePersonalDetail.setFirstName(bulkCertificate.getCandidateFirstName());
+		candidatePersonalDetail.setLastName(bulkCertificate.getCandidateLastName());
 		candidatePersonalDetail.setEmail(bulkCertificate.getCandidateEmail());
 		candidatePersonalDetail.setMobileNumber(bulkCertificate.getCandidateMobileNumber());
 		candidatePersonalDetail.setAddress(new Address());
@@ -139,6 +144,10 @@ public class IssuerServiceImpl implements IssuerService{
 		candidate.setCandidatePersonalDetail(candidatePersonalDetail);
 		
 		return candidate;
+	}
+	
+	public List<Issuer> getIssuerListByActiveFlag(boolean isActive) {
+		return issuerDao.getIssuerListByActiveFlag(isActive);
 	}
 
 

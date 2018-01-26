@@ -89,7 +89,7 @@ public class IssuerDaoImpl implements IssuerDao{
 	
 	@Override
 	public List<Issuer> getIssuerList() {
-		String sql = "SELECT ISSUER_NAME, ISSUER_TYPE_ID, IS_ACTIVE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER";
+		String sql = "SELECT ISSUER_ID, ISSUER_NAME, ISSUER_TYPE_ID, IS_ACTIVE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER";
 		// every where when no null check is performed on using lambda java 8 rs feature , error will occur
 		// either dont use it or do null check handling
 		// i have made changes to 1 place for line 73 -- inside getIssuerDetailByIssuerId method
@@ -148,5 +148,28 @@ public class IssuerDaoImpl implements IssuerDao{
 	@Override
 	public long getIssuerId(Long userId) {
 		return jdbcTemplate.queryForObject(getIssuerId,new Object[]{userId},Long.class );
+	}
+	
+	public List<Issuer> getIssuerListByActiveFlag(boolean isActive) {
+		String sql = "SELECT ISSUER_ID, ISSUER_NAME, ISSUER_TYPE_ID, IS_ACTIVE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ISSUER WHERE IS_ACTIVE=?";
+		return jdbcTemplate.query(sql, new Object[] {isActive}, (RowMapper<Issuer>) (rs, arg) -> {
+				if(rs.next())
+				{
+					Issuer issuer = new Issuer();
+					Long issuerId = rs.getLong("ISSUER_ID");
+					issuer.setIssuerId(issuerId);
+					issuer.setIssuerName(rs.getString("ISSUER_NAME"));
+					issuer.setIssuerType(IssuerType.fromId(rs.getInt("ISSUER_TYPE_ID")));
+					issuer.setActive(rs.getBoolean("IS_ACTIVE"));
+					issuer.setSocialActivity(socialActivityDao.getSocialActivity(rs.getLong("SOCIAL_ACTIVITY_ID")));
+					issuer.setIssuerCertificateList(certificateDao.getIssuerCertificates(issuerId));
+					issuer.setIssuerDetail(issuerDetailDao.getIssuerDetailByIssuerId(issuerId));
+					return issuer;
+				}
+				else {
+					return null;
+				}
+					
+			});
 	}
 }

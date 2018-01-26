@@ -6,7 +6,8 @@ public class BulkCertificate {
 	private Long candidateId;
 	private Long certificateTemplateId;
 	private String certificateName;
-	private String candidateName;
+	private String candidateFirstName;
+	private String candidateLastName;
 	private String candidateEmail;
 	private Long candidateMobileNumber;
 	private String certifcateIssueDate;
@@ -37,11 +38,17 @@ public class BulkCertificate {
 	public void setCertificateName(String certificateName) {
 		this.certificateName = certificateName;
 	}
-	public String getCandidateName() {
-		return candidateName;
+	public String getCandidateFirstName() {
+		return candidateFirstName;
 	}
-	public void setCandidateName(String candidateName) {
-		this.candidateName = candidateName;
+	public void setCandidateFirstName(String candidateFirstName) {
+		this.candidateFirstName = candidateFirstName;
+	}
+	public String getCandidateLastName() {
+		return candidateLastName;
+	}
+	public void setCandidateLastName(String candidateLastName) {
+		this.candidateLastName = candidateLastName;
 	}
 	public String getCandidateEmail() {
 		return candidateEmail;
