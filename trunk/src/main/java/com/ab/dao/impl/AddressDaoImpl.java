@@ -1,10 +1,12 @@
 package com.ab.dao.impl;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
+import com.ab.controller.UserController;
 import com.ab.dao.AddressDao;
 import com.ab.vo.Address;
 
@@ -16,6 +18,8 @@ public class AddressDaoImpl implements AddressDao {
 	
 	@Autowired
 	private SequenceDao sequenceDao;
+	
+	final static Logger logger = Logger.getLogger(AddressDaoImpl.class);
 	
 	@Override
 	public Address saveAddress(Address address) {
@@ -34,7 +38,7 @@ public class AddressDaoImpl implements AddressDao {
 
 	@Override
 	public Address getAddress(Long addressId) {
-		System.out.println("addressId: " +  addressId);
+		logger.info("addressId: " +  addressId);
 		if(addressId == 0 )
 			return null;
 		String sql = "SELECT ADDRESS_ID, ADDRESS_LINE_1, ADDRESS_LINE_2, LANDMARK, CITY, STATE, COUNTRY, ZIPCODE, PHONE, SECONDARY_PHONE, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM ADDRESS WHERE ADDRESS_ID=?";

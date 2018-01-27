@@ -2,6 +2,7 @@ package com.ab.dao.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -37,6 +38,7 @@ public class IssuerDaoImpl implements IssuerDao{
 	
 	private static final String getIssuerId = "select ISSUER_ID from ISSUER_USER_MAPPING where USER_ID = ?"; 
 	
+	final static Logger logger = Logger.getLogger(IssuerDaoImpl.class);
 	
 	@Override
 	public Issuer saveIssuer(Issuer issuer) {
