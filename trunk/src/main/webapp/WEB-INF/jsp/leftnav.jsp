@@ -30,6 +30,7 @@
 				<%-- <li class=""><a href="${context}/issuer/certificate/inqueue">Certificates in Queue</a></li> --%>
 				<li class=""><a href="${context}/issuer/certificate/search">Search Certificate</a></li>
 				<li class=""><a href="${context}/issuer/blog">Write Blog</a></li>
+				<li class=""><a href="${context}/issuer/certificate/image/create">Certificate Image Creation</a></li>
 			</c:if>
 			<c:if test="${type == 'candidate'}">
 				<li class="active bd-sidenav-active"><a href="${context}/dashboard">DashBoard</a></li>
