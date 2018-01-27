@@ -2,6 +2,7 @@ package com.ab.dao.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -21,6 +22,8 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 
 	@Autowired
 	private SequenceDao sequenceDao;
+	
+	final static Logger logger = Logger.getLogger(CertificateTemplateDaoImpl.class);
 	
 	@Override
 	public CertificateTemplate saveCertificateTemplate(CertificateTemplate template) {
@@ -56,7 +59,7 @@ public class CertificateTemplateDaoImpl implements CertificateTemplateDao {
 	@Override
 	public List<CertificateTemplate> getCertificateTemplateList(Long issuerId, CertificateType certificateType) {
 		String sql = "SELECT TEMPLATE_NAME, CERTIFICATE_TEMPLATE_ID, CERTIFICATE_TYPE_ID, CERTIFICATE_DESC, FILE_PATH CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CERTIFICATE_TEMPLATE WHERE ISSUER_ID = ? ";
-		System.out.println("in getCertificateTemplateList: "+issuerId);
+		logger.info("in getCertificateTemplateList: "+issuerId);
 		return jdbcTemplate.query(sql, new Object[] {issuerId}, (RowMapper<CertificateTemplate>) (rs,arg) -> {
 				CertificateTemplate template = new CertificateTemplate();
 				template.setCertificateTemplateId(rs.getLong("CERTIFICATE_TEMPLATE_ID"));

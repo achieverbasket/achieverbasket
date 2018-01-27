@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -36,6 +37,7 @@ public class CertificateDaoImpl implements CertificateDao{
 	@Autowired 
 	private SocialActivityDao socialActivityDao;
 	
+	final static Logger logger = Logger.getLogger(CertificateDaoImpl.class);
 	
 	@Override
 	public Certificate saveCertificate(Certificate certificate) {
@@ -51,7 +53,7 @@ public class CertificateDaoImpl implements CertificateDao{
 			certificate.setCertificateId(certificateId);
 			certificate.setSocialActivity(socialActivity);
 
-			System.out.println("certificate to save is: "+certificate);
+			logger.info("certificate to save is: "+certificate);
 			
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -98,12 +100,7 @@ public class CertificateDaoImpl implements CertificateDao{
 		try
 		{
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-			System.out.println("in updateCertificate");
-			System.out.println("date original: "+(certificate.getIssueDate()));
-			System.out.println("issue date formated: "+new Date(format.parse(certificate.getIssueDate()).getTime()));
-			System.out.println("end date formated: "+new Date(format.parse(certificate.getEndDate()).getTime()));
-			System.out.println("verification date formated: "+(certificate.getVerificationDate() == null ? null : new Date(format.parse(certificate.getVerificationDate()).getTime())));
-	
+			logger.info("in updateCertificate"+ certificate);
 			
 			jdbcTemplate.update(sql, certificate.getCertificateName(), 
 				new Date(format.parse(certificate.getIssueDate()).getTime()), 
@@ -126,7 +123,7 @@ public class CertificateDaoImpl implements CertificateDao{
 	public Certificate getCertificate(Long certificateId) {
 		String sql = "SELECT CERTIFICATE_NAME, CANDIDATE_ID, ISSUE_DATE, END_DATE, CERTIFICATE_TEMPLATE_ID, FILE_PATH, VERIFICATION_STATUS, VERIFIED_BY_ID, VERIFIED_DATE, CERTIFICATE_TYPE, IS_TEMPLATE_BASED, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME FROM CERTIFICATE WHERE CERTIFICATE_ID=?";
 		
-		System.out.println("in get certificate for certificateId: "+certificateId);
+		logger.info("in get certificate for certificateId: "+certificateId);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		
 		return jdbcTemplate.query(sql, new Object[] {certificateId}, (ResultSetExtractor<Certificate>) rs -> {
@@ -159,7 +156,7 @@ public class CertificateDaoImpl implements CertificateDao{
 		String sql = "SELECT CERTIFICATE_NAME, CERTIFICATE_ID, ISSUE_DATE, END_DATE, CERTIFICATE_TEMPLATE_ID, FILE_PATH, VERIFICATION_STATUS, VERIFIED_BY_ID, VERIFIED_DATE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, MODIFIED_TIME, CERTIFICATE_TYPE, IS_TEMPLATE_BASED FROM CERTIFICATE WHERE CANDIDATE_ID=?";
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		System.out.println("getting certificate list for candidate id: "+candidateId);
+		logger.info("getting certificate list for candidate id: "+candidateId);
 		return jdbcTemplate.query(sql, new Object[] {candidateId}, (RowMapper<Certificate>) (rs, arg) -> {
 
 				Certificate certificate = new Certificate();
@@ -190,7 +187,7 @@ public class CertificateDaoImpl implements CertificateDao{
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		
-		System.out.println("getting issuer certificate list for issuer id: "+issuerId);
+		logger.info("getting issuer certificate list for issuer id: "+issuerId);
 		
 		return jdbcTemplate.query(sql, new Object[] {issuerId}, (RowMapper<Certificate>) (rs, arg) -> {
 				Certificate certificate = new Certificate();

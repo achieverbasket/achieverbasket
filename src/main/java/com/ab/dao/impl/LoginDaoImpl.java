@@ -3,6 +3,7 @@ package com.ab.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -35,11 +36,13 @@ public class LoginDaoImpl implements LoginDao{
 
 	@Autowired
 	private IssuerDao issuerDao;
+	
+	final static Logger logger = Logger.getLogger(LoginDaoImpl.class);
 
 	@Override
 	public User loginUser(Login login) {
 		String sql = "SELECT USER_ID, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, MOBILE_NUMBER, ENABLED FROM USERS WHERE USERNAME=?";
-		System.out.println("in login"+login);
+		logger.info("in login"+login);
 		
 		ResultSetExtractor<User> rse = rs -> {
 			if(rs.next()) {
@@ -90,7 +93,7 @@ public class LoginDaoImpl implements LoginDao{
 
 	@Override
 	public TwoTuple<Boolean, String> registerUser(User user) {
-		System.out.println("in regiserUser of LoginDaoImpl for: "+user);
+		logger.info("in regiserUser of LoginDaoImpl for: "+user);
 		String sql = "INSERT INTO USERS (USER_ID, USERNAME, PASSWORD, USER_TYPE_ID, FIRST_NAME, LAST_NAME, HINT_Q, HINT_A, EMAIL, MOBILE_NUMBER, ENABLED, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE())";
 		Long userId = sequenceDao.getNextVal("USERS_SEQ");
 		int count =0;

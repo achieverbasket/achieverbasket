@@ -1,5 +1,6 @@
 package com.ab.dao.impl;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,6 +25,8 @@ import com.ab.vo.issuer.IssuerDetail;
 		@Autowired
 		private SequenceDao sequenceDao;
 
+		final static Logger logger = Logger.getLogger(IssuerDetailDaoImpl.class);
+		
 		@Override
 		public IssuerDetail saveIssuerDetail(IssuerDetail issuerDetail){
 			String sql = "INSERT INTO ISSUER_DETAIL (ISSUER_DETAIL_ID, ISSUER_ID, ISSUER_INCEPTION_DATE, ISSUER_END_DATE, EMAIL, MOBILE_NUMBER, ADDRESS_ID, CREATED_BY, CREATED_TIME) "

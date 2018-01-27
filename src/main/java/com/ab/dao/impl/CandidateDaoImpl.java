@@ -2,6 +2,7 @@ package com.ab.dao.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -31,10 +32,12 @@ public class CandidateDaoImpl implements CandidateDao {
 	@Autowired
 	private SocialActivityDao socialActivityDao;
 
+	final static Logger logger = Logger.getLogger(CandidateDaoImpl.class);
+	
 	@Override
 	public Candidate saveCandidate(Candidate candidate) {
 		
-		System.out.println("in saveCandidate: "+candidate);
+		logger.info("in saveCandidate: "+candidate);
 		String sql = "INSERT INTO CANDIDATE (CANDIDATE_ID, CANDIDATE_NAME, CANDIDATE_TYPE_ID, IS_ACTIVE, SOCIAL_ACTIVITY_ID, CREATED_BY, CREATED_TIME) VALUES (?, ?, ?, ?, ?, 0, SYSDATE())";
 
 		Long candidateId = sequenceDao.getNextVal("CANDIDATE_SEQ");
@@ -83,7 +86,7 @@ public class CandidateDaoImpl implements CandidateDao {
 	@Override
 	public Long getCandidateIdByEmailOrMobile(String emailId, Long mobileNumber) {
 		
-		System.out.println("email: "+emailId+" mobile: "+mobileNumber);
+		logger.info("email: "+emailId+" mobile: "+mobileNumber);
 		
 		String sql ="select C.CANDIDATE_ID from CANDIDATE C where C.CANDIDATE_ID =("+
 					 "select CPD.CANDIDATE_ID from CANDIDATE_PERSONAL_DETAIL CPD WHERE CPD.CANDIDATE_ID=C.CANDIDATE_ID AND ( CPD.EMAIL=? OR CPD.MOBILE_NUMBER= ?))";

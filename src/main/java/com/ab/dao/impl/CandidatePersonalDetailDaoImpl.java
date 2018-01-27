@@ -2,6 +2,7 @@ package com.ab.dao.impl;
 
 import java.sql.Date;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,6 +27,8 @@ public class CandidatePersonalDetailDaoImpl implements CandidatePersonalDetailDa
 	
 	@Autowired
 	private SequenceDao sequenceDao;
+	
+	final static Logger logger = Logger.getLogger(CandidatePersonalDetailDaoImpl.class);
 	
 	@Override
 	public CandidatePersonalDetail saveCandidatePersonalDetail(CandidatePersonalDetail personalDetail) {
