@@ -1,5 +1,6 @@
 package com.ab.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import com.ab.vo.candidate.Candidate;
 @Controller
 public class UserController {
 	
+	final static Logger logger = Logger.getLogger(UserController.class);
 	
 	@ResponseBody
 	@RequestMapping(value="/user/save/personaldet" ,method=RequestMethod.POST)

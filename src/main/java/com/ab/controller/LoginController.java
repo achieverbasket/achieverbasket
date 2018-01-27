@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,6 +41,8 @@ public class LoginController {
 
 	@Autowired
 	LoginService loginServiceImpl;
+	
+	final static Logger logger = Logger.getLogger(LoginController.class);
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String getLoginPage(@ModelAttribute Login loginForm, Model model,HttpServletRequest req,
@@ -177,8 +180,8 @@ public class LoginController {
 			model.addAttribute(ApplicationStatusConstant.msg_error_generic, br.getFieldError());
 		} else {
 			
-			System.out.println("in issuer registration");
-			System.out.println("in registerNewUser of loginController");
+			logger.info("in issuer registration");
+			logger.info("in registerNewUser of loginController");
 			TwoTuple<Boolean, String> result = loginServiceImpl.registerNewIssuer(issuerRegisterForm);
 			if (result.getX()) {
 				model.addAttribute("twaform", new UserTwoWayAuthForm());
@@ -205,7 +208,7 @@ public class LoginController {
 			error = true;
 			model.addAttribute(ApplicationStatusConstant.msg_error_generic, br.getFieldError());
 		} else {
-			System.out.println("in registerNewUser of loginController");
+			logger.info("in registerNewUser of loginController");
 			TwoTuple<Boolean, String> result = loginServiceImpl.registerNewUser(userRegisterForm);
 			if (result.getX()) {
 				model.addAttribute("twaform", new UserTwoWayAuthForm());
@@ -233,7 +236,7 @@ public class LoginController {
 
 		if ((null != loginId && !loginId.equalsIgnoreCase("")) || (null != email && !email.equalsIgnoreCase(""))) {
 			// validate email and login id, send with error msg
-			System.out.println(loginId + email);
+			logger.info(loginId + email);
 
 			// if no error, goto reset password
 

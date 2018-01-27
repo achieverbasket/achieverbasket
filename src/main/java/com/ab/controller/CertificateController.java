@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,7 @@ public class CertificateController {
 	@Autowired
 	LoginService loginService;
 
+	final static Logger logger = Logger.getLogger(CertificateController.class);
 
 	@RequestMapping(path="/certificate" ,method=RequestMethod.GET)
 	public String getCertificate(@ModelAttribute Certificate certificate,Model model, HttpServletRequest request){
@@ -61,14 +63,14 @@ public class CertificateController {
 	@RequestMapping(path="/certificate" ,method=RequestMethod.POST)
 	public String createCertificate(@ModelAttribute Certificate certificate,  Model model, HttpServletRequest request) throws Exception {
 
-		System.out.println("*** in create Certificate " + certificate);
+		logger.info("*** in create Certificate " + certificate);
 
-		System.out.println("posting certificate file: "+certificate.getCertificateFile().getOriginalFilename());
-		System.out.println("posting certificate filename: "+certificate.getCertificateFile().getOriginalFilename());
-		System.out.println("posting certificate filesize: "+certificate.getCertificateFile().getSize());
+		logger.info("posting certificate file: "+certificate.getCertificateFile().getOriginalFilename());
+		logger.info("posting certificate filename: "+certificate.getCertificateFile().getOriginalFilename());
+		logger.info("posting certificate filesize: "+certificate.getCertificateFile().getSize());
 		//User user = (User) request.getSession().getAttribute("user");
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println("Session User :" + user);
+		logger.info("Session User :" + user);
 		if(null != user){
 			Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
 			certificate.setCandidateId(candidateId);
@@ -100,17 +102,17 @@ public class CertificateController {
 			}
 		}
 		List<Certificate> certificateList = Lists.newArrayList();
-		System.out.println("***** in getCertificatListByUserId for Session User :" + user);
+		logger.info("***** in getCertificatListByUserId for Session User :" + user);
 		if(user.getUserType().equals(UserType.CANDIDATE))
 		{
 			Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
-			System.out.println("getting Certificate data for candidateId:" + candidateId);
+			logger.info("getting Certificate data for candidateId:" + candidateId);
 			certificateList = certificateServiceImpl.getCertificatesForCandidate(candidateId);
 		}
 		else if(user.getUserType().equals(UserType.ISSUER))
 		{
 			Long issuerId = loginService.getIssuer(user.getUserId()).getIssuerId();
-			System.out.println("getting Certificate data for issuer Id:" + issuerId);
+			logger.info("getting Certificate data for issuer Id:" + issuerId);
 			certificateList = certificateServiceImpl.getCertificatesForIssuer(issuerId);
 		}
 		model.addAttribute("list", certificateList);
@@ -132,7 +134,7 @@ public class CertificateController {
 			}
 		}
 		Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
-		System.out.println("getting Certificate data for candidateId:" + candidateId);
+		logger.info("getting Certificate data for candidateId:" + candidateId);
 		Certificate certificate = certificateServiceImpl.getCertificate(id);
 		model.addAttribute("form", certificate);
 		return ApplicationPageConstant.certificate_det_page;
@@ -153,17 +155,17 @@ public class CertificateController {
 		}
 
 		Certificate certificate = null;
-		System.out.println("**** in editCertificate for Session User :" + user);
+		logger.info("**** in editCertificate for Session User :" + user);
 		if(user.getUserType().equals(UserType.CANDIDATE))
 		{
 			Long candidateId = loginService.getCandidate(user.getUserId()).getCandidateId();
-			System.out.println("getting Certificate data for candidateId:" + candidateId);
+			logger.info("getting Certificate data for candidateId:" + candidateId);
 			certificate = certificateServiceImpl.getCertificate(id);
 		}
 		else if(user.getUserType().equals(UserType.ISSUER))
 		{
 			Long issuerId = loginService.getIssuer(user.getUserId()).getIssuerId();
-			System.out.println("getting Certificate data for issuer Id:" + issuerId);
+			logger.info("getting Certificate data for issuer Id:" + issuerId);
 			certificate = certificateServiceImpl.getCertificate(id);
 		}
 		

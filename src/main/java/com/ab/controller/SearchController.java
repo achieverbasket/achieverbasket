@@ -2,6 +2,7 @@ package com.ab.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ab.dao.IssuerDao;
-import com.ab.dao.impl.IssuerDaoImpl;
 import com.ab.service.LocationService;
 import com.ab.vo.City;
 import com.ab.vo.Country;
@@ -26,6 +26,8 @@ public class SearchController {
 	
 	@Autowired
 	IssuerDao issuerDaoImpl;
+	
+	final static Logger logger = Logger.getLogger(SearchController.class);
 	
 	@ResponseBody
 	 @RequestMapping(value= "/country" , method = RequestMethod.GET )
@@ -58,7 +60,7 @@ public class SearchController {
 		public List<City> cityAutoComplete(@RequestParam(value="query",required=false) String query){
 		 List<City> result = null;
 		try {
-			System.out.println("in cityAutoComplete: "+query);
+			logger.info("in cityAutoComplete: "+query);
 				result = locationServiceImpl.cityAutoComplete(query);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -73,7 +75,7 @@ public class SearchController {
 		public List<Issuer> issuerAutoComplete(@RequestParam(value="query",required=false) String query){
 		 List<Issuer> result = null;
 		try {
-			System.out.println("in issuerAutoComplete: "+query);
+			logger.info("in issuerAutoComplete: "+query);
 				result = issuerDaoImpl.getIssuerAutoComplete(query);
 		} catch (Exception ex) {
 			ex.printStackTrace();

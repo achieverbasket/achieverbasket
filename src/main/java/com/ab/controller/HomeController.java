@@ -1,5 +1,6 @@
 package com.ab.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import com.ab.vo.User;
 @Controller
 public class HomeController {
 	
+	final static Logger logger = Logger.getLogger(HomeController.class);
 	/**
 	 * @return new page to client
 	 */
