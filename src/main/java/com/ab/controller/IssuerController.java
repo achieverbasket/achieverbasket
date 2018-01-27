@@ -48,6 +48,12 @@ public class IssuerController {
 	@Autowired
 	LoginService loginService;
 	
+	
+	@RequestMapping(path="/certificate/image/create" ,method=RequestMethod.GET)
+	public String getcreateCertificateImageCreatePage(Model model)
+	{
+		return ApplicationPageConstant.getcertificateimagecreate_page;
+	}
 	// get issue certifiate page
 	@RequestMapping(path="/certificate/create" ,method=RequestMethod.GET)
 	public String getcreateCertificatePage(@ModelAttribute Certificate certificate ,Model model)
