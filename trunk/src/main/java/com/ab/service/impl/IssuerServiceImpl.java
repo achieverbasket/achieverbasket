@@ -2,6 +2,7 @@ package com.ab.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,8 @@ public class IssuerServiceImpl implements IssuerService{
 	
 	@Autowired
 	CertificateTemplateDao certificateTemplateDao;
+	
+	final static Logger logger = Logger.getLogger(IssuerServiceImpl.class);
 	
 	@Override
 	public Issuer saveIssuer(Issuer issuer) {
@@ -91,7 +94,7 @@ public class IssuerServiceImpl implements IssuerService{
 	
 	private Certificate bulkCertificateToCertificateConverter(BulkCertificate bulkCertificate) {
 		
-		System.out.println("in bulkCertificateToCertificateConverter: "+bulkCertificate);
+		logger.info("in bulkCertificateToCertificateConverter: "+bulkCertificate);
 		Certificate certificate = new Certificate();
 		
 		if(null==bulkCertificate.getCandidateId()) {
