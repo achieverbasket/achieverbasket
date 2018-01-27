@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,7 @@ public class IssuerController {
 	@Autowired
 	LoginService loginService;
 	
+	final static Logger logger = Logger.getLogger(IssuerController.class);
 	
 	@RequestMapping(path="/certificate/image/create" ,method=RequestMethod.GET)
 	public String getcreateCertificateImageCreatePage(Model model)
@@ -76,7 +78,7 @@ public class IssuerController {
 //		@RequestMapping(path="/certificate/create" ,method=RequestMethod.POST)
 //		public String createCertificate(@ModelAttribute Certificate certificate ,Model model) throws Exception
 //		{
-//			System.out.println("certificate val----------"+certificate);
+//			logger.info("certificate val----------"+certificate);
 //			User user = UserController.getUserPrincipal();
 //			if(null != user){
 //				model.addAttribute("username", user.getUserName());
@@ -101,7 +103,7 @@ public class IssuerController {
 	@RequestMapping(path="/certificate/create" ,method=RequestMethod.POST)
 	public String createCertificate(@ModelAttribute BulkCertificate bulkCertificate ,Model model) throws Exception
 	{
-		System.out.println("bulkCertificate val----------"+bulkCertificate);
+		logger.info("bulkCertificate val----------"+bulkCertificate);
 		User user = UserController.getUserPrincipal();
 		if(null != user){
 			model.addAttribute("username", user.getUserName());
@@ -152,7 +154,7 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
-		System.out.print("in getAvailableCertificateTemplates for "+user.getUserId());
+		logger.info("in getAvailableCertificateTemplates for "+user.getUserId());
 		List<CertificateTemplate> list = new ArrayList<CertificateTemplate>();
 		Long issuerId = issuerServiceImpl.getIssuerId(user.getUserId());
 		list = certificateTemplateServiceImpl.getCertificateTemplateList(issuerId, null);
@@ -175,7 +177,7 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
-		System.out.print("in getIssuerCertificateTemplates for "+user.getUserId());
+		logger.info("in getIssuerCertificateTemplates for "+user.getUserId());
 		//certificateTemplateServiceImpl.getCertificateTemplateList(issuerId, certificateType);
 		return ApplicationPageConstant.certificatetemplates_page;
 	}
@@ -219,7 +221,7 @@ public class IssuerController {
 	@RequestMapping(path="/certificate/bulkload" ,method=RequestMethod.GET)
 	public String bulkLoadCertificates(@ModelAttribute Certificate certificate,Model model)
 	{
-		System.out.println("in bulkupload get");
+		logger.info("in bulkupload get");
 		User user = UserController.getUserPrincipal();
 		if(null != user){
 			UserType userType = user.getUserType();
@@ -237,8 +239,8 @@ public class IssuerController {
 	@RequestMapping(path="/certificate/bulkload" ,method=RequestMethod.POST)
 	public String bulkLoadCertificatesProcessing(@ModelAttribute Certificate certificate ,Model model)
 	{
-		System.out.println("in bulkupload");
-		//System.out.println("file name ---------------  "+certificateCSVFile);
+		logger.info("in bulkupload");
+		//logger.info("file name ---------------  "+certificateCSVFile);
 		User user = UserController.getUserPrincipal();
 		if(null != user){
 			UserType userType = user.getUserType();
@@ -296,7 +298,7 @@ public class IssuerController {
 				model.addAttribute("type", "issuer");
 			}
 		}
-		System.out.println("in loadCertificateImage: "+certtemp.getCertificateType() + certtemp.getTemplateFile());
+		logger.info("in loadCertificateImage: "+certtemp.getCertificateType() + certtemp.getTemplateFile());
 		
 		Long issuerId = issuerServiceImpl.getIssuerId(user.getUserId());
 		certtemp.setIssuerId(issuerId);
