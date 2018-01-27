@@ -3,6 +3,7 @@ package com.ab.service.impl;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,6 +37,8 @@ public class LoginServiceImpl implements LoginService{
 	@Autowired
 	SocialActivityDao seqDao;
 	
+	final static Logger logger = Logger.getLogger(LoginServiceImpl.class);
+	
 	@Override
 	public User loginUser(Login loginForm) throws Exception {
 		System.out.println("In Signin User========");
@@ -59,14 +62,14 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public TwoTuple<Boolean, String> registerNewUser(UserRegistration registrationForm){
 		User user = fromRegistration(registrationForm);
-		System.out.println("in registerNewUser of loginServiceImpl for: "+user);
+		logger.info("in registerNewUser of loginServiceImpl for: "+user);
 		return loginDaoImpl.registerUser(user);
 	}
 	
 	@Override
 	public TwoTuple<Boolean, String> registerNewIssuer(IssuerRegistration form){
 		User user = fromIssuerRegistration(form);
-		System.out.println("in registerNew issuer of loginServiceImpl for: "+user);
+		logger.info("in registerNew issuer of loginServiceImpl for: "+user);
 		return loginDaoImpl.registerUser(user);
 	}
 

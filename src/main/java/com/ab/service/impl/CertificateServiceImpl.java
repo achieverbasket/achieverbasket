@@ -2,12 +2,14 @@ package com.ab.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ab.dao.CandidateDao;
 import com.ab.dao.CertificateDao;
 import com.ab.dao.CertificateTemplateDao;
+import com.ab.dao.impl.SequenceDao;
 import com.ab.service.CertificateService;
 import com.ab.type.CandidateType;
 import com.ab.type.VerificationStatusType;
@@ -33,6 +35,8 @@ public class CertificateServiceImpl implements CertificateService{
 	
 	@Autowired
 	CandidateDao candidateDao;
+	
+	final static Logger logger = Logger.getLogger(CertificateServiceImpl.class);
 	
 	@Override
 	public Certificate getCertificate(long certificateId)
@@ -106,7 +110,7 @@ public class CertificateServiceImpl implements CertificateService{
 
 	private Certificate bulkCertificateToCertificateConverter(BulkCertificate bulkCertificate) {
 		
-		System.out.println("in bulkCertificateToCertificateConverter: "+bulkCertificate);
+		logger.info("in bulkCertificateToCertificateConverter: "+bulkCertificate);
 		Certificate certificate = new Certificate();
 		
 		if(null==bulkCertificate.getCandidateId()) {

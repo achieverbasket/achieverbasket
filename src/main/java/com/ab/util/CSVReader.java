@@ -5,6 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.ab.service.impl.LoginServiceImpl;
 import com.ab.vo.certificate.BulkCertificate;
 import com.google.common.collect.Lists;
 
@@ -14,6 +17,7 @@ public class CSVReader {
 	    getBulkCertificateList(getFile());
 	}
 	
+	final static Logger logger = Logger.getLogger(CSVReader.class);
 	public static File getFile() {
 	    String fileLocation="C:/Users/Sara/Google Drive/DigitalResume/BulkUploadcsv.csv";
 	    File file = new File(fileLocation);
@@ -32,7 +36,7 @@ public class CSVReader {
 			int lineCount = 0;
 		    for (String line : lines) {
 				    	
-		    	System.out.println("line: "+ line);
+		    	logger.info("line: "+ line);
 		    	int count =0;
 		    	if(lineCount>0)
 		    	{
@@ -40,7 +44,7 @@ public class CSVReader {
 		    		String[] array = line.split(",");
 		    		for(String value : array)
 			        {
-			        	System.out.println(count + "  "+value+" ");
+		    			logger.info(count + "  "+value+" ");
 			        	count++;
 			        }
 		    		bulkCertificate.setIssuerId(new Long(array[0]));//Mandatory
@@ -53,7 +57,7 @@ public class CSVReader {
 		    		bulkCertificate.setCandidateMobileNumber(array[7].trim().equals("")?null:new Long(array[7]));
 		    		bulkCertificate.setCertifcateIssueDate(new String(array[8]).replace('-', '/'));//Mandatory
 		    		bulkCertificate.setCertificateEndDate(array[9].trim().equals("")?null:new String(array[9]).replace('-', '/'));
-			        System.out.println("bulkCertificate: "+ bulkCertificate);
+		    		logger.info("bulkCertificate: "+ bulkCertificate);
 			        bulkCertificateList.add(bulkCertificate);
 		    	}
 		    	lineCount++;
