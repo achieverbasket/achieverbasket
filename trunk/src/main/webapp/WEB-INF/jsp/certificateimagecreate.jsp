@@ -40,17 +40,31 @@ margin: 0;
 				<h1 class="bd-title" id="content"></h1>
 				<div class="card mb-1 border-light">
 					<div class="card-header">
-						<h5 class="mb-0">Blog</h5>
+						<h5 class="mb-0">Certificate Creator</h5>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-sm-12 col-md-2">
-							<input class="form-control" type="radio" name="arrowQuestion" id="text" value="Text" >
-							<input type="text" value="enter name" name="name" id="username">
-							<input type="button" id="saveImage" value="save image">
+					<div class="col-sm-12 col-md-3">
+							<div class="form-group">
+								<label>Candidate Name</label>
+								<input class="form-control form-control-sm" maxlength="40" type="text" placeholder="Enter Candidate Name" name="name" id="certifyto">
+							</div>
+							<div class="form-group">
+								<label>Issuer Name</label>
+								<input class="form-control form-control-sm" maxlength="40" type="text" placeholder="Enter Issuer Name" name="name" id="certifyby">
+							</div>
+							<div class="form-group">
+								<label>Issue Start Date</label>
+								<input class="form-control form-control-sm"  maxlength="10" type="text" placeholder="Enter Issue Start Date" name="name" id="issuesdate">
+							</div>
+							<div class="form-group">
+								<label>Issue End Date</label>
+								<input class="form-control form-control-sm" maxlength="10" type="text" placeholder="Enter Issue End Date" name="name" id="issueedate">
+							</div>
+							<input class="form-control btn btn-sm btn-dark" type="button" maxlength="10" id="saveImage" value="Open Certificate">
 					</div>
-					<div class="col-sm-12 col-md-10">
-						<canvas id="c" class="img-fluid"  width="600" height="600" style="border:2px solid black"></canvas>
+					<div class="col-sm-12 col-md-9">
+						<canvas id="c" class="img-fluid"  width="533.291338583" height="533.291338583" style="border:2px solid black"></canvas>
 					</div>
 				</div>
 			</main>
@@ -77,7 +91,7 @@ margin: 0;
 			var canvas = new fabric.Canvas('c');
 			var canvasHeight=canvas.height;
 			var canvasWidth=canvas.width;
-			canvas.setBackgroundImage('http://fabricjs.com/assets/jail_cell_bars.png', canvas.renderAll.bind(canvas), {
+			canvas.setBackgroundImage('https://drive.google.com/file/d/1XpBnXNMs5B2T7OrGkQvaJCmYhkLuFM5P/view?usp=sharing', canvas.renderAll.bind(canvas), {
 		    backgroundImageOpacity: 0.5,
 		    backgroundImageStretch: true,
 		    crossOrigin: 'anonymous'
@@ -98,9 +112,7 @@ margin: 0;
 				getItem = function(id) {
 			    var object = null,
 			        objects = canvas.getObjects();
-//alert(objects.length);
 			    for (var i = 0, len = objects.length; i < len; i++) {
-	//					alert(objects[i].id)
 			        if (objects[i].id && objects[i].id === id) {
 			            object = objects[i];
 			            break;
@@ -109,32 +121,47 @@ margin: 0;
 
 			    return object;
 			};
-			document.getElementById('username').addEventListener('keyup', function () {
-				  //textObject.text = document.getElementById('title').value;
-				  	
-				  	var obj = getItem('nametxt');
-			        obj.text = document.getElementById('username').value;
+			document.getElementById('certifyto').addEventListener('keyup', function () {
+				  	var obj = getItem('certifytotext');
+			        obj.text = document.getElementById('certifyto').value;
 				  canvas.renderAll();
-				});
-
-			
+			});
+			document.getElementById('certifyby').addEventListener('keyup', function () {
+			  	var obj = getItem('certifybytext');
+		        obj.text = document.getElementById('certifyby').value;
+			  canvas.renderAll();
+			});
+			document.getElementById('issuesdate').addEventListener('keyup', function () {
+			  	var obj = getItem('issuesdatetext');
+		        obj.text = document.getElementById('issuesdate').value;
+			  canvas.renderAll();
+			});
+			document.getElementById('issueedate').addEventListener('keyup', function () {
+			  	var obj = getItem('issueedatetext');
+		        obj.text = document.getElementById('issueedate').value;
+			  canvas.renderAll();
+			});
+			addTextBox('Certificate of Work',68.031496063,90.708661417,'certificateofworktext',393.070866142,40);//certifytotext
+			addTextBox('Enter Candidate Name',95,156.850393701,'certifytotext',350.070866142,40);//certifytotext
+			addTextBox('Enter Issuer Name',68.031496063,294.803149606,'certifybytext',393.070866142,40);//certifytotext
+			addTextBox('Enter Issue Start Date',68.031496063,415.748031496,'issuesdatetext',120.94488189,10);//certifytotext
+			addTextBox('Enter Issue End Date',340.157480315,415.748031496,'issueedatetext',120.94488189,10);//certifytotext        
 		
-			addTextBox(0,0);        
-		
 
-		function addTextBox(arrowLeft,arrowTop)
+		function addTextBox(placehold,arrowLeft,arrowTop,textboxid,cwidth,lengt)
 		{
-		    textBox = new fabric.Textbox("Enter Text",{
+		    textBox = new fabric.Textbox(placehold,{
 		    fontSize: 16,
-		    id:'nametxt',
+		    id:textboxid,
 		    fontFamily: 'Arial',
 		    textAlign: 'left',  
-		    width: 180,	// for 20 characters
+		    width: cwidth,	// for 20 characters
 		    top:arrowTop,
 		    left:arrowLeft,
 		    backgroundColor : 'yellow',
 		    textAlign: 'center',
-		    selectable: false
+		    selectable: false,
+		    maxLength: lengt
 		    });
 		    
 		   canvas.add(textBox);
