@@ -258,7 +258,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.0.0</version>
 				<configuration>
@@ -267,7 +267,7 @@
 						<exclude>WebContent/db*</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 </project>
