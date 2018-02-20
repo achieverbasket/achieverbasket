@@ -27,6 +27,7 @@
   <property name="ignoreResourceNotFound" value="true" />
   <property name="searchSystemEnvironment" value="true" />
   <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+  </bean>
 
 	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
 		<property name="url" value="${MYSQL_URL}" />
