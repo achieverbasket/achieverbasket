@@ -22,13 +22,17 @@
 	<import resource="spring-security.xml" />
 	<import resource="spring-service.xml" />
 	<import resource="spring-dao.xml" />
-
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  <property name="ignoreResourceNotFound" value="true" />
+  <property name="searchSystemEnvironment" value="true" />
+  <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 
 	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
-		<property name="url" value="$MYSQL_DATABASE" />
+		<property name="url" value="${MYSQL_URL}" />
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="username" value="$MYSQL_USER" />
-		<property name="password" value="$MYSQL_PASSWORD" />
+		<property name="username" value="${MYSQL_USER}" />
+		<property name="password" value="${MYSQL_PASSWORD}" />
 	</bean>
 
 	<bean id="transactionManager"
